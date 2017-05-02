@@ -53,13 +53,6 @@ export default {
         type: 'handleSwitchMenuPopver',
       })
     },
-    *handleMgrTest({ payload }, { put }) {
-      notification.error({
-        message: '出错啦!',
-        description: `请联系管理员, 错误信息: xxxx`,
-        duration: 3,
-      });
-    }
   },
 
   reducers: {

@@ -1,3 +1,5 @@
+import ColumnRender from '../utils/columnRender';
+
 module.exports = {
   actions: [
     { icon: 'plus-circle-o', title: '新增', type: 'primary', action: 'manager/save', popupEditor: true, },

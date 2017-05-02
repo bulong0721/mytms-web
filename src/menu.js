@@ -24,7 +24,7 @@ module.exports = module.exports = [
     name: '数据&报表',
     icon: 'area-chart',
     child: [
-      { key: 'base', name: '基本图表' },
+      { key: 'basic', name: '基本图表' },
       { key: 'topo', name: '设备拓扑图' },
       { key: 'host', name: '主机图表' },
       { key: 'network', name: '网络图表' },

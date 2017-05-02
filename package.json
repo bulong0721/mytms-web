@@ -15,12 +15,12 @@
     "classnames": "^2.2.5",
     "dva": "^1.2.1",
     "dva-loading": "^0.2.1",
+    "echarts-for-react": "^1.2.2",
     "lodash": "^4.17.4",
     "react": "^15.4.0",
     "react-countup": "^2.0.3",
     "react-dom": "^15.4.0",
     "react-helmet": "^5.0.2",
-    "recharts": "^0.21.2",
     "superagent": "^3.5.2"
   },
   "devDependencies": {

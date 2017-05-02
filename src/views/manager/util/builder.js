@@ -244,6 +244,7 @@ const Builder = {
 
   cloneFieldDef(field) {
     const option = Object.assign({}, field);
+    delete option.render;
     delete option.key;
     delete option.title;
     delete option.showType;

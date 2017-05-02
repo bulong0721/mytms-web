@@ -2,7 +2,8 @@ import React from 'react';
 import { Router, Route, IndexRedirect } from 'dva/router';
 import App from './views';
 import Dashboard from './views/dashboard';
-import Manager from './views/manager'
+import Manager from './views/manager';
+import { AlertChart, OracleChart, BasicChart, HostChart, NetworkChart, TopoChart } from './views/report';
 
 export default function ({ history, app }) {
   return (
@@ -22,6 +23,13 @@ export default function ({ history, app }) {
 
         <Route path="/system/hostGroup" tableName="hostGroup" component={Manager} />
         <Route path="/system/userGroup" tableName="userGroup" component={Manager} />
+
+        <Route path="/report/basic" component={BasicChart} />
+        <Route path="/report/alert" component={AlertChart} />
+        <Route path="/report/oracle" component={OracleChart} />
+        <Route path="/report/topo" component={TopoChart} />
+        <Route path="/report/network" component={NetworkChart} />
+        <Route path="/report/host" component={HostChart} />
       </Route>
     </Router>
   );

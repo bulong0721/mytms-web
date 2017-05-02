@@ -21,7 +21,7 @@ class Menus extends React.Component {
       const linkTo = parentPath + item.key
       if (item.child) {
         return (
-          <Menu.SubMenu key={linkTo} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold && this.topMenus.indexOf(item.key) >= 0 ? '' : item.name}</span>}>
+          <Menu.SubMenu key={linkTo} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold ? '' : item.name}</span>}>
             {this.generateMenus(item.child, siderFold, `${linkTo}/`)}
           </Menu.SubMenu>
         )
