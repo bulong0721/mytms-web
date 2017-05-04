@@ -1,93 +1,79 @@
-import React, { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { Menu, Icon } from 'antd';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import menu from '../../menu';
 
-class Menus extends React.Component {
-  state = {
-    current: '1',
-    openKeys: [],
-  }
+const topMenus = menu.map(item => item.key);
 
-  constructor(props) {
-    super(props);
-  }
-
-  topMenus = menu.map(item => item.key);
-
-  generateMenus = (array, siderFold, parentPath = '/') => {
-    return array.map(item => {
-      const linkTo = parentPath + item.key
-      if (item.child) {
-        return (
-          <Menu.SubMenu key={linkTo} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold ? '' : item.name}</span>}>
-            {this.generateMenus(item.child, siderFold, `${linkTo}/`)}
-          </Menu.SubMenu>
-        )
-      }
+const generateMenus = (array, siderFold, parentPath = '/') => {
+  return array.map(item => {
+    const linkTo = parentPath + item.key
+    if (item.child) {
       return (
-        <Menu.Item key={linkTo}>
-          <Link to={linkTo}>
-            {item.icon ? <Icon type={item.icon} /> : ''}
-            {siderFold && this.topMenus.indexOf(item.key) >= 0 ? '' : item.name}
-          </Link>
-        </Menu.Item>
+        <Menu.SubMenu key={linkTo} title={<span>{item.icon ? <Icon type={item.icon} /> : ''}{siderFold ? '' : item.name}</span>}>
+          {generateMenus(item.child, siderFold, `${linkTo}/`)}
+        </Menu.SubMenu>
       )
-    });
-  }
+    }
+    return (
+      <Menu.Item key={linkTo}>
+        <Link to={linkTo}>
+          {item.icon ? <Icon type={item.icon} /> : ''}
+          {siderFold && topMenus.indexOf(item.key) >= 0 ? '' : item.name}
+        </Link>
+      </Menu.Item>
+    )
+  })
+};
 
-  getAncestorKeys = (key) => {
-    const map = {
-      '/navigation/navigation2': ['/navigation'],
+const Menus = (props) => {
+  const levelMap = {};
+  const { siderFold, darkTheme, location, navOpenKeys, changeOpenKeys, switchMenuPopver } = props;
+
+  const getAncestorKeys = (key) => {
+    let map = {}
+    const getParent = (index) => {
+      const result = [String(levelMap[index])]
+      if (levelMap[result[0]]) {
+        result.unshift(getParent(result[0])[0])
+      }
+      return result
+    }
+    for (let index in levelMap) {
+      if ({}.hasOwnProperty.call(levelMap, index)) {
+        map[index] = getParent(index)
+      }
     }
     return map[key] || []
-  }
+  };
 
-  onOpenChange = (openKeys) => {
-    const state = this.state;
-    const latestOpenKey = openKeys.find(key => !(state.openKeys.indexOf(key) > -1));
-    const latestCloseKey = state.openKeys.find(key => !(openKeys.indexOf(key) > -1));
+  const onOpenChange = (openKeys) => {
+    const latestOpenKey = openKeys.find(key => !(navOpenKeys.indexOf(key) > -1));
+    const latestCloseKey = navOpenKeys.find(key => !(navOpenKeys.indexOf(key) > -1));
 
     let nextOpenKeys = [];
     if (latestOpenKey) {
-      nextOpenKeys = this.getAncestorKeys(latestOpenKey).concat(latestOpenKey);
+      nextOpenKeys = getAncestorKeys(latestOpenKey).concat(latestOpenKey);
     }
     if (latestCloseKey) {
-      nextOpenKeys = this.getAncestorKeys(latestCloseKey);
+      nextOpenKeys = getAncestorKeys(latestCloseKey);
     }
-    this.setState({ openKeys: nextOpenKeys });
-  }
+    changeOpenKeys(nextOpenKeys);
+  };
 
-  handleClickNavMenu = (e) => {
-    this.setState({ current: e.key });
-  }
-
-  render() {
-    const { siderFold, darkTheme, location, navOpenKeys } = this.props;
-    const menuItems = this.generateMenus(menu, siderFold);
-    const menuProps = !siderFold ? { onOpenChange: this.onOpenChange, openKeys: this.state.openKeys, selectedKeys: [this.state.current] } : {};
-    return (
-      <Menu
-        {...menuProps}
-        mode={siderFold ? 'vertical' : 'inline'}
-        theme={darkTheme ? 'dark' : 'light'}
-        onClick={this.handleClickNavMenu}
-        defaultSelectedKeys={[location.pathname !== '/' ? location.pathname : '/dashboard/dashboard']}>
-        {menuItems}
-      </Menu>
-    );
-  }
-}
-
-Menus.propTypes = {
-  siderFold: PropTypes.bool,
-  darkTheme: PropTypes.bool,
-  location: PropTypes.object,
-  isNavbar: PropTypes.bool,
-  handleClickNavMenu: PropTypes.func,
-  navOpenKeys: PropTypes.array,
-  changeOpenKeys: PropTypes.func
+  const menuItems = generateMenus(menu, siderFold);
+  const menuProps = !siderFold ? { onOpenChange, openKeys: navOpenKeys } : {};
+  return (
+    <Menu
+      {...menuProps}
+      mode={siderFold ? 'vertical' : 'inline'}
+      theme={darkTheme ? 'dark' : 'light'}
+      onClick={switchMenuPopver}
+      defaultSelectedKeys={[location.pathname !== '/' ? location.pathname : '/dashboard/dashboard']}>
+      {menuItems}
+    </Menu>
+  );
 }
 
 function mapStateToProps(state) {

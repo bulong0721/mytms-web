@@ -8,7 +8,7 @@ const Manager = ({ dispatch, manager, loading, route }) => {
   let formQuery = null;
   let formEditor = null;
 
-  const handleQuery = (e) => {
+  const handleQuery = () => {
     const filter = formQuery.getFieldsValue();
     dispatch({ type: 'manager/query', tableName, payload: filter });
   };

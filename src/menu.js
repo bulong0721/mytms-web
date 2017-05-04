@@ -1,46 +1,57 @@
-module.exports = module.exports = [
+module.exports = [
   {
-    key: 'dashboard',
-    name: '我的主页',
-    icon: 'appstore-o',
+    key: 'pickup',
+    name: '接送货管理',
+    icon: 'shopping-cart',
     child: [
-      { key: 'dashboard', name: '监控概览' },
-      { key: 'alert', name: '我的告警' },
+      { key: 'add', name: '运单录入', icon: 'file-add' },
+      { key: 'order', name: '运单管理', icon: 'book' },
+      { key: 'sign', name: '派送签收', icon: 'edit' },
     ]
   },
   {
-    key: 'monitor',
-    name: '监控管理',
-    icon: 'desktop',
+    key: 'transfer',
+    name: '运输中转',
+    icon: 'share-alt',
     child: [
-      { key: 'device', name: '设备管理' },
-      { key: 'item', name: '监控组件' },
-      { key: 'website', name: '网站监控' },
-      { key: 'template', name: '监控模板' },
+      { key: 'load', name: '装车配载', icon: 'hdd' },
+      { key: 'depart', name: '发车管理', icon: 'rocket' },
+      { key: 'arrive', name: '到达入库', icon: 'shop' },
+      { key: 'outsource', name: '中转外包', icon: 'export' },
+    ]
+  },
+  {
+    key: 'base',
+    name: '营运综合',
+    icon: 'compass',
+    child: [
+      { key: 'partner', name: '客户管理', icon: 'contacts' },
+      { key: 'vehicle', name: '车辆管理', icon: 'car' },
+      { key: 'track', name: '跟踪管理', icon: 'environment-o' },
+      { key: 'receipt', name: '回单管理', icon: 'copy' },
     ]
   },
   {
     key: 'report',
-    name: '数据&报表',
+    name: '报表分析',
     icon: 'area-chart',
     child: [
-      { key: 'basic', name: '基本图表' },
-      { key: 'topo', name: '设备拓扑图' },
-      { key: 'host', name: '主机图表' },
-      { key: 'network', name: '网络图表' },
-      { key: 'oracle', name: 'Oracle图表' },
-      { key: 'alert', name: '告警分析' },
+      { key: 'simple', name: '基础报表', icon: 'file-text' },
+      { key: 'payment', name: '收支明细', icon: 'calendar' },
+      { key: 'waybill', name: '运单指标', icon: 'api' },
+      { key: 'transport', name: '运输指标', icon: 'schedule' },
+      { key: 'profit', name: '运单损益', icon: 'line-chart' },
     ]
   },
   {
-    key: 'log',
-    name: '日志管理',
-    icon: 'exception',
+    key: 'settle',
+    name: '财务结算',
+    icon: 'red-envelope',
     child: [
-      { key: 'database', name: '日志数据库' },
-      { key: 'search', name: '日志搜索' },
-      { key: 'application', name: '应用日志' },
-      { key: 'network', name: '网络流量' },
+      { key: 'statement', name: '对账管理', icon: 'laptop' },
+      { key: 'cash', name: '现金管理', icon: 'pay-circle-o' },
+      { key: 'revenue', name: '收入管理', icon: 'download' },
+      { key: 'expense', name: '开支管理', icon: 'upload' },
     ]
   },
   {
@@ -48,19 +59,10 @@ module.exports = module.exports = [
     name: '系统管理',
     icon: 'setting',
     child: [
-      { key: 'agent', name: '代理管理' },
-      { key: 'alert', name: '报警配置' },
-      { key: 'hostGroup', name: '主机组管理' },
-      { key: 'userGroup', name: '用户组管理' },
-      { key: 'user', name: '用户管理' },
-    ]
-  },
-  {
-    key: 'help',
-    name: '系统帮助',
-    icon: 'question-circle-o',
-    child: [
-      { key: 'agent', name: 'Agent安装' },
+      { key: 'client', name: '编辑资料', icon: 'home' },
+      { key: 'organization', name: '分站管理', icon: 'shop' },
+      { key: 'employee', name: '员工管理', icon: 'user' },
+      { key: 'account', name: '账号管理', icon: 'solution' },
     ]
   },
 ]

@@ -27,6 +27,15 @@ export default {
   },
 
   subscriptions: {
+    setup({ dispatch, history }) {
+      let last = null;
+      history.listen(location => {
+        if (location != last) {
+          dispatch({ type: 'tableChanged', });
+        }
+        last = location;
+      });
+    }
   },
 
   effects: {
@@ -36,7 +45,7 @@ export default {
         yield put({
           type: 'querySuccess',
           payload: {
-            data: data.list
+            data: data.rows
           }
         });
       }
@@ -72,6 +81,29 @@ export default {
   },
 
   reducers: {
+    tableChanged(state, action) {
+      return {
+        modalVisible: false,
+        modalTitle: '新增',
+        modalAction: '',
+        modalFormData: {},
+        modalComponent: null,
+        popupEditor: true,
+        selectedRowKeys: [],
+        dataSource: [],
+        subDataSource: [],
+        previewVisible: false,
+        previewImages: [],
+        expand: false,
+        pagination: {
+          showSizeChanger: true,
+          showQuickJumper: true,
+          showTotal: total => `共 ${total} 条`,
+          current: 1,
+          total: null,
+        },
+      };
+    },
     querySuccess(state, action) {
       return {
         ...state,

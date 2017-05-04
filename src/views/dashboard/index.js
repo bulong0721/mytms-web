@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { Row, Col, Card, Spin, Table, Tag } from 'antd'
 import { connect } from 'dva';
 import { NumberCard } from '../../components/widget';

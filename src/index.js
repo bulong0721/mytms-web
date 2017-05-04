@@ -12,7 +12,6 @@ app.use(createLoading());
 app.model(require('./models/app'));
 app.model(require('./models/dashboard'));
 app.model(require('./models/manager'));
-app.model(require('./models/monitor'));
 
 // 4. Router
 app.router(require('./router'));

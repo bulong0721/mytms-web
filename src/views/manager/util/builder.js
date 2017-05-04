@@ -244,15 +244,11 @@ const Builder = {
 
   cloneFieldDef(field) {
     const option = Object.assign({}, field);
-    delete option.render;
-    delete option.key;
-    delete option.title;
-    delete option.showType;
     delete option.defaultValue;
     delete option.notAsFilter;
     delete option.notAsColumn;
     delete option.notAsEditor;
-    delete option.columnTitle;
+    delete option.disabled;
     return option;
   },
 
@@ -302,15 +298,17 @@ const Builder = {
 
   buildCascader(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
-    return this.olWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <Cascader disabled={fieldOpts.disabled} {...fieldOpts.options} />
     ), field, useFor);
   },
 
   buildInput(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
+    const { options } = fieldOpts;
+    const fieldProps = { type: options.type, size: options.size, addonBefore: options.addonBefore, addonAfter: options.addonAfter, prefix: options.prefix, suffix: options.suffix, onPressEnter: options.onPressEnter, autosize: options.autosize };
     return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Input disabled={fieldOpts.disabled} {...fieldOpts.options} />
+      <Input disabled={fieldOpts.disabled} {...fieldProps} />
     ), field, useFor);
   }
 };

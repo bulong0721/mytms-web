@@ -1,4 +1,6 @@
 import { notification } from 'antd';
+import config from '../config';
+const { prefix } = config;
 
 export default {
   namespace: 'app',
@@ -13,7 +15,7 @@ export default {
     siderFold: localStorage.getItem('antdAdminSiderFold') === 'true',
     darkTheme: localStorage.getItem('antdAdminDarkTheme') !== 'false',
     isNavbar: document.body.clientWidth < 769,
-    navOpenKeys: []
+    navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],
   },
 
   subscriptions: {

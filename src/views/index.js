@@ -1,4 +1,3 @@
-import React, { PropTypes } from 'react';
 import { connect } from 'dva';
 import { Spin } from 'antd';
 import { Helmet } from 'react-helmet';
@@ -6,6 +5,7 @@ import Login from '../components/login';
 import Viewport from '../components/layout'
 import styles from './index.less';
 import config from '../config';
+const { prefix } = config;
 
 const App = ({ children, location, dispatch, app, loading }) => {
   const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app;
@@ -35,6 +35,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
       dispatch({ type: 'app/switchSider' })
     },
     changeOpenKeys(openKeys) {
+      localStorage.setItem(`${prefix}navOpenKeys`, JSON.stringify(openKeys))
       dispatch({ type: 'app/handleNavOpenKeys', payload: { navOpenKeys: openKeys } })
     },
     changeTheme() {

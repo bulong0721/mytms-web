@@ -1,10 +1,10 @@
 module.exports = {
-  name: '运维大师',
-  footerText: '运维大师技术有限公司 版权所有 © 2015-2017',
+  name: '云帆物流',
+  prefix: 'maintenance',
+  footerText: '云帆物流有限公司 版权所有 © 2015-2017',
   logoSrc: 'images/antd.png',
-  logoText: '运维大师',
+  logoText: '云帆物流',
   needLogin: true,
-  baseURL: 'http://47.92.30.98:7001/api',
   
   api: {  // 对后端请求的相关配置
     host: 'http://localhost:8080',  // 调用ajax接口的地址, 默认值空, 如果是跨域的, 服务端要支持CORS
@@ -14,14 +14,11 @@ module.exports = {
 
   login: {  // 登录相关配置
     getCurrentUser: '/user/getCurrentUser',  // 后端必须要提供接口校验当前用户的身份, 如果拿不到用户信息, 才会尝试登录
-
     // 登录有两种情况:
-
     // 1. 使用sso登录, 直接跳转就可以了
-    sso: '',  // 是否使用单点登录? 是的话我会把地址encode后加到后面, 然后跳转, 如果这个是空字符串, 说明不使用单点登录
+    sso: '',
     // 2. 不使用sso, 使用我提供的一个登录界面
     validate: '/login',  // 校验用户信息, 表单的submit地址. 如果登录成功, 必须返回用户名
-
     logout: '/logout',  // 退出的url, 用户点击退出时, 浏览器会直接跳转到这个链接
   },
 
@@ -29,7 +26,6 @@ module.exports = {
     // 上传图片和上传普通文件分别配置
     image: '/uploadImage',  // 默认的上传图片接口
     imageSizeLimit: 1500,  // 默认的图片大小限制, 单位KB
-
     file: '/uploadFile',  // 默认的上传文件的接口
     fileSizeLimit: 10240,  // 默认的文件大小限制, 单位KB
   },

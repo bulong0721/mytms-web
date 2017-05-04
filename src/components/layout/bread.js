@@ -1,4 +1,3 @@
-import React, { PropTypes } from 'react';
 import { Breadcrumb, Icon } from 'antd';
 import { Link } from 'dva/router';
 import styles from './index.less';
