@@ -27,6 +27,7 @@ module.exports = [
     child: [
       { key: 'partner', name: '客户管理', icon: 'contacts' },
       { key: 'vehicle', name: '车辆管理', icon: 'car' },
+      { key: 'driver', name: '司机管理' , icon: 'user'},
       { key: 'track', name: '跟踪管理', icon: 'environment-o' },
       { key: 'receipt', name: '回单管理', icon: 'copy' },
     ]

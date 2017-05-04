@@ -9,12 +9,13 @@ export default function ({ history, app }) {
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRedirect to="/pickup/add" />
-        <Route path="/pickup/add" component={Dashboard} />
+        <Route path="/pickup/add" tableName="order" component={Manager} />
         <Route path="/pickup/order" tableName="user" component={Manager} />
         <Route path="/pickup/sign" tableName="user" component={Manager} />
 
         <Route path="/base/partner" tableName="partner" component={Manager} />
-        <Route path="/base/vehicle" tableName="user" component={Manager} />
+        <Route path="/base/vehicle" tableName="vehicle" component={Manager} />
+        <Route path="/base/driver" tableName="driver" component={Manager} />
         <Route path="/base/track" tableName="user" component={Manager} />
         <Route path="/base/receipt" tableName="user" component={Manager} />
 

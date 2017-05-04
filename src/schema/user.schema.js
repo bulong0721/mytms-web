@@ -11,7 +11,7 @@ module.exports = {
       child: [
         {
           key: 'loginName',
-          title: '登录名',
+          title: '账号',
           showType: 'normal',
         },
         {
@@ -21,13 +21,6 @@ module.exports = {
           render: (text) => <Tag color="pink">{text}</Tag>
         },
         {
-          key: 'email',
-          title: '电子邮件',
-          showType: 'normal',
-          notAsFilter: true,
-        },
-
-        {
           key: 'mobile',
           title: '电话号码',
           showType: 'normal',
@@ -35,15 +28,9 @@ module.exports = {
           notAsFilter: true,
         },
         {
-          key: 'lastLoginTime',
-          title: '最后登录时间',
-          showType: 'datetime',
-          notAsFilter: true,
-        },
-        {
-          key: 'lastLoginIP',
-          title: '最后登录IP',
-          showType: 'input',
+          key: 'email',
+          title: '电子邮件',
+          showType: 'normal',
           notAsFilter: true,
         },
         {

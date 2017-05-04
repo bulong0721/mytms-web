@@ -177,6 +177,11 @@ const Builder = {
         filterField = this.buildCascader(field, 'filter');
         editorField = this.buildCascader(field, 'editor');
         break;
+      case 'placeholder':
+        filterField = this.buildPlaceholder(field, 'filter');
+        editorField = this.buildPlaceholder(field, 'editor');
+        field.notAsColumn = true;
+        break;
       case 'actions':
         field.notAsFilter = true;
         field.notAsEditor = true;
@@ -270,6 +275,10 @@ const Builder = {
     ), field, useFor);
   },
 
+  buildPlaceholder(field, useFor) {
+    return this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, field, useFor);
+  },
+
   buildDatetime(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts ? moment(field.defaultValue) : null })(
@@ -279,8 +288,10 @@ const Builder = {
 
   buildSwitch(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
+    const { options } = fieldOpts;
+    const fieldProps = { onChange: options.onChange, checkedChildren: options.checkedChildren, unCheckedChildren: options.unCheckedChildren, size: 'small' };
     return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Switch disabled={fieldOpts.disabled} {...fieldOpts.options} />
+      <Switch disabled={fieldOpts.disabled} {...fieldProps} />
     ), field, useFor);
   },
 
