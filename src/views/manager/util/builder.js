@@ -86,7 +86,7 @@ const Builder = {
 
   parseBySchema(schema, component) {
     const { handlePageAction, handleRowAction, selectedRowKeys, subDataSource } = component;
-    const { tableName } = schema;
+    const { tableName, subTable } = schema;
     let columns = [];
     let filters = [];
     let editors = [];
@@ -107,16 +107,21 @@ const Builder = {
         editors.push(this.buildCollapse(field, subEditors));
       }
     });
-    if (schema.subTable) {
-      const subFields = schema.subTable.child;
+    if (subTable) {
+      const subFields = subTable.child;
       subFields.forEach((subField) => {
         if ('ID' === subField.showType) {
           subPrimary = subField;
         }
         this.generateElement(subField, subColumns, [], []);
       });
-      Renders.bindRender(`${tableName}_${schema.subTable.key}`, subColumns, { ...component, subPrimary, schema });
-      editors.push(this.buildSubTable(schema.subTable, subPrimary, subColumns, subDataSource));
+      Renders.bindRender(`${tableName}_${subTable.key}`, subColumns, { ...component, subPrimary, schema });
+      const subList = this.buildSubTable(subTable, subPrimary, subColumns, subDataSource);
+      if (subTable.position) {
+        editors.splice(subTable.position, 0, subList);
+      } else {
+        editors.push(subList);
+      }
     }
     actions = schema.actions.map((action, index) => {
       action.$schema = schema;
@@ -289,7 +294,7 @@ const Builder = {
   buildSwitch(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const { options } = fieldOpts;
-    const fieldProps = { onChange: options.onChange, checkedChildren: options.checkedChildren, unCheckedChildren: options.unCheckedChildren, size: 'small' };
+    const fieldProps = { onChange: options.onChange, checkedChildren: options.checkedChildren, unCheckedChildren: options.unCheckedChildren };
     return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <Switch disabled={fieldOpts.disabled} {...fieldProps} />
     ), field, useFor);

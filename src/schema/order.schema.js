@@ -258,6 +258,7 @@ module.exports = {
   subTable: {
     key: 'lines',
     title: '货物信息',
+    position: 2,
     child: [
       {
         key: 'id',
