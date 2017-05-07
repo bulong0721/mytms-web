@@ -211,6 +211,7 @@ const Builder = {
       column.title = field.columnTitle || field.title;
       column.width = field.width;
       column.sorter = field.sorter;
+      column.$render = field.render;
       column.$field = field;
       column.$editor = editorField;
       columns.push(column);
