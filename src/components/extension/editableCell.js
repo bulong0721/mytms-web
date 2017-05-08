@@ -1,12 +1,14 @@
-import { Table, Input, Popconfirm } from 'antd';
+import { Table, Input, Popconfirm, Radio, Switch, Select, InputNumber, DatePicker, Cascader } from 'antd';
+
+const RadioGroup = Radio.Group;
+const Option = Select.Option;
 
 class EditableCell extends React.Component {
   state = {
     value: this.props.value,
     editable: this.props.editable || false,
-    handleChange: this.props.handleChange,
-    render: this.props.render,
-    editor: this.props.editor
+    onChange: this.props.onChange,
+    column: this.props.column
   }
 
   componentWillReceiveProps(nextProps) {
@@ -31,17 +33,39 @@ class EditableCell extends React.Component {
       nextState.value !== this.state.value;
   }
 
-  handleChange(e) {
-    const value = e.target.value;
+  handleChange(value) {
     this.setState({ value });
   }
 
+  generateEditor(column, value, onChange) {
+    const { key, dataIndex, $field: { showType }, $editor: { fieldProps, options } } = column;
+    switch (showType) {
+      case 'radio':
+        return <RadioGroup>{options}</RadioGroup>;
+      case 'number':
+        return <InputNumber {...fieldProps} onChange={onChange} />;
+      case 'datetime':
+        return <DatePicker {...fieldProps} onChange={onChange} />
+      case 'switch':
+        return <Switch {...fieldProps} onChange={onChange} />
+      case 'select':
+        return <Select {...fieldProps} onChange={onChange}>{options}</Select>
+      case 'cascader':
+        return <Cascader {...fieldProps} onChange={onChange} />
+      default:
+        return <Input {...fieldProps} onChange={(e) => this.handleChange(e.target.value)} />
+    }
+  }
+
   render() {
-    const { value, editable, handleChange, render } = this.state;
+    const { value, editable, onChange, render, column } = this.state;
     return (
       <div>
         {editable ?
-          <Input value={value} onChange={e => this.handleChange(e)} />
+          <div>
+            {this.generateEditor(column, value, this.handleChange)}
+            {/*<Input value={value} onChange={e => this.handleChange(e)} />*/}
+          </div>
           : <span>{value}</span>
         }
       </div>

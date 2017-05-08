@@ -47,6 +47,10 @@ const Manager = ({ dispatch, manager, loading, route }) => {
     };
   };
 
+  const handleNewSub = () => {
+    dispatch({ type: 'manager/handleNewSub' });
+  };
+
   const handleModalOk = () => {
     const { modalAction } = manager;
     formEditor.validateFields(errors => {
@@ -62,7 +66,7 @@ const Manager = ({ dispatch, manager, loading, route }) => {
   };
 
   const { expand, dataSource, subDataSource, tableLoading, selectedRowKeys, modalTitle, modalVisible, modalFormData, modalComponent, popupEditor, pagination } = manager;
-  const container = { handlePageAction, handleRowAction, selectedRowKeys, subDataSource };
+  const container = { handlePageAction, handleRowAction, selectedRowKeys, subDataSource, handleNewSub };
   const { schema, primary, columns, filters, editors, actions, subPrimary, subColumns } = Builder.parseByTable(tableName, container);
   const FormQuery = Builder.buildQueryForm(filters, { expand, handleQuery, handleToggle });
   const FormEditor = popupEditor ? Builder.buildEditorForm(editors) : modalComponent;

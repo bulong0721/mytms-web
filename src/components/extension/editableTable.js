@@ -62,7 +62,7 @@ class EditableTable extends React.Component {
         changeMap.set(index, change);
       };
       const { $editable, $status } = record;
-      return (<EditableCell editable={$editable} value={value} onChange={handleChange} status={$status} />);
+      return (<EditableCell editable={$editable} value={value} onChange={handleChange} status={$status} column={column} />);
     };
   }
 
@@ -85,7 +85,7 @@ class EditableTable extends React.Component {
   render() {
     const { columns, dataSource } = this.props;
     return (
-      <Table bordered columns={columns} dataSource={dataSource} rowKey="name" />
+      <Table bordered columns={columns} dataSource={dataSource} rowKey="name" pagination={false} />
     );
   }
 };

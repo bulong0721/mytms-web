@@ -86,7 +86,7 @@ const Builder = {
   },
 
   parseBySchema(schema, component) {
-    const { handlePageAction, handleRowAction, selectedRowKeys, subDataSource } = component;
+    const { handlePageAction, handleRowAction, selectedRowKeys, subDataSource, handleNewSub } = component;
     const { tableName, subTable } = schema;
     let columns = [];
     let filters = [];
@@ -117,7 +117,7 @@ const Builder = {
         this.generateElement(subField, subColumns, [], []);
       });
       Renders.bindRender(`${tableName}_${subTable.key}`, subColumns, { ...component, subPrimary, schema });
-      const subList = this.buildSubTable(subTable, subPrimary, subColumns, subDataSource);
+      const subList = this.buildSubTable(subTable, subPrimary, subColumns, subDataSource, handleNewSub);
       if (subTable.position) {
         editors.splice(subTable.position, 0, subList);
       } else {
@@ -146,11 +146,11 @@ const Builder = {
     };
   },
 
-  buildSubTable(field, primary, columns, dataSource) {
+  buildSubTable(field, primary, columns, dataSource, handleNewSub) {
     return getFieldDecorator => (
       <Collapse defaultActiveKey={field.activeKey || '1'} key={field.title}>
         <Collapse.Panel header={field.title} key="1" className="collapse-space-table">
-          <EditableTable bordered dataSource={dataSource} columns={columns} />
+          <EditableTable bordered dataSource={dataSource} columns={columns} addNew={handleNewSub} />
         </Collapse.Panel>
       </Collapse>
     );
@@ -200,10 +200,10 @@ const Builder = {
         break;
     }
     if (!field.notAsFilter && field.showType != 'collapse') {
-      filters.push(filterField);
+      filters.push(filterField.wrapper);
     }
     if (!field.notAsEditor) {
-      editors.push(editorField);
+      editors.push(editorField.wrapper);
     }
     if (!field.notAsColumn) {
       const column = {};
@@ -214,7 +214,9 @@ const Builder = {
       column.sorter = field.sorter;
       column.$render = field.render;
       column.$field = field;
-      column.$editor = editorField;
+      if (editorField) {
+        column.$editor = editorField;
+      }
       columns.push(column);
     }
   },
@@ -250,7 +252,7 @@ const Builder = {
       initialValue: field.defaultValue,
       disabled: forFilter ? undefined : field.disabled,
       rules: forFilter ? undefined : field.validator,
-      options
+      ...options
     };
   },
 
@@ -269,37 +271,41 @@ const Builder = {
     const options = field.options.map((option) =>
       <Radio disabled={fieldOpts.disabled} key={option.key} value={option.key}>{option.value}</Radio>
     );
-
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <RadioGroup>{options}</RadioGroup>
     ), field, useFor);
+    return { fieldProps: fieldOpts, wrapper, options };
   },
 
   buildNumber(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <InputNumber disabled={fieldOpts.disabled} {...fieldOpts.options} />
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <InputNumber {...fieldOpts} />
     ), field, useFor);
+    return { fieldProps: fieldOpts, wrapper };
   },
 
   buildPlaceholder(field, useFor) {
-    return this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, field, useFor);
+    const editor = null;
+    const wrapper = this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, field, useFor);
+    return { fieldProps: null, wrapper };
   },
 
   buildDatetime(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts ? moment(field.defaultValue) : null })(
-      <DatePicker disabled={fieldOpts.disabled} {...fieldOpts.options} />
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts ? moment(field.defaultValue) : null })(
+      <DatePicker {...fieldOpts} />
     ), field, useFor);
+    return { fieldProps: fieldOpts, wrapper };
   },
 
   buildSwitch(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
-    const { options } = fieldOpts;
-    const fieldProps = { onChange: options.onChange, checkedChildren: options.checkedChildren, unCheckedChildren: options.unCheckedChildren };
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Switch disabled={fieldOpts.disabled} {...fieldProps} />
+    const fieldProps = { onChange: fieldOpts.onChange, checkedChildren: fieldOpts.checkedChildren, unCheckedChildren: fieldOpts.unCheckedChildren };
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <Switch {...fieldProps} />
     ), field, useFor);
+    return { fieldProps, wrapper };
   },
 
   buildSelect(field, useFor) {
@@ -307,27 +313,27 @@ const Builder = {
     const options = field.options.map((option) =>
       <Option disabled={fieldOpts.disabled} key={option.key} value={option.key}>{option.value}</Option>
     );
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Select disabled={fieldOpts.disabled} {...fieldOpts.options}>
-        {options}
-      </Select>
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <Select {...fieldOpts}>{options}</Select>
     ), field, useFor);
+    return { fieldProps: fieldOpts, wrapper, options };
   },
 
   buildCascader(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Cascader disabled={fieldOpts.disabled} {...fieldOpts.options} />
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <Cascader {...fieldOpts} />
     ), field, useFor);
+    return { fieldProps: fieldOpts, wrapper };
   },
 
   buildInput(field, useFor) {
-    const fieldOpts = this.getOptions(useFor, field);
-    const { options } = fieldOpts;
-    const fieldProps = { type: options.type, size: options.size, addonBefore: options.addonBefore, addonAfter: options.addonAfter, prefix: options.prefix, suffix: options.suffix, onPressEnter: options.onPressEnter, autosize: options.autosize };
-    return this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Input disabled={fieldOpts.disabled} {...fieldProps} />
+    const options = this.getOptions(useFor, field);
+    const fieldProps = { disabled: options.disabled, type: options.type, size: options.size, addonBefore: options.addonBefore, addonAfter: options.addonAfter, prefix: options.prefix, suffix: options.suffix, onPressEnter: options.onPressEnter, autosize: options.autosize };
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...options })(
+      <Input {...fieldProps} />
     ), field, useFor);
+    return { fieldProps, wrapper };
   }
 };
 

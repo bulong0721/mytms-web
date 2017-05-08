@@ -141,5 +141,13 @@ export default {
         modalFormData: {}
       };
     },
+    handleNewSub(state, action) {
+      const { subDataSource } = state;
+      subDataSource.push({ $editable: true });
+      return {
+        ...state,
+        subDataSource: subDataSource
+      };
+    }
   }
 }
