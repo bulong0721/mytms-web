@@ -35,6 +35,8 @@ export default function ({ history, app }) {
         <Route path="/system/organization" tableName="user" component={Manager} />
         <Route path="/system/employee" tableName="user" component={Manager} />
         <Route path="/system/account" tableName="user" component={Manager} />
+
+        <Route path="/scaffold/table" tableName="table" component={Manager} />
       </Route>
     </Router>
   );

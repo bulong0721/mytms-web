@@ -7,7 +7,7 @@ import styles from './index.less';
 import config from '../config';
 const { prefix } = config;
 
-const App = ({ children, location, dispatch, app, loading }) => {
+const App = ({ children, location, dispatch, app, loading, route }) => {
   const { login, loginButtonLoading, user, siderFold, darkTheme, isNavbar, menuPopoverVisible, navOpenKeys } = app;
   const loginProps = {
     loading,
@@ -17,6 +17,7 @@ const App = ({ children, location, dispatch, app, loading }) => {
     },
   };
   const viewportProps = {
+    route,
     children,
     user,
     siderFold,

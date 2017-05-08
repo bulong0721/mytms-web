@@ -1,5 +1,5 @@
 import React from 'react';
-import CommonUtil from '../../../utils/commonutil';
+import CommonUtil from '../../../utils/commonUtil';
 
 const ACTION_KEY = 'singleRecordActions';
 

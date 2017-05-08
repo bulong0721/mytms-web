@@ -66,4 +66,12 @@ module.exports = [
       { key: 'account', name: '账号管理', icon: 'solution' },
     ]
   },
+  {
+    key: 'scaffold',
+    name: '开发工具',
+    icon: 'tool',
+    child: [
+      { key: 'table', name: '表管理', icon: 'book' },
+    ]
+  },
 ]

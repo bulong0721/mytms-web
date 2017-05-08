@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Row, Col, DatePicker, Switch, Select, Icon, Radio, Collapse, Table, InputNumber, Checkbox, Cascader, Button, notification } from 'antd';
 import moment from 'moment';
 import Renders from './renders';
+import EditableTable from '../../../components/extension/editableTable';
 
 const schemaMap = new Map();
 const formMap = new Map();
@@ -149,7 +150,7 @@ const Builder = {
     return getFieldDecorator => (
       <Collapse defaultActiveKey={field.activeKey || '1'} key={field.title}>
         <Collapse.Panel header={field.title} key="1" className="collapse-space-table">
-          <Table rowKey="id" bordered dataSource={dataSource} pagination={false} columns={columns} />
+          <EditableTable bordered dataSource={dataSource} columns={columns} />
         </Collapse.Panel>
       </Collapse>
     );

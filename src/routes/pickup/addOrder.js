@@ -1,5 +1,5 @@
-import { Button, notification } from 'antd';
-import EditTable from '../../components/extension/editTable';
+import { Button, Popconfirm, notification } from 'antd';
+import EditableTable from '../../components/extension/editableTable';
 
 const AddOrder = () => {
   let editable = true;
@@ -11,18 +11,14 @@ const AddOrder = () => {
   ];
 
   const dataSource = [
-    { name: '徐步龙', age: 30 },
-    { name: '陈希', age: 29 },
+    { name: '徐步龙', age: 30, $editable: false },
+    { name: '陈希', age: 29, $editable: true },
   ];
 
-  const changeEdit = () => {
-    editable = !editable;
-  };
-
   const handleSumbit = () => {
-    console.log('changes');
     if (editTable) {
       const changes = editTable.getChanges();
+      console.log('changes', changes);
       notification.info({
         message: '获取修改',
         description: ``,
@@ -32,7 +28,6 @@ const AddOrder = () => {
   };
 
   const handleInit = (table) => {
-    console.log('init', table);
     if (table) {
       editTable = table;
     }
@@ -40,8 +35,7 @@ const AddOrder = () => {
 
   return (
     <div>
-      <EditTable ref={handleInit} editable={editable} columns={columns} dataSource={dataSource} />
-      <Button type="primary" onClick={changeEdit}>切换</Button>
+      <EditableTable ref={handleInit} editable={editable} columns={columns} dataSource={dataSource} />
       <Button onClick={handleSumbit}>提交</Button>
     </div>
   );

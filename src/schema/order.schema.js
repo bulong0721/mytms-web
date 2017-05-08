@@ -129,7 +129,7 @@ module.exports = {
         {
           key: 'lastLoginIPh',
           title: '收货地址',
-          showType: 'number',
+          showType: 'input',
           notAsFilter: true,
         },
         {

@@ -45,7 +45,7 @@ export default {
         yield put({
           type: 'querySuccess',
           payload: {
-            data: data.rows
+            data: data.list
           }
         });
       }
