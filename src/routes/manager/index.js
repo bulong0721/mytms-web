@@ -71,7 +71,7 @@ const Manager = ({ dispatch, manager, loading, route }) => {
   const FormQuery = Builder.buildQueryForm(filters, { expand, handleQuery, handleToggle });
   const FormEditor = popupEditor ? Builder.buildEditorForm(editors) : modalComponent;
   const rowSelection = { selectedRowKeys: selectedRowKeys, onChange: onTableSelectChange, };
-  const tableProps = { rowKey: "id", rowSelection, columns, dataSource, pagination };
+  const tableProps = { rowKey: 'id', rowSelection, columns, dataSource, pagination };
   return (
     <Tabs activeKey={modalVisible ? "edit" : "list"} className="hide-header-tabs">
       <Tabs.TabPane tab="list" key="list">

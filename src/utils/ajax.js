@@ -54,7 +54,7 @@ class Ajax {
         if (res && res.body) {
           resolve(res.body);
         } else {
-          reject(err || res);
+          resolve(null);
         }
       });
     });

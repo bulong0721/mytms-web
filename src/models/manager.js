@@ -59,7 +59,7 @@ export default {
         title: '确定要删除记录吗?',
         content: 'xxxxx',
         onOk() {
-          console.log('OK');
+
         },
         onCancel() { },
       })
@@ -143,7 +143,7 @@ export default {
     },
     handleNewSub(state, action) {
       const { subDataSource } = state;
-      subDataSource.push({ $editable: true });
+      subDataSource.push({ $editable: true, notAsFilter: true });
       return {
         ...state,
         subDataSource: subDataSource

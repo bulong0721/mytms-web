@@ -25,15 +25,19 @@ class EditableTable extends React.Component {
         <div className="editable-row-operations">
           {$editable ?
             <span>
-              <a onClick={() => this.editDone(index, record, 'save')}>保存</a>
+              <a onClick={() => this.editDone(index, record, 'save')}>确定</a>
               <span className="ant-divider" />
-              <Popconfirm title="确定取消修改吗?" onConfirm={() => this.editDone(index, record, 'cancel')}>
+              <Popconfirm title="确定取消吗?" onConfirm={() => this.editDone(index, record, 'cancel')}>
                 <a>取消</a>
               </Popconfirm>
             </span>
             :
             <span>
               <a onClick={() => this.edit(index, record)}>编辑</a>
+              <span className="ant-divider" />
+              <Popconfirm title="确定删除吗?" onConfirm={() => this.editDone(index, record, 'cancel')}>
+                <a>删除</a>
+              </Popconfirm>
             </span>
           }
         </div>
@@ -75,7 +79,6 @@ class EditableTable extends React.Component {
     record.$editable = false;
     record.$status = type;
     this.setState({ index });
-    console.log('editdone', record);
   };
 
   getChanges() {
@@ -83,9 +86,9 @@ class EditableTable extends React.Component {
   }
 
   render() {
-    const { columns, dataSource } = this.props;
+    const { columns, dataSource, primary: { key } } = this.props;
     return (
-      <Table bordered columns={columns} dataSource={dataSource} rowKey="name" pagination={false} />
+      <Table bordered columns={columns} dataSource={dataSource} rowKey={key} pagination={false} />
     );
   }
 };

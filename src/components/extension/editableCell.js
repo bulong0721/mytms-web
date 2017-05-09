@@ -37,36 +37,43 @@ class EditableCell extends React.Component {
     this.setState({ value });
   }
 
-  generateEditor(column, value, onChange) {
+  generateEditor(column, value) {
     const { key, dataIndex, $field: { showType }, $editor: { fieldProps, options } } = column;
     switch (showType) {
       case 'radio':
         return <RadioGroup>{options}</RadioGroup>;
       case 'number':
-        return <InputNumber {...fieldProps} onChange={onChange} />;
+        return <InputNumber {...fieldProps} onChange={(value) => this.handleChange(value)} />;
       case 'datetime':
-        return <DatePicker {...fieldProps} onChange={onChange} />
+        return <DatePicker {...fieldProps} onChange={(value) => this.handleChange(value)} />
       case 'switch':
-        return <Switch {...fieldProps} onChange={onChange} />
+        return <Switch {...fieldProps} checked={value} onChange={(value) => this.handleChange(value)} />
       case 'select':
-        return <Select {...fieldProps} onChange={onChange}>{options}</Select>
+        return <Select {...fieldProps} onChange={(value) => this.handleChange(value)}>{options}</Select>
       case 'cascader':
-        return <Cascader {...fieldProps} onChange={onChange} />
+        return <Cascader {...fieldProps} onChange={(value) => this.handleChange(value)} />
       default:
-        return <Input {...fieldProps} onChange={(e) => this.handleChange(e.target.value)} />
+        return <Input {...fieldProps} value={value} onChange={(e) => this.handleChange(e.target.value)} />
     }
+  }
+
+  toText(value) {
+    if (value !== undefined) {
+      return value.toString();
+    }
+    return '';
   }
 
   render() {
     const { value, editable, onChange, render, column } = this.state;
+    const { $render } = column;
     return (
       <div>
         {editable ?
           <div>
-            {this.generateEditor(column, value, this.handleChange)}
-            {/*<Input value={value} onChange={e => this.handleChange(e)} />*/}
+            {this.generateEditor(column, value)}
           </div>
-          : <span>{value}</span>
+          : <span>{$render ? $render(value) : this.toText(value)}</span>
         }
       </div>
     );

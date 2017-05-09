@@ -150,7 +150,7 @@ const Builder = {
     return getFieldDecorator => (
       <Collapse defaultActiveKey={field.activeKey || '1'} key={field.title}>
         <Collapse.Panel header={field.title} key="1" className="collapse-space-table">
-          <EditableTable bordered dataSource={dataSource} columns={columns} addNew={handleNewSub} />
+          <EditableTable bordered dataSource={dataSource} columns={columns} addNew={handleNewSub} primary={primary} />
         </Collapse.Panel>
       </Collapse>
     );
@@ -258,7 +258,6 @@ const Builder = {
 
   cloneFieldDef(field) {
     const option = Object.assign({}, field);
-    delete option.defaultValue;
     delete option.notAsFilter;
     delete option.notAsColumn;
     delete option.notAsEditor;
@@ -302,7 +301,7 @@ const Builder = {
   buildSwitch(field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const fieldProps = { onChange: fieldOpts.onChange, checkedChildren: fieldOpts.checkedChildren, unCheckedChildren: fieldOpts.unCheckedChildren };
-    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts, valuePropName: 'checked' })(
       <Switch {...fieldProps} />
     ), field, useFor);
     return { fieldProps, wrapper };

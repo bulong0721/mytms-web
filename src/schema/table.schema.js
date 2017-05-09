@@ -1,4 +1,4 @@
-import ColumnRender from '../utils/columnRender';
+import { Formatter, Parser } from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
 
 module.exports = {
@@ -21,11 +21,18 @@ module.exports = {
           key: 'tableName',
           title: '表名',
           showType: 'input',
+          validator: [{ required: true }],
         },
         {
           key: 'useFor',
           title: '用于',
           showType: 'input',
+        },
+        {
+          key: 'active',
+          title: '激活',
+          showType: 'switch',
+          render: Formatter.yesOrNo
         },
         {
           showType: 'actions',
@@ -47,7 +54,7 @@ module.exports = {
         key: 'id',
         title: 'ID',
         showType: 'ID',
-        disabled: false,
+        disabled: true,
       },
       {
         key: 'name',
@@ -70,21 +77,25 @@ module.exports = {
         key: 'notAsFilter',
         title: '过滤条件',
         showType: 'switch',
+        render: Formatter.yesOrNo
       },
       {
         key: 'notAsColumn',
         title: '主表列',
         showType: 'switch',
+        render: Formatter.yesOrNo
       },
       {
         key: 'notAsEditor',
         title: '编辑字段',
         showType: 'switch',
+        render: Formatter.yesOrNo
       },
       {
         key: 'disabled',
         title: '只读字段',
         showType: 'switch',
+        render: Formatter.yesOrNo
       },
     ]
   }
