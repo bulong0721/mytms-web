@@ -2,21 +2,15 @@ import React from 'react';
 import { Router, Route, IndexRedirect } from 'dva/router';
 import App from './routes/index';
 import Dashboard from './routes/dashboard';
-import Manager from './routes/manager/index1'
+import Manager from './routes/manager'
 import AddOrder from './routes/pickup/addOrder';
-
-const DBTableContainer = (location, cb) => {
-  require.ensure([], require => {
-    cb(null, require('./routes/manager/index1').default)
-  }, 'Manager');
-};
 
 export default function ({ history, app }) {
   return (
     <Router history={history}>
       <Route path="/" component={App}>
         <IndexRedirect to="/pickup/add" />
-        <Route path="/pickup/add" tableName="order" getComponent={DBTableContainer} />
+        <Route path="/pickup/add" tableName="order" component={Manager} />
         <Route path="/pickup/order" tableName="user" component={Manager} />
         <Route path="/pickup/sign" component={AddOrder} />
 

@@ -1,4 +1,4 @@
-export default class MgrContext {
+export default class MgrCtx {
   activeTab = 'list';
   formData = {};
   editComponent = null;

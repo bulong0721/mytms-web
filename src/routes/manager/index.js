@@ -1,45 +1,72 @@
+import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Button, Icon, Tabs, Table, Modal, Tag } from 'antd';
+import MgrCtx from '../../models/mgrCtx';
 import Builder from './util/builder';
 import styles from './index.less';
 
-const Manager = ({ dispatch, manager, loading, route }) => {
-  const { tableName } = route;
-  let formQuery = null;
-  let formEditor = null;
+class Manager extends React.Component {
+  // state = {
+  //   tableName: this.props.route.tableName,
+  //   mgrCtx: new MgrCtx(),
+  //   version: 0
+  // };
 
-  const handleQuery = () => {
-    const filter = formQuery.getFieldsValue();
+  formQuery = null;
+  formEditor = null;
+
+  // componentWillReceiveProps = (nextProps) => {
+  //   const { manager: { tableName, propMap } } = nextProps;
+  //   const tableName1 = this.props.route.tableName;
+  //   // if (tableName === this.state.tableName) {
+
+  //   // }
+  //   let mgrCtx = propMap.get(tableName);
+  //   if (null == mgrCtx) mgrCtx = new MgrCtx();
+  //   this.setState({ mgrCtx, version: 1 });
+  // };
+
+  // shouldComponentUpdate = (nextProps, nextState) => {
+  //   const sholdUpdate = nextState.tableName === this.state.tableName;
+  //   return sholdUpdate;
+  // };
+
+  handleQuery = () => {
+    const { dispatch, route: { tableName } } = this.props;
+    const filter = this.formQuery.getFieldsValue();
     dispatch({ type: 'manager/query', tableName, payload: filter });
   };
 
-  const handleToggle = (e) => {
-    dispatch({ type: 'manager/handleToggle' });
+  toggleFilter = (e) => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/toggleFilter', tableName });
   };
 
-  const onTableSelectChange = (selectedRowKeys) => {
-    dispatch({ type: 'manager/selectChange', payload: selectedRowKeys });
+  tableSelectChange = (selectedRowKeys) => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/selectedChange', tableName, payload: selectedRowKeys });
   };
 
-  const handleRowAction = ({ action, popupEditor, component, title, $schema }) => {
+  handleRowAction = ({ action, popupEditor, component, title, $schema }) => {
+    const { dispatch, route: { tableName } } = this.props;
     return (text, record, index) => {
       if (component || popupEditor) {
         let subDataSource = [];
         if ($schema.subTable) {
           subDataSource = record[$schema.subTable.key];
         }
-        dispatch({ type: 'manager/showModal', title, action, record, component, popupEditor, subDataSource });
+        dispatch({ type: 'manager/goEditor', tableName, title, action, record, component, popupEditor, subDataSource });
       } else {
         dispatch({ type: action, payload: { text, record, index, tableName } });
       }
     };
   };
 
-  const handlePageAction = ({ action, popupEditor, component, title, $schema }) => {
-    const { selectedRowKeys, dataSource } = manager;
+  handlePageAction = ({ action, popupEditor, component, title, $schema }) => {
+    const { dispatch, mgrCtx: { selectedRowKeys, dataSource }, tableName } = this.getMgrCtx();
     return (e) => {
       if (component || popupEditor) {
-        dispatch({ type: 'manager/showModal', title, action, component, popupEditor });
+        dispatch({ type: 'manager/goEditor', tableName, title, action, component, popupEditor });
       } else {
         const filter = formQuery.getFieldsValue();
         dispatch({ type: action, payload: { tableName, selectedRowKeys, dataSource, filter } });
@@ -47,67 +74,90 @@ const Manager = ({ dispatch, manager, loading, route }) => {
     };
   };
 
-  const handleNewSub = () => {
-    dispatch({ type: 'manager/handleNewSub' });
+  newNested = () => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/newNested', tableName });
   };
 
-  const handleModalOk = () => {
-    const { modalAction } = manager;
-    formEditor.validateFields(errors => {
-      if (errors)
-        return;
+  handleModalOk = () => {
+    const { dispatch, route: { tableName }, manager: { modalAction } } = this.props;
+    let allError = null;
+    this.formEditor.validateFields(errors => {
+      allError = errors;
     });
-    const data = formEditor.getFieldsValue();
-    dispatch({ type: modalAction, tableName, payload: data });
+    if (!allError) {
+      const data = this.formEditor.getFieldsValue();
+      dispatch({ type: modalAction, tableName, payload: data });
+    }
   };
 
-  const hideModal = () => {
-    dispatch({ type: 'manager/hideModal' });
+  goList = () => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/goList', tableName });
   };
 
-  const handleTableChange = (pagination, filters, sorter) => {
+  handleTableChange = (pagination, filters, sorter) => {
+    const { dispatch, route: { tableName } } = this.props;
     const filter = formQuery.getFieldsValue();
     dispatch({ type: 'manager/query', tableName, payload: filter, pagination });
   };
 
-  const { expand, dataSource, subDataSource, selectedRowKeys, modalVisible, modalFormData, modalComponent, popupEditor, pagination } = manager;
-  const container = { handlePageAction, handleRowAction, selectedRowKeys, subDataSource, handleNewSub };
-  const { schema, primary, columns, filters, editors, actions, subPrimary, subColumns } = Builder.parseByTable(tableName, container);
-  const FormQuery = Builder.buildQueryForm(filters, { expand, handleQuery, handleToggle });
-  const FormEditor = popupEditor ? Builder.buildEditorForm(editors) : modalComponent;
-  const rowSelection = { selectedRowKeys: selectedRowKeys, onChange: onTableSelectChange, };
-  const tableProps = { rowKey: 'id', rowSelection, columns, dataSource, pagination, onChange: handleTableChange };
-  return (
-    <Tabs activeKey={modalVisible ? "edit" : "list"} className="hide-header-tabs">
-      <Tabs.TabPane tab="list" key="list">
-        <Row className="ant-advanced-search-form">
-          <FormQuery ref={(input) => { formQuery = input; }} />
-        </Row>
-        <Row className="ant-advanced-search-list">
-          <Button.Group style={{ marginBottom: '8px' }}>
-            {actions}
-          </Button.Group>
-          <Table bordered {...tableProps} />
-        </Row>
-      </Tabs.TabPane>
-      <Tabs.TabPane tab="edit" key="edit">
-        <FormEditor ref={(input) => {
-          formEditor = input;
-          if (input && modalFormData) {
-            input.setFieldsValue(modalFormData);
-          }
-        }} />
-        <Row>
-          <Col span={12} offset={12} style={{ textAlign: 'right' }}>
-            <Button.Group>
-              <Button type="primary" icon="check" onClick={handleModalOk}>确定</Button>
-              <Button icon="rollback" onClick={hideModal} style={{ marginLeft: '12px' }}>返回</Button>
+  queryForm = null;
+  getQueryForm = (filters) => {
+    if (null == this.queryForm) {
+      this.queryForm = Builder.buildQueryForm(filters, this);
+    }
+    return this.queryForm;
+  };
+
+  getMgrCtx = () => {
+    const { dispatch, manager: { propMap }, route: { tableName } } = this.props;
+    let mgrCtx = propMap.get(tableName);
+    if (!mgrCtx)
+      mgrCtx = new MgrCtx();
+    return { dispatch, mgrCtx, tableName };
+  };
+
+  render() {
+    const { mgrCtx, tableName } = this.getMgrCtx();
+    const { activeTab, formData, editComponent, editAction, useEditor, selectedRowKeys, dataSource, nestedFields, nestedSources, expandAll, pagination } = mgrCtx;
+    const { schema, primary, columns, filters, editors, actions, subPrimary, subColumns } = Builder.parseByTable(tableName, this);
+    const FormQuery = this.getQueryForm(filters);
+    const FormEditor = useEditor ? Builder.buildEditorForm(editors) : editComponent;
+    const rowSelection = { selectedRowKeys: selectedRowKeys, onChange: this.tableSelectChange, };
+    const tableProps = { rowKey: 'id', rowSelection, columns, dataSource, pagination, onChange: this.handleTableChange };
+    return (
+      <Tabs activeKey={activeTab} className="hide-header-tabs">
+        <Tabs.TabPane tab="list" key="list">
+          <Row className="ant-advanced-search-form">
+            <FormQuery ref={(input) => { this.formQuery = input; }} />
+          </Row>
+          <Row className="ant-advanced-search-list">
+            <Button.Group style={{ marginBottom: '8px' }}>
+              {actions}
             </Button.Group>
-          </Col>
-        </Row>
-      </Tabs.TabPane>
-    </Tabs>
-  );
+            <Table bordered {...tableProps} />
+          </Row>
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="edit" key="edit">
+          <FormEditor ref={(input) => {
+            this.formEditor = input;
+            if (input && formData) {
+              input.setFieldsValue(formData);
+            }
+          }} />
+          <Row>
+            <Col span={12} offset={12} style={{ textAlign: 'right' }}>
+              <Button.Group>
+                <Button type="primary" icon="check" onClick={this.handleModalOk}>确定</Button>
+                <Button icon="rollback" onClick={this.goList} style={{ marginLeft: '12px' }}>返回</Button>
+              </Button.Group>
+            </Col>
+          </Row>
+        </Tabs.TabPane>
+      </Tabs>
+    );
+  }
 }
 
 function mapStateToProps(state) {
