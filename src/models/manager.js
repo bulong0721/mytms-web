@@ -1,52 +1,36 @@
 import { query, save } from '../services/manager';
 import { Modal, notification } from 'antd';
+import MgrCtx from './mgrCtx';
+
+const getMgrCtx = (state, tableName) => {
+  state.tableName = tableName;
+  const { propMap } = state;
+  let mgrCtx = propMap.get(tableName);
+  if (!mgrCtx) {
+    mgrCtx = new MgrCtx();
+    propMap.set(tableName, mgrCtx);
+  }
+  return mgrCtx;
+};
 
 export default {
   namespace: 'manager',
 
   state: {
-    modalVisible: false,
-    modalTitle: '新增',
-    modalAction: '',
-    modalFormData: {},
-    modalComponent: null,
-    popupEditor: true,
-    selectedRowKeys: [],
-    dataSource: [],
-    subDataSource: [],
-    previewVisible: false,
-    previewImages: [],
-    expand: false,
-    pagination: {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      showTotal: total => `共 ${total} 条`,
-      current: 1,
-      total: null,
-    },
+    tableName: null,
+    propMap: new Map()
   },
 
   subscriptions: {
-    setup({ dispatch, history }) {
-      let last = null;
-      history.listen(location => {
-        if (location != last) {
-          dispatch({ type: 'tableChanged', });
-        }
-        last = location;
-      });
-    }
   },
 
   effects: {
-    *query({ tableName, payload }, { call, put }) {
-      const data = yield call(query, tableName, payload);
+    *query({ tableName, payload, pagination }, { call, put }) {
+      const params = { ...payload, ...pagination };
+      const data = yield call(query, tableName, params);
       if (data) {
         yield put({
-          type: 'querySuccess',
-          payload: {
-            data: data.list
-          }
+          type: 'querySuccess', tableName, payload: data
         });
       }
     },
@@ -81,73 +65,40 @@ export default {
   },
 
   reducers: {
-    tableChanged(state, action) {
-      return {
-        modalVisible: false,
-        modalTitle: '新增',
-        modalAction: '',
-        modalFormData: {},
-        modalComponent: null,
-        popupEditor: true,
-        selectedRowKeys: [],
-        dataSource: [],
-        subDataSource: [],
-        previewVisible: false,
-        previewImages: [],
-        expand: false,
-        pagination: {
-          showSizeChanger: true,
-          showQuickJumper: true,
-          showTotal: total => `共 ${total} 条`,
-          current: 1,
-          total: null,
-        },
-      };
+    querySuccess(state, { tableName, payload }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.setMainSource(payload);
+      return { ...state };
     },
-    querySuccess(state, action) {
-      return {
-        ...state,
-        dataSource: action.payload.data
-      };
+
+    toggleFilter(state, { tableName }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.toggleFilter();
+      return { ...state };
     },
-    handleToggle(state, action) {
-      return {
-        ...state,
-        expand: !state.expand
-      };
+
+    selectedChange(state, { tableName, payload }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.selectedChange(payload);
+      return { ...state };
     },
-    selectChange(state, action) {
-      return {
-        ...state,
-        selectedRowKeys: action.payload
-      }
+
+    goEditor(state, { tableName, ...payload }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.goEditor(payload);
+      return { ...state };
     },
-    showModal(state, action) {
-      return {
-        ...state,
-        popupEditor: action.popupEditor,
-        modalVisible: true,
-        modalTitle: action.title,
-        modalAction: action.action,
-        modalFormData: action.payload || action.record,
-        subDataSource: action.subDataSource,
-        modalComponent: action.component
-      }
+
+    goList(state, { tableName, payload }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.goList(payload);
+      return { ...state };
     },
-    hideModal(state, action) {
-      return {
-        ...state,
-        modalVisible: false,
-        modalFormData: {}
-      };
+
+    newNested(state, { tableName, subField }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.newNested(subField);
+      return { ...state };
     },
-    handleNewSub(state, action) {
-      const { subDataSource } = state;
-      subDataSource.push({ $editable: true, notAsFilter: true });
-      return {
-        ...state,
-        subDataSource: subDataSource
-      };
-    }
   }
 }

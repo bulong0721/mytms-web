@@ -65,13 +65,18 @@ const Manager = ({ dispatch, manager, loading, route }) => {
     dispatch({ type: 'manager/hideModal' });
   };
 
-  const { expand, dataSource, subDataSource, tableLoading, selectedRowKeys, modalTitle, modalVisible, modalFormData, modalComponent, popupEditor, pagination } = manager;
+  const handleTableChange = (pagination, filters, sorter) => {
+    const filter = formQuery.getFieldsValue();
+    dispatch({ type: 'manager/query', tableName, payload: filter, pagination });
+  };
+
+  const { expand, dataSource, subDataSource, selectedRowKeys, modalVisible, modalFormData, modalComponent, popupEditor, pagination } = manager;
   const container = { handlePageAction, handleRowAction, selectedRowKeys, subDataSource, handleNewSub };
   const { schema, primary, columns, filters, editors, actions, subPrimary, subColumns } = Builder.parseByTable(tableName, container);
   const FormQuery = Builder.buildQueryForm(filters, { expand, handleQuery, handleToggle });
   const FormEditor = popupEditor ? Builder.buildEditorForm(editors) : modalComponent;
   const rowSelection = { selectedRowKeys: selectedRowKeys, onChange: onTableSelectChange, };
-  const tableProps = { rowKey: 'id', rowSelection, columns, dataSource, pagination };
+  const tableProps = { rowKey: 'id', rowSelection, columns, dataSource, pagination, onChange: handleTableChange };
   return (
     <Tabs activeKey={modalVisible ? "edit" : "list"} className="hide-header-tabs">
       <Tabs.TabPane tab="list" key="list">

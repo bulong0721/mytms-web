@@ -35,7 +35,7 @@ const AddOrder = () => {
 
   return (
     <div>
-      <EditableTable ref={handleInit} editable={editable} columns={columns} dataSource={dataSource} />
+      {/*<EditableTable primary={{ key: 'name' }} ref={handleInit} editable={editable} columns={columns} dataSource={dataSource} />*/}
       <Button onClick={handleSumbit}>提交</Button>
     </div>
   );

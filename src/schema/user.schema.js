@@ -12,10 +12,10 @@ module.exports = {
         {
           key: 'loginName',
           title: '账号',
-          showType: 'normal',
+          showType: 'input',
         },
         {
-          key: 'userName',
+          key: 'name',
           title: '姓名',
           showType: 'normal',
           render: (text) => <Tag color="pink">{text}</Tag>
@@ -23,14 +23,14 @@ module.exports = {
         {
           key: 'mobile',
           title: '电话号码',
-          showType: 'normal',
+          showType: 'input',
           addonBefore: '+86',
           notAsFilter: true,
         },
         {
           key: 'email',
           title: '电子邮件',
-          showType: 'normal',
+          showType: 'input',
           notAsFilter: true,
         },
         {

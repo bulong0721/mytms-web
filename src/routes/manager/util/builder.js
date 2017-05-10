@@ -36,12 +36,12 @@ const Builder = {
   },
 
   buildQueryForm(filterFields, container) {
-    const { handleQuery, handleToggle, expand } = container;
+    const { handleQuery, toggleFilter, expandAll } = container;
     return Form.create()(
       props => {
         const { getFieldDecorator } = props.form;
         const children = filterFields.map(field => field(getFieldDecorator));
-        const count = expand ? 100 : 8;
+        const count = expandAll ? 100 : 8;
         const handleReset = () => props.form.resetFields();
         return (
           <Form>
@@ -53,7 +53,7 @@ const Builder = {
                 <Button.Group>
                   <Button type="primary" onClick={handleQuery}><Icon type="search" />查询</Button>
                   <Button onClick={handleReset}><Icon type="cross" />清除</Button>
-                  <Button onClick={handleToggle}>{expand ? '精简' : '更多'}<Icon type={expand ? 'up' : 'down'} /></Button>
+                  <Button onClick={toggleFilter}>{expandAll ? '精简' : '更多'}<Icon type={expandAll ? 'up' : 'down'} /></Button>
                 </Button.Group>
               </Col>
             </Row>
@@ -262,6 +262,7 @@ const Builder = {
     delete option.notAsColumn;
     delete option.notAsEditor;
     delete option.disabled;
+    delete option.defaultValue;
     return option;
   },
 
