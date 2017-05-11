@@ -86,14 +86,14 @@ class Manager extends React.Component {
   };
 
   handleModalOk = () => {
-    const { dispatch, mgrCtx: { editAction }, tableName } = this.getMgrCtx();
+    const { dispatch, mgrCtx, mgrCtx: { editAction }, tableName } = this.getMgrCtx();
     let allError = null;
     this.formEditor.validateFields(errors => {
       allError = errors;
     });
     if (!allError) {
       const data = this.formEditor.getFieldsValue();
-      dispatch({ type: editAction, tableName, payload: data });
+      dispatch({ type: editAction, tableName, payload: data, mgrCtx });
     }
   };
 
