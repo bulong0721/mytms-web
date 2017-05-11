@@ -109,8 +109,8 @@ const Builder = {
     const buildNestedTable = (nested) => {
       const { table: { key, title, tableName }, primary, columns, filters, editors } = nested;
       const dataSource = context.getNestedSource(key);
-      const { newNestedRecord } = component;
-      return <EditableTable bordered parentKey={key} dataSource={dataSource} columns={columns} addNew={newNestedRecord} primary={primary} />;
+      const { newNestedRecord, removeNestedAt } = component;
+      return <EditableTable bordered parentKey={key} dataSource={dataSource} columns={columns} addNew={newNestedRecord} removeAt={removeNestedAt} primary={primary} />;
     };
     if (nestedTables.length > 1) {
       return getFieldDecorator => (
@@ -140,12 +140,13 @@ const Builder = {
 
   parseBySchema(schema, context, component) {
     const { handlePageAction, handleRowAction, newNestedRecord } = component;
-    const { selectedRowKeys } = context;
+    const { selectedRowKeys, nestedFields } = context;
     const { tableName, nestedTables, nestedIndex } = schema;
     let mainTable = this.build4Table(schema, component);
     const { editors } = mainTable;
     if (nestedTables) {
       const nesteds = nestedTables.map(table => {
+        nestedFields.add(table.key);
         return this.build4Table(table, component);
       });
       editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nesteds, context, component));

@@ -15,6 +15,13 @@ class EditableTable extends React.Component {
     }
   }
 
+  removeAt(index) {
+    const { removeAt, parentKey } = this.props;
+    if (removeAt) {
+      removeAt(parentKey, index);
+    }
+  }
+
   actionColumn = {
     title: <Button type="danger" size='small' onClick={this.addNew.bind(this)}>新增</Button>,
     width: 100,
@@ -35,7 +42,7 @@ class EditableTable extends React.Component {
             <span>
               <a onClick={() => this.edit(index, record)}>编辑</a>
               <span className="ant-divider" />
-              <Popconfirm title="确定删除吗?" onConfirm={() => this.editDone(index, record, 'cancel')}>
+              <Popconfirm title="确定删除吗?" onConfirm={() => this.removeAt(index)}>
                 <a>删除</a>
               </Popconfirm>
             </span>

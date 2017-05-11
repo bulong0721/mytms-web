@@ -70,9 +70,19 @@ class Manager extends React.Component {
     };
   };
 
+  queryNested = (subField, parentRecord) => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/queryNested', tableName, subField, parentRecord });
+  };
+
   newNestedRecord = (subField) => {
     const { dispatch, route: { tableName } } = this.props;
     dispatch({ type: 'manager/newNested', tableName, subField });
+  };
+
+  removeNestedAt = (subField, index) => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/removeNestedAt', tableName, subField, index });
   };
 
   handleModalOk = () => {

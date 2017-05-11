@@ -6,7 +6,7 @@ export default class MgrCtx {
   useEditor = true;
   selectedRowKeys = [];
   dataSource = [];
-  nestedFields = [];
+  nestedFields = new Set();
   nestedSources = new Map();
   expandAll = false;
   pagination = {
@@ -32,6 +32,12 @@ export default class MgrCtx {
     this.formData = payload || record;
     this.editComponent = component;
     this.editAction = action;
+    if (this.formData) {
+      this.nestedFields.forEach(subField => {
+        const dataSource = this.formData[subField];
+        this.setNestedSource(subField, dataSource || []);
+      });
+    }
   };
 
   goList = () => {
@@ -41,6 +47,11 @@ export default class MgrCtx {
   newNested = (subField) => {
     const dataSource = this.getNestedSource(subField);
     dataSource.push({ $editable: true });
+  };
+
+  removeNestedAt = (subField, index) => {
+    const dataSource = this.getNestedSource(subField);
+    dataSource.splice(index, 1);
   };
 
   setMainSource = (result) => {

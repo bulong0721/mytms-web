@@ -100,5 +100,11 @@ export default {
       mgrCtx.newNested(subField);
       return { ...state };
     },
+
+    removeNestedAt(state, { tableName, subField, index }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.removeNestedAt(subField);
+      return { ...state };
+    },
   }
 }
