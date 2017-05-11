@@ -1,9 +1,9 @@
 module.exports = {
-  name: '云帆物流',
+  name: '营运系统',
   prefix: 'maintenance',
-  footerText: '云帆物流有限公司 版权所有 © 2015-2017',
+  footerText: '上海嗨酷强供应链信息技术有限公司 版权所有 沪ICP备16042340号',
   logoSrc: 'images/antd.png',
-  logoText: '云帆物流',
+  logoText: '营运系统',
   needLogin: true,
   
   api: {  // 对后端请求的相关配置

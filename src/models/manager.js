@@ -35,7 +35,7 @@ export default {
       }
     },
     *save({ tableName, payload }, { call, put }) {
-      yield put({ type: 'hideModal' });
+      yield put({ type: 'goList', tableName });
       const success = yield call(save, tableName, payload);
     },
     *delete({ tableName, payload }, { call, put }) {

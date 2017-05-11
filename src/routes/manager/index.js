@@ -47,22 +47,18 @@ class Manager extends React.Component {
     dispatch({ type: 'manager/selectedChange', tableName, payload: selectedRowKeys });
   };
 
-  handleRowAction = ({ action, popupEditor, component, title, $schema }) => {
+  handleRowAction = ({ action, popupEditor, component, title }) => {
     const { dispatch, route: { tableName } } = this.props;
     return (text, record, index) => {
       if (component || popupEditor) {
-        let subDataSource = [];
-        if ($schema.subTable) {
-          subDataSource = record[$schema.subTable.key];
-        }
-        dispatch({ type: 'manager/goEditor', tableName, title, action, record, component, popupEditor, subDataSource });
+        dispatch({ type: 'manager/goEditor', tableName, title, action, record, component, popupEditor });
       } else {
         dispatch({ type: action, payload: { text, record, index, tableName } });
       }
     };
   };
 
-  handlePageAction = ({ action, popupEditor, component, title, $schema }) => {
+  handlePageAction = ({ action, popupEditor, component, title }) => {
     const { dispatch, mgrCtx: { selectedRowKeys, dataSource }, tableName } = this.getMgrCtx();
     return (e) => {
       if (component || popupEditor) {
@@ -74,20 +70,20 @@ class Manager extends React.Component {
     };
   };
 
-  newNested = () => {
+  newNestedRecord = (subField) => {
     const { dispatch, route: { tableName } } = this.props;
-    dispatch({ type: 'manager/newNested', tableName });
+    dispatch({ type: 'manager/newNested', tableName, subField });
   };
 
   handleModalOk = () => {
-    const { dispatch, route: { tableName }, manager: { modalAction } } = this.props;
+    const { dispatch, mgrCtx: { editAction }, tableName } = this.getMgrCtx();
     let allError = null;
     this.formEditor.validateFields(errors => {
       allError = errors;
     });
     if (!allError) {
       const data = this.formEditor.getFieldsValue();
-      dispatch({ type: modalAction, tableName, payload: data });
+      dispatch({ type: editAction, tableName, payload: data });
     }
   };
 
@@ -98,8 +94,10 @@ class Manager extends React.Component {
 
   handleTableChange = (pagination, filters, sorter) => {
     const { dispatch, route: { tableName } } = this.props;
-    const filter = formQuery.getFieldsValue();
-    dispatch({ type: 'manager/query', tableName, payload: filter, pagination });
+    if (this.formQuery) {
+      const filter = this.formQuery.getFieldsValue();
+      dispatch({ type: 'manager/query', tableName, payload: filter, pagination });
+    }
   };
 
   queryForm = null;
@@ -121,11 +119,11 @@ class Manager extends React.Component {
   render() {
     const { mgrCtx, tableName } = this.getMgrCtx();
     const { activeTab, formData, editComponent, editAction, useEditor, selectedRowKeys, dataSource, nestedFields, nestedSources, expandAll, pagination } = mgrCtx;
-    const { schema, primary, columns, filters, editors, actions, subPrimary, subColumns } = Builder.parseByTable(tableName, this);
+    const { schema, primary, columns, filters, editors, actions } = Builder.parseByTable(tableName, mgrCtx, this);
     const FormQuery = this.getQueryForm(filters);
     const FormEditor = useEditor ? Builder.buildEditorForm(editors) : editComponent;
     const rowSelection = { selectedRowKeys: selectedRowKeys, onChange: this.tableSelectChange, };
-    const tableProps = { rowKey: 'id', rowSelection, columns, dataSource, pagination, onChange: this.handleTableChange };
+    const tableProps = { rowKey: primary ? primary.key : 'id', rowSelection, columns, dataSource, pagination, onChange: this.handleTableChange };
     return (
       <Tabs activeKey={activeTab} className="hide-header-tabs">
         <Tabs.TabPane tab="list" key="list">

@@ -46,57 +46,60 @@ module.exports = {
       ]
     }
   ],
-  subTable: {
-    key: 'fields',
-    title: '字段',
-    child: [
-      {
-        key: 'id',
-        title: 'ID',
-        showType: 'ID',
-        disabled: true,
-      },
-      {
-        key: 'name',
-        title: '字段名',
-        showType: 'input',
-      },
-      {
-        key: 'title',
-        title: '标题',
-        showType: 'input',
-      },
-      {
-        key: 'showType',
-        title: '显示类型',
-        showType: 'select',
-        options: OptionConstants.showType,
-        defaultValue: 'input'
-      },
-      {
-        key: 'notAsFilter',
-        title: '过滤条件',
-        showType: 'switch',
-        render: Formatter.yesOrNo
-      },
-      {
-        key: 'notAsColumn',
-        title: '主表列',
-        showType: 'switch',
-        render: Formatter.yesOrNo
-      },
-      {
-        key: 'notAsEditor',
-        title: '编辑字段',
-        showType: 'switch',
-        render: Formatter.yesOrNo
-      },
-      {
-        key: 'disabled',
-        title: '只读字段',
-        showType: 'switch',
-        render: Formatter.yesOrNo
-      },
-    ]
-  }
+  nestedTables: [
+    {
+      key: 'fields',
+      tableName: 'field',
+      title: '字段',
+      fields: [
+        {
+          key: 'id',
+          title: 'ID',
+          showType: 'ID',
+          disabled: true,
+        },
+        {
+          key: 'name',
+          title: '字段名',
+          showType: 'input',
+        },
+        {
+          key: 'title',
+          title: '标题',
+          showType: 'input',
+        },
+        {
+          key: 'showType',
+          title: '显示类型',
+          showType: 'select',
+          options: OptionConstants.showType,
+          defaultValue: 'input'
+        },
+        {
+          key: 'notAsFilter',
+          title: '过滤条件',
+          showType: 'switch',
+          render: Formatter.yesOrNo
+        },
+        {
+          key: 'notAsColumn',
+          title: '主表列',
+          showType: 'switch',
+          render: Formatter.yesOrNo
+        },
+        {
+          key: 'notAsEditor',
+          title: '编辑字段',
+          showType: 'switch',
+          render: Formatter.yesOrNo
+        },
+        {
+          key: 'disabled',
+          title: '只读字段',
+          showType: 'switch',
+          render: Formatter.yesOrNo
+        },
+      ]
+    }
+  ]
 }

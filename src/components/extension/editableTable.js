@@ -9,9 +9,9 @@ class EditableTable extends React.Component {
   };
 
   addNew() {
-    const { addNew } = this.props;
+    const { addNew, parentKey } = this.props;
     if (addNew) {
-      addNew();
+      addNew(parentKey);
     }
   }
 

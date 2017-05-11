@@ -12,7 +12,7 @@ const Renders = {
   },
 
   bindRender(tableName, columns, container) {
-    const { handleRowAction, primaryKey, schema } = container;
+    const { handleRowAction, primaryKey } = container;
     if (this.tableNameSet.has(tableName)) {
       return tableSchema;
     }
@@ -29,7 +29,7 @@ const Renders = {
       } else if (field.showType === 'file') {
         // col.render = this.getFileRender;
       } else if (field.showType === 'actions' && field.actions && field.actions.length > 0) {
-        col.render = this.getActionRender(schema, field, primaryKey)(handleRowAction);
+        col.render = this.getActionRender(field, primaryKey)(handleRowAction);
       }
     });
 
@@ -69,7 +69,7 @@ const Renders = {
     return null;
   },
 
-  getActionRender(schema, field, primaryKey) {
+  getActionRender(field, primaryKey) {
     return (handleRowAction) => (text, record, index) => {
       const actions = field.actions;
       const elements = [];
@@ -79,7 +79,6 @@ const Renders = {
           elements.push(<br key={index} />);
           return;
         }
-        action.$schema = schema;
         let elem = <a href="#" key={index} onClick={e => { e.preventDefault(); handleRowAction(action)(text, record, index); }}>
           {action.title}
         </a>;

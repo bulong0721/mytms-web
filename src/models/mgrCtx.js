@@ -51,9 +51,10 @@ export default class MgrCtx {
   };
 
   getNestedSource = (subField) => {
-    const data = this.nestedSources.get(subField);
+    let data = this.nestedSources.get(subField);
     if (null == data) {
-      this.nestedSources.set(subField, []);
+      data = [];
+      this.nestedSources.set(subField, data);
     }
     return data;
   };

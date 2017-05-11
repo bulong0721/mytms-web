@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Row, Col, DatePicker, Switch, Select, Icon, Radio, Collapse, Table, InputNumber, Checkbox, Cascader, Button, notification } from 'antd';
+import { Tabs, Form, Input, Row, Col, DatePicker, Switch, Select, Icon, Radio, Collapse, Table, InputNumber, Checkbox, Cascader, Button, notification } from 'antd';
 import moment from 'moment';
 import Renders from './renders';
 import EditableTable from '../../../components/extension/editableTable';
@@ -77,25 +77,18 @@ const Builder = {
     );
   },
 
-  parseByTable(tableName, component) {
+  parseByTable(tableName, context, component) {
     const schema = this.getLocalSchema(tableName);
-    const result = this.parseBySchema(schema, component);
-    const { primary, columns, filters, editors, actions } = result;
-    Renders.bindRender(tableName, columns, { ...component, primary, schema });
-    return result;
+    return this.parseBySchema(schema, context, component);
   },
 
-  parseBySchema(schema, component) {
-    const { handlePageAction, handleRowAction, selectedRowKeys, subDataSource, handleNewSub } = component;
-    const { tableName, subTable } = schema;
+  build4Table(table, component) {
     let columns = [];
     let filters = [];
     let editors = [];
-    let actions = [];
     let primary = null;
-    let subPrimary = null;
-    let subColumns = [];
-    schema.fields.forEach((field) => {
+    const { tableName, fields } = table;
+    fields.forEach((field) => {
       this.generateElement(field, columns, filters, editors);
       if ('ID' === field.showType) {
         primary = field;
@@ -108,23 +101,56 @@ const Builder = {
         editors.push(this.buildCollapse(field, subEditors));
       }
     });
-    if (subTable) {
-      const subFields = subTable.child;
-      subFields.forEach((subField) => {
-        if ('ID' === subField.showType) {
-          subPrimary = subField;
-        }
-        this.generateElement(subField, subColumns, [], []);
-      });
-      Renders.bindRender(`${tableName}_${subTable.key}`, subColumns, { ...component, subPrimary, schema });
-      const subList = this.buildSubTable(subTable, subPrimary, subColumns, subDataSource, handleNewSub);
-      if (subTable.position) {
-        editors.splice(subTable.position, 0, subList);
-      } else {
-        editors.push(subList);
-      }
+    Renders.bindRender(tableName, columns, { ...component, primary });
+    return { table, primary, columns, filters, editors };
+  },
+
+  buildNestedEditor(nestedTables, context, component) {
+    const buildNestedTable = (nested) => {
+      const { table: { key, title, tableName }, primary, columns, filters, editors } = nested;
+      const dataSource = context.getNestedSource(key);
+      const { newNestedRecord } = component;
+      return <EditableTable bordered parentKey={key} dataSource={dataSource} columns={columns} addNew={newNestedRecord} primary={primary} />;
+    };
+    if (nestedTables.length > 1) {
+      return getFieldDecorator => (
+        <Tabs type="card" className="ant-layout-tab">
+          {nestedTables.map(nested => {
+            const { table: { key, title, tableName } } = nested;
+            return (
+              <Tabs.TabPane tab={title} key={key}>
+                {buildNestedTable(nested)}
+              </Tabs.TabPane>
+            );
+          })
+          }
+        </Tabs>
+      );
     }
-    actions = schema.actions.map((action, index) => {
+    const nested = nestedTables[0];
+    const { table: { key, title, tableName } } = nested;
+    return getFieldDecorator => (
+      <Collapse defaultActiveKey={key} key={key}>
+        <Collapse.Panel header={title} key={key} className="collapse-space-table">
+          {buildNestedTable(nested)}
+        </Collapse.Panel>
+      </Collapse>
+    );
+  },
+
+  parseBySchema(schema, context, component) {
+    const { handlePageAction, handleRowAction, newNestedRecord } = component;
+    const { selectedRowKeys } = context;
+    const { tableName, nestedTables, nestedIndex } = schema;
+    let mainTable = this.build4Table(schema, component);
+    const { editors } = mainTable;
+    if (nestedTables) {
+      const nesteds = nestedTables.map(table => {
+        return this.build4Table(table, component);
+      });
+      editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nesteds, context, component));
+    }
+    const actions = schema.actions.map((action, index) => {
       action.$schema = schema;
       const { icon, title, type, target } = action;
       const disabled = 'rows' === target ? selectedRowKeys.length <= 0 : false;
@@ -135,25 +161,8 @@ const Builder = {
       );
     });
     return {
-      schema,
-      primary,
-      columns,
-      filters,
-      editors,
-      actions,
-      subPrimary,
-      subColumns,
+      schema, actions, ...mainTable
     };
-  },
-
-  buildSubTable(field, primary, columns, dataSource, handleNewSub) {
-    return getFieldDecorator => (
-      <Collapse defaultActiveKey={field.activeKey || '1'} key={field.title}>
-        <Collapse.Panel header={field.title} key="1" className="collapse-space-table">
-          <EditableTable bordered dataSource={dataSource} columns={columns} addNew={handleNewSub} primary={primary} />
-        </Collapse.Panel>
-      </Collapse>
-    );
   },
 
   generateElement(field, columns, filters, editors) {

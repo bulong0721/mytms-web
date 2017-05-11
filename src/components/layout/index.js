@@ -35,6 +35,8 @@ Viewport.propTypes = {
   children: PropTypes.element.isRequired
 }*/
 
+import Dashboard from '../../routes/dashboard';
+
 const menuMap = new Map();
 const traverseMenu = (prefix, item) => {
   const data = { name: item.name, icon: item.icon };
@@ -48,39 +50,49 @@ menu.forEach(item => traverseMenu('', item));
 
 class Viewport extends React.Component {
   currentTabKey = null;
-  tabPanes = [];
+  tabPanes = [
+    { key: '/dashboard/dashboard', title: <span><Icon type="home" />主页</span>, content: <Dashboard /> }
+  ];
 
-  componentWillReceiveProps(nextProps) {
-    const action = this.props.location.action;
-    if (action === 'PUSH') {
-      return;
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const action = this.props.location.action;
+  //   if (action === 'PUSH') {
+  //     return;
+  //   }
 
-  updateTab({ pathname }, children) {
-    this.currentTabKey = pathname;
+  //   const { location, children } = this.props;
+  //   console.log(location, children);
+  //   this.activeTab(location, children);
+  // }
+
+  // componentWillMount() {
+  //   const { location, children } = this.props;
+  //   this.activeTab(location, children);
+  // }
+
+  activeTab({ pathname }, children) {
     for (const pane of this.tabPanes) {
       if (pane.key === pathname) {
-        return pathname;
+        return;
       }
     }
     const item = menuMap.get(pathname);
     if (item) {
-      const title = <span className="ant-layout-tab-text"><Icon type={item.icon} />{item.name}</span>;
+      const title = <span><Icon type={item.icon} />{item.name}</span>;
       this.tabPanes.push({
         key: pathname, title: title, content: children,
       });
     }
-    return pathname;
+    this.state.currentTabKey = pathname;
   }
 
   state = {
-    version: 0
+    currentTabKey: ''
   };
 
   onTabRemove = (targetKey) => {
-    let nextTabKey = this.currentTabKey;
-    if (this.currentTabKey === targetKey) {
+    let nextTabKey = this.state.currentTabKey;
+    if (this.state.currentTabKey === targetKey) {
       let currentTabIndex = -1;
       this.tabPanes.forEach((pane, i) => {
         if (pane.key === targetKey) {
@@ -96,18 +108,16 @@ class Viewport extends React.Component {
     }
     const newTabPanes = this.tabPanes.filter(pane => pane.key !== targetKey);
     this.tabPanes = newTabPanes;
-    this.currentTabKey = nextTabKey;
-    this.setState({ version: 1 });
+    this.setState({ currentTabKey: nextTabKey });
   };
 
   onTabChange = (activeKey) => {
-    this.currentTabKey = activeKey;
-    this.setState({ version: 1 });
+    this.setState({ currentTabKey: activeKey });
   };
 
   render() {
     const { children, location, isNavbar, siderFold, darkTheme } = this.props;
-    const currentTabKey = this.updateTab(location, children);
+    this.activeTab(location, children);
     return (
       <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>
         {!isNavbar ? <aside className={classnames(styles.sider, { [styles.light]: !darkTheme })}>
@@ -118,7 +128,7 @@ class Viewport extends React.Component {
           {/*<Bread location={location} />*/}
           <div className={styles.container}>
             <div className={styles.content}>
-              <Tabs activeKey={currentTabKey} type="editable-card" onEdit={this.onTabRemove} onChange={this.onTabChange} hideAdd className="ant-layout-tab">
+              <Tabs activeKey={this.state.currentTabKey} type="editable-card" onEdit={this.onTabRemove} onChange={this.onTabChange} hideAdd className="ant-layout-tab">
                 {this.tabPanes.map(pane => <Tabs.TabPane tab={pane.title} key={pane.key} closable={true}>
                   {pane.content}
                 </Tabs.TabPane>)}

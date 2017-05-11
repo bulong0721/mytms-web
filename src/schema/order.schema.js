@@ -255,62 +255,123 @@ module.exports = {
       ]
     }
   ],
-  subTable: {
-    key: 'lines',
-    title: '货物信息',
-    position: 2,
-    child: [
-      {
-        key: 'id',
-        title: '行号',
-        showType: 'ID',
-      },
-      {
-        key: 'name',
-        title: '货物',
-        showType: 'input',
-      },
-      {
-        key: 'addrType',
-        title: '包装单位',
-        showType: 'select',
-        options: [{ key: '1', value: '件' }, { key: '2', value: '包' }, { key: '3', value: '箱' }, { key: '4', value: '托' }],
-        defaultValue: '1',
-      },
-      {
-        key: 'pcc',
-        title: '件数',
-        showType: 'number',
-      },
-      {
-        key: 'address',
-        title: '重量(Kg)',
-        showType: 'number',
-      },
-      {
-        key: 'contact',
-        title: '体积(m³)',
-        showType: 'number',
-      },
-      {
-        key: 'contactPhone',
-        title: '单价',
-        showType: 'number',
-      },
-      {
-        key: 'contactPhone2',
-        title: '金额',
-        showType: 'number',
-      },
-      {
-        showType: 'actions',
-        title: '操作',
-        width: 150,
-        actions: [
-          { icon: 'edit', title: '修改', action: 'app/handleMgrTest', popupEditor: true },
-          { icon: 'delete', title: '删除', action: 'app/handleMgrTest' },
-        ]
-      }
-    ]
-  }
+  nestedIndex: 2,
+  nestedTables: [
+    {
+      key: 'lines',
+      tableName: 'orderLine',
+      title: '货物信息',
+      fields: [
+        {
+          key: 'id',
+          title: '行号',
+          showType: 'ID',
+        },
+        {
+          key: 'name',
+          title: '货物',
+          showType: 'input',
+        },
+        {
+          key: 'addrType',
+          title: '包装单位',
+          showType: 'select',
+          options: [{ key: '1', value: '件' }, { key: '2', value: '包' }, { key: '3', value: '箱' }, { key: '4', value: '托' }],
+          defaultValue: '1',
+        },
+        {
+          key: 'pcc',
+          title: '件数',
+          showType: 'number',
+        },
+        {
+          key: 'address',
+          title: '重量(Kg)',
+          showType: 'number',
+        },
+        {
+          key: 'contact',
+          title: '体积(m³)',
+          showType: 'number',
+        },
+        {
+          key: 'contactPhone',
+          title: '单价',
+          showType: 'number',
+        },
+        {
+          key: 'contactPhone2',
+          title: '金额',
+          showType: 'number',
+        },
+        {
+          showType: 'actions',
+          title: '操作',
+          width: 150,
+          actions: [
+            { icon: 'edit', title: '修改', action: 'app/handleMgrTest', popupEditor: true },
+            { icon: 'delete', title: '删除', action: 'app/handleMgrTest' },
+          ]
+        }
+      ]
+    },
+    {
+      key: 'lines2',
+      tableName: 'orderLine2',
+      title: '货物信息2',
+      fields: [
+        {
+          key: 'id',
+          title: '行号',
+          showType: 'ID',
+        },
+        {
+          key: 'name',
+          title: '货物',
+          showType: 'input',
+        },
+        {
+          key: 'addrType',
+          title: '包装单位',
+          showType: 'select',
+          options: [{ key: '1', value: '件' }, { key: '2', value: '包' }, { key: '3', value: '箱' }, { key: '4', value: '托' }],
+          defaultValue: '1',
+        },
+        {
+          key: 'pcc',
+          title: '件数',
+          showType: 'number',
+        },
+        {
+          key: 'address',
+          title: '重量(Kg)',
+          showType: 'number',
+        },
+        {
+          key: 'contact',
+          title: '体积(m³)',
+          showType: 'number',
+        },
+        {
+          key: 'contactPhone',
+          title: '单价',
+          showType: 'number',
+        },
+        {
+          key: 'contactPhone2',
+          title: '金额',
+          showType: 'number',
+        },
+        {
+          showType: 'actions',
+          title: '操作',
+          width: 150,
+          actions: [
+            { icon: 'edit', title: '修改', action: 'app/handleMgrTest', popupEditor: true },
+            { icon: 'delete', title: '删除', action: 'app/handleMgrTest' },
+          ]
+        }
+      ]
+    }
+  ]
 }
