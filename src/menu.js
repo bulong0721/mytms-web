@@ -1,5 +1,19 @@
 module.exports = [
   {
+    key: 'customer',
+    name: '客户关系管理',
+    icon: 'team',
+    child: [
+      { key: 'customer', name: '客户管理', icon: 'user' },
+      { key: 'group', name: '客户群管理', icon: 'usergroup-add' },
+      { key: 'line', name: '线路管理', icon: 'share-alt' },
+      { key: 'driver', name: '司机管理', icon: 'idcard' },
+      { key: 'equipment', name: '设备管理', icon: 'hdd' },
+      { key: 'vehicle', name: '车辆管理', icon: 'car' },
+      { key: 'warehouse', name: '仓库管理', icon: 'shop' },
+    ]
+  },
+  {
     key: 'pickup',
     name: '接送货管理',
     icon: 'shopping-cart',

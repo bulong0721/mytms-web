@@ -6,12 +6,6 @@ import Builder from './util/builder';
 import styles from './index.less';
 
 class Manager extends React.Component {
-  // state = {
-  //   tableName: this.props.route.tableName,
-  //   mgrCtx: new MgrCtx(),
-  //   version: 0
-  // };
-
   formQuery = null;
   formEditor = null;
 

@@ -14,244 +14,211 @@ module.exports = {
 	editorSpan:8,
 	fields:[
 		{
-			key:'cvApproedLoad',
+			key:'cwAddress',
 			showType:'input',
-			title:'核定载量'
+			title:'地址'
 		},
 		{
-			key:'cvAuditStatus',
+			key:'cwAreaCode',
 			showType:'input',
-			title:'审核状态'
+			title:'区代码'
 		},
 		{
-			key:'cvAuditor',
+			key:'cwAreaName',
 			showType:'input',
-			title:'审核人'
+			title:'区名称'
 		},
 		{
-			key:'cvBrandModel',
-			showType:'input',
-			title:'品牌型号'
-		},
-		{
-			key:'cvBusinessPolicy',
-			showType:'input',
-			title:'商业险保单'
-		},
-		{
-			key:'cvCarOperationPic',
+			key:'cwCityCode',
 			notAsFilter:true,
 			showType:'input',
-			title:'车辆运营证'
+			title:'市代码'
 		},
 		{
-			key:'cvCarOwner',
+			key:'cwCityName',
 			notAsFilter:true,
 			showType:'input',
-			title:'行驶证车主'
+			title:'市名称'
 		},
 		{
-			key:'cvCarPic',
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆照片'
-		},
-		{
-			key:'cvCard',
-			notAsFilter:true,
-			showType:'input',
-			title:'车牌号'
-		},
-		{
-			key:'cvCarriageFormat',
-			notAsFilter:true,
-			showType:'input',
-			title:'车厢规格'
-		},
-		{
-			key:'cvCompany',
-			notAsFilter:true,
-			showType:'input',
-			title:'所属公司'
-		},
-		{
-			key:'cvCustomerCode',
+			key:'cwCustomerCode',
 			notAsFilter:true,
 			showType:'input',
 			title:'供应商代码'
 		},
 		{
-			key:'cvCustomerName',
+			key:'cwCustomerName',
 			notAsFilter:true,
 			showType:'input',
 			title:'供应商名称'
 		},
 		{
-			key:'cvCustomerPmCode',
+			key:'cwCustomerPmCode',
 			notAsFilter:true,
 			showType:'input',
 			title:'供应商PM代码'
 		},
 		{
-			key:'cvDrivingPic',
+			key:'cwFireAccept',
 			notAsFilter:true,
 			showType:'input',
-			title:'行驶证扫描件'
+			title:'消防验收证明图片'
 		},
 		{
-			key:'cvEngineNo',
-			notAsColumn:true,
+			key:'cwFirefight',
 			notAsFilter:true,
 			showType:'input',
-			title:'发动机号码'
+			title:'消防'
 		},
 		{
-			key:'cvEquipmentNum',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'number',
-			title:'温湿度探头个数'
-		},
-		{
-			key:'cvGpsManufacturer',
-			notAsColumn:true,
+			key:'cwGradeLabel',
 			notAsFilter:true,
 			showType:'input',
-			title:'GPS厂商'
+			title:'等级标签'
 		},
 		{
-			key:'cvHygroscopeManufacturer',
-			notAsColumn:true,
+			key:'cwLatitude',
 			notAsFilter:true,
 			showType:'input',
-			title:'湿度设备厂商'
+			title:'cwLatitude'
 		},
 		{
-			key:'cvIsGps',
-			notAsColumn:true,
+			key:'cwLongitude',
 			notAsFilter:true,
 			showType:'input',
-			title:'GPS'
+			title:'cwLongitude'
 		},
 		{
-			key:'cvIsHygroscop',
-			notAsColumn:true,
+			key:'cwMatchEquipment',
 			notAsFilter:true,
 			showType:'input',
-			title:'是否有湿度设备'
+			title:'配套设备'
 		},
 		{
-			key:'cvIsLoan',
+			key:'cwOperatePermit',
+			notAsFilter:true,
+			showType:'input',
+			title:'仓库经营许可证图'
+		},
+		{
+			key:'cwPropertyPhoto',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'是否贷款'
+			title:'产权证明图片'
 		},
 		{
-			key:'cvIsThermostat',
+			key:'cwProvinceCode',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'是否有温度设备'
+			title:'省代码'
 		},
 		{
-			key:'cvMaxTemp',
+			key:'cwProvinceName',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'最高温'
+			title:'省名称'
 		},
 		{
-			key:'cvMinTemp',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'最低温'
-		},
-		{
-			key:'cvOperateNo',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆运营证'
-		},
-		{
-			key:'cvRegdate',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'datetime',
-			title:'注册日期'
-		},
-		{
-			key:'cvRemark',
+			key:'cwRemark',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
 			title:'备注'
 		},
 		{
-			key:'cvServiceLife',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'number',
-			title:'使用年限'
-		},
-		{
-			key:'cvStrongPolicy',
+			key:'cwRentalAgreement',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'交强险保单'
+			title:'仓库租赁协议图片'
 		},
 		{
-			key:'cvThermostatManufacturer',
+			key:'cwSecurity',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'温控设备厂商'
+			title:'安保'
 		},
 		{
-			key:'cvVehicleLength',
+			key:'cwWhArea',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'车长'
+			title:'仓库面积'
 		},
 		{
-			key:'cvVehicleOwnership',
+			key:'cwWhCubage',
 			notAsColumn:true,
 			notAsFilter:true,
 			showType:'input',
-			title:'车辆归属'
+			title:'仓库容积'
 		},
 		{
-			key:'cvVehicleType',
+			key:'cwWhGround',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓内地面'
+		},
+		{
+			key:'cwWhHeight',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓内高度'
+		},
+		{
+			key:'cwWhName',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓库名称'
+		},
+		{
+			key:'cwWhNo',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓库编码'
+		},
+		{
+			key:'cwWhOperate',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓内运营'
+		},
+		{
+			key:'cwWhPhoto',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓库照片'
+		},
+		{
+			key:'cwWhPlan',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'仓库平面图'
+		},
+		{
+			key:'cwWhStructure',
+			notAsColumn:true,
+			notAsFilter:true,
+			showType:'input',
+			title:'主体结构'
+		},
+		{
+			key:'cwWhType',
 			notAsColumn:true,
 			notAsFilter:true,
 			options:[],
 			showType:'select',
-			title:'车辆类型'
-		},
-		{
-			key:'cvVin',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆识别代码'
-		},
-		{
-			key:'cvWarrantPic',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'保单扫描件'
-		},
-		{
-			key:'cvWeightLoad',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'核载提交'
+			title:'仓库类型'
 		},
 		{
 			disabled:true,

@@ -89,14 +89,14 @@ const Builder = {
     let primary = null;
     const { tableName, fields } = table;
     fields.forEach((field) => {
-      this.generateElement(field, columns, filters, editors);
+      this.generateElement(table, field, columns, filters, editors);
       if ('ID' === field.showType) {
         primary = field;
       }
       if (field.child) {
         const subEditors = [];
         field.child.forEach((subField) => {
-          this.generateElement(subField, columns, filters, subEditors);
+          this.generateElement(table, subField, columns, filters, subEditors);
         });
         editors.push(this.buildCollapse(field, subEditors));
       }
@@ -114,7 +114,7 @@ const Builder = {
     };
     if (nestedTables.length > 1) {
       return getFieldDecorator => (
-        <Tabs type="card" className="ant-layout-tab">
+        <Tabs type="card" className="ant-layout-tab" key="nestedTables">
           {nestedTables.map(nested => {
             const { table: { key, title, tableName } } = nested;
             return (
@@ -166,36 +166,36 @@ const Builder = {
     };
   },
 
-  generateElement(field, columns, filters, editors) {
+  generateElement(table, field, columns, filters, editors) {
     let filterField, editorField;
     switch (field.showType) {
       case 'radio':
-        filterField = this.buildRadio(field, 'filter');
-        editorField = this.buildRadio(field, 'editor');
+        filterField = this.buildRadio(table, field, 'filter');
+        editorField = this.buildRadio(table, field, 'editor');
         break;
       case 'number':
-        filterField = this.buildNumber(field, 'filter');
-        editorField = this.buildNumber(field, 'editor');
+        filterField = this.buildNumber(table, field, 'filter');
+        editorField = this.buildNumber(table, field, 'editor');
         break;
       case 'datetime':
-        filterField = this.buildDatetime(field, 'filter');
-        editorField = this.buildDatetime(field, 'editor');
+        filterField = this.buildDatetime(table, field, 'filter');
+        editorField = this.buildDatetime(table, field, 'editor');
         break;
       case 'switch':
-        filterField = this.buildSwitch(field, 'filter');
-        editorField = this.buildSwitch(field, 'editor');
+        filterField = this.buildSwitch(table, field, 'filter');
+        editorField = this.buildSwitch(table, field, 'editor');
         break;
       case 'select':
-        filterField = this.buildSelect(field, 'filter');
-        editorField = this.buildSelect(field, 'editor');
+        filterField = this.buildSelect(table, field, 'filter');
+        editorField = this.buildSelect(table, field, 'editor');
         break;
       case 'cascader':
-        filterField = this.buildCascader(field, 'filter');
-        editorField = this.buildCascader(field, 'editor');
+        filterField = this.buildCascader(table, field, 'filter');
+        editorField = this.buildCascader(table, field, 'editor');
         break;
       case 'placeholder':
-        filterField = this.buildPlaceholder(field, 'filter');
-        editorField = this.buildPlaceholder(field, 'editor');
+        filterField = this.buildPlaceholder(table, field, 'filter');
+        editorField = this.buildPlaceholder(table, field, 'editor');
         field.notAsColumn = true;
         break;
       case 'actions':
@@ -205,8 +205,8 @@ const Builder = {
       case 'collapse':
         return;
       default:
-        filterField = this.buildInput(field, 'filter');
-        editorField = this.buildInput(field, 'editor');
+        filterField = this.buildInput(table, field, 'filter');
+        editorField = this.buildInput(table, field, 'editor');
         break;
     }
     if (!field.notAsFilter && field.showType != 'collapse') {
@@ -244,10 +244,12 @@ const Builder = {
     };
   },
 
-  colWrapper(formItem, field, useFor) {
+  colWrapper(formItem, table, field, useFor) {
     const forFilter = useFor === 'filter';
+    const { filterSpan, editorSpan } = table;
+    const fieldSpan = forFilter ? filterSpan || 6 : editorSpan || 12;
     return getFieldDecorator => (
-      <Col key={field.key} span={forFilter ? 6 : 12}>
+      <Col key={field.key} span={fieldSpan}>
         <FormItem key={field.key} label={field.title} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
           {formItem(getFieldDecorator)}
         </FormItem>
@@ -276,73 +278,73 @@ const Builder = {
     return option;
   },
 
-  buildRadio(field, useFor) {
+  buildRadio(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const options = field.options.map((option) =>
       <Radio disabled={fieldOpts.disabled} key={option.key} value={option.key}>{option.value}</Radio>
     );
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <RadioGroup>{options}</RadioGroup>
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper, options };
   },
 
-  buildNumber(field, useFor) {
+  buildNumber(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <InputNumber {...fieldOpts} />
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper };
   },
 
-  buildPlaceholder(field, useFor) {
+  buildPlaceholder(table, field, useFor) {
     const editor = null;
     const wrapper = this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, field, useFor);
     return { fieldProps: null, wrapper };
   },
 
-  buildDatetime(field, useFor) {
+  buildDatetime(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts ? moment(field.defaultValue) : null })(
       <DatePicker {...fieldOpts} />
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper };
   },
 
-  buildSwitch(field, useFor) {
+  buildSwitch(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const fieldProps = { onChange: fieldOpts.onChange, checkedChildren: fieldOpts.checkedChildren, unCheckedChildren: fieldOpts.unCheckedChildren };
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts, valuePropName: 'checked' })(
       <Switch {...fieldProps} />
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps, wrapper };
   },
 
-  buildSelect(field, useFor) {
+  buildSelect(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const options = field.options.map((option) =>
       <Option disabled={fieldOpts.disabled} key={option.key} value={option.key}>{option.value}</Option>
     );
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <Select {...fieldOpts}>{options}</Select>
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper, options };
   },
 
-  buildCascader(field, useFor) {
+  buildCascader(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <Cascader {...fieldOpts} />
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper };
   },
 
-  buildInput(field, useFor) {
+  buildInput(table, field, useFor) {
     const options = this.getOptions(useFor, field);
     const fieldProps = { disabled: options.disabled, type: options.type, size: options.size, addonBefore: options.addonBefore, addonAfter: options.addonAfter, prefix: options.prefix, suffix: options.suffix, onPressEnter: options.onPressEnter, autosize: options.autosize };
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...options })(
       <Input {...fieldProps} />
-    ), field, useFor);
+    ), table, field, useFor);
     return { fieldProps, wrapper };
   }
 };

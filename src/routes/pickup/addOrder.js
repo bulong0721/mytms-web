@@ -1,5 +1,6 @@
 import { Button, Popconfirm, notification } from 'antd';
 import EditableTable from '../../components/extension/editableTable';
+import { Link } from 'dva/router';
 
 const AddOrder = () => {
   let editable = true;
@@ -33,10 +34,11 @@ const AddOrder = () => {
     }
   };
 
+  const linkTo = '/scaffold/table';
   return (
     <div>
       {/*<EditableTable primary={{ key: 'name' }} ref={handleInit} editable={editable} columns={columns} dataSource={dataSource} />*/}
-      <Button onClick={handleSumbit}>提交</Button>
+      <Link to={linkTo}>表管理</Link>
     </div>
   );
 };

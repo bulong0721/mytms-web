@@ -14,6 +14,17 @@ export default function ({ history, app }) {
         <Route path="/pickup/order" tableName="user" component={Manager} />
         <Route path="/pickup/sign" component={AddOrder} />
 
+        <Route path="/customer/customer" tableName="customer" component={Manager} />
+        <Route path="/customer/group" tableName="customerGroup" component={Manager} />
+        <Route path="/customer/contact" tableName="customerContact" component={Manager} />
+        <Route path="/customer/insurance" tableName="customerInsurance" component={Manager} />
+        <Route path="/customer/line" tableName="customerLine" component={Manager} />
+        <Route path="/customer/relationship" tableName="customerRelationship" component={Manager} />
+        <Route path="/customer/equipment" tableName="equipment" component={Manager} />
+        <Route path="/customer/driver" tableName="driver" component={Manager} />
+        <Route path="/customer/vehicle" tableName="vehicle" component={Manager} />
+        <Route path="/customer/warehouse" tableName="warehouse" component={Manager} />
+
         <Route path="/transfer/load" tableName="user" component={Manager} />
         <Route path="/transfer/depart" tableName="user" component={Manager} />
         <Route path="/transfer/arrive" tableName="user" component={Manager} />
