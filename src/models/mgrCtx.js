@@ -8,6 +8,7 @@ export default class MgrCtx {
   dataSource = [];
   nestedFields = new Set();
   nestedSources = new Map();
+  activedNested = null;
   expandAll = false;
   pagination = {
     showSizeChanger: true,
@@ -47,6 +48,10 @@ export default class MgrCtx {
   newNested = (subField) => {
     const dataSource = this.getNestedSource(subField);
     dataSource.push({ $editable: true });
+  };
+
+  activeNestedTab = (subField) => {
+    this.activedNested = subField;
   };
 
   removeNestedAt = (subField, index) => {

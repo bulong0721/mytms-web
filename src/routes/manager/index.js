@@ -74,6 +74,11 @@ class Manager extends React.Component {
     dispatch({ type: 'manager/newNested', tableName, subField });
   };
 
+  activeNestedTab = (subField) => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/activeNestedTab', tableName, subField });
+  };
+
   removeNestedAt = (subField, index) => {
     const { dispatch, route: { tableName } } = this.props;
     dispatch({ type: 'manager/removeNestedAt', tableName, subField, index });

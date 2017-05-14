@@ -106,5 +106,10 @@ export default {
       mgrCtx.removeNestedAt(subField);
       return { ...state };
     },
+    activeNestedTab(state, { tableName, subField }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.activeNestedTab(subField);
+      return { ...state };
+    },
   }
 }

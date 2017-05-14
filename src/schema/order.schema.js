@@ -30,7 +30,7 @@ module.exports = {
           notAsFilter: true,
         },
         {
-          key: 'mobile',
+          key: 'mobirle',
           title: '运输模式',
           showType: 'select',
           options: [{ key: '1', value: '零担' }, { key: '2', value: '整车' }],
@@ -38,7 +38,7 @@ module.exports = {
           notAsColumn: true,
         },
         {
-          key: 'lastLoginTime',
+          key: 'lastLoginTcime',
           title: '车辆要求',
           showType: 'select',
           options: [{ key: '1', value: '4.2米' }, { key: '2', value: '6.5米' }, { key: '3', value: '9.6米' }, { key: '4', value: '其他' }],
@@ -47,7 +47,7 @@ module.exports = {
           notAsFilter: true,
         },
         {
-          key: 'ph01',
+          key: 'place001',
           showType: 'placeholder',
           notAsFilter: true,
         },
@@ -79,7 +79,8 @@ module.exports = {
           showType: 'datetime',
           notAsColumn: true,
           notAsFilter: true,
-        },]
+        },
+      ]
     },
     {
       title: '收发货信息',
@@ -168,7 +169,7 @@ module.exports = {
           notAsFilter: true,
         },
         {
-          key: 'lastLoginIP',
+          key: 'lastLoginIP000',
           title: '到付运费',
           showType: 'number',
           notAsColumn: true,
@@ -326,6 +327,21 @@ module.exports = {
           showType: 'ID',
         },
         {
+          key: 'contact',
+          title: '体积(m³)',
+          showType: 'number',
+        },
+        {
+          key: 'contactPhone',
+          title: '单价',
+          showType: 'number',
+        },
+        {
+          key: 'contactPhone2',
+          title: '金额',
+          showType: 'number',
+        },
+        {
           key: 'name',
           title: '货物',
           showType: 'input',
@@ -345,21 +361,6 @@ module.exports = {
         {
           key: 'address',
           title: '重量(Kg)',
-          showType: 'number',
-        },
-        {
-          key: 'contact',
-          title: '体积(m³)',
-          showType: 'number',
-        },
-        {
-          key: 'contactPhone',
-          title: '单价',
-          showType: 'number',
-        },
-        {
-          key: 'contactPhone2',
-          title: '金额',
           showType: 'number',
         },
         {

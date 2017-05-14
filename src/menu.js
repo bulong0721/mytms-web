@@ -86,6 +86,7 @@ module.exports = [
     icon: 'tool',
     child: [
       { key: 'table', name: '表管理', icon: 'book' },
+      { key: 'tab', name: '窗体管理', icon: 'layout' },
     ]
   },
 ]

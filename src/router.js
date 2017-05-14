@@ -53,6 +53,7 @@ export default function ({ history, app }) {
         <Route path="/system/account" tableName="user" component={Manager} />
 
         <Route path="/scaffold/table" tableName="table" component={Manager} />
+        <Route path="/scaffold/tab" tableName="tab" component={Manager} />
       </Route>
     </Router>
   );

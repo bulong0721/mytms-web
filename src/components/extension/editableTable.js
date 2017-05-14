@@ -22,34 +22,37 @@ class EditableTable extends React.Component {
     }
   }
 
-  actionColumn = {
-    title: <Button type="danger" size='small' onClick={this.addNew.bind(this)}>新增</Button>,
-    width: 100,
-    dataIndex: 'actions',
-    render: (text, record, index) => {
-      const { $editable } = record;
-      return (
-        <div className="editable-row-operations">
-          {$editable ?
-            <span>
-              <a onClick={() => this.editDone(index, record, 'save')}>确定</a>
-              <span className="ant-divider" />
-              <Popconfirm title="确定取消吗?" onConfirm={() => this.editDone(index, record, 'cancel')}>
-                <a>取消</a>
-              </Popconfirm>
-            </span>
-            :
-            <span>
-              <a onClick={() => this.edit(index, record)}>编辑</a>
-              <span className="ant-divider" />
-              <Popconfirm title="确定删除吗?" onConfirm={() => this.removeAt(index)}>
-                <a>删除</a>
-              </Popconfirm>
-            </span>
-          }
-        </div>
-      );
-    },
+  getActionColumn = ({ disableNew, disableEdit, disableRemove }) => {
+    return {
+      title: disableNew ? '操作' : <Button type="danger" size='small' onClick={this.addNew.bind(this)}>新增</Button>,
+      width: 100,
+      dataIndex: 'actions',
+      render: (text, record, index) => {
+        const { $editable } = record;
+        return (
+          <div className="editable-row-operations">
+            {$editable ?
+              <span>
+                <a onClick={() => this.editDone(index, record, 'save')}>确定</a>
+                <span className="ant-divider" />
+                <Popconfirm title="确定取消吗?" onConfirm={() => this.editDone(index, record, 'cancel')}>
+                  <a>取消</a>
+                </Popconfirm>
+              </span>
+              :
+              <span>
+                {disableEdit && disableNew ? '' : <a onClick={() => this.edit(index, record)}>编辑</a>}
+                {disableEdit && disableRemove ? '' : <span className="ant-divider" />}
+                {disableRemove ? '' :
+                  <Popconfirm title="确定删除吗?" onConfirm={() => this.removeAt(index)}>
+                    <a>删除</a>
+                  </Popconfirm>}
+              </span>
+            }
+          </div>
+        );
+      },
+    };
   };
 
   constructor(props) {
@@ -59,7 +62,11 @@ class EditableTable extends React.Component {
       const renderWrapper = this.wrapper(column);
       column.render = renderWrapper;
     });
-    columns.push(this.actionColumn);
+    const { disableNew, disableEdit, disableRemove } = props;
+    if (disableNew && disableEdit && disableRemove) {
+      return;
+    }
+    columns.push(this.getActionColumn(props));
   }
 
   wrapper(column) {

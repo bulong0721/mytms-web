@@ -1,10 +1,10 @@
 import { Formatter, Parser } from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
+import ImportTable from '../routes/scaffold/importTable';
 
 module.exports = {
   actions: [
-    { icon: 'plus-circle-o', title: '新增', type: 'primary', action: 'manager/save', popupEditor: true, },
-    { icon: 'upload', title: '导入字段', action: 'manager/save', popupEditor: true, },
+    { icon: 'plus-circle-o', title: '新增', type: 'primary', action: 'manager/save', component: ImportTable, },
   ],
   fields: [
     {
@@ -18,14 +18,14 @@ module.exports = {
           disabled: true,
         },
         {
-          key: 'tableName',
+          key: 'key',
           title: '表名',
           showType: 'input',
           validator: [{ required: true }],
         },
         {
-          key: 'useFor',
-          title: '用于',
+          key: 'title',
+          title: '标题',
           showType: 'input',
         },
         {
@@ -48,9 +48,9 @@ module.exports = {
   ],
   nestedTables: [
     {
-      key: 'fields',
-      tableName: 'field',
-      title: '字段',
+      key: 'columns',
+      title: '列',
+      disableNew: true,
       fields: [
         {
           key: 'id',
@@ -59,45 +59,43 @@ module.exports = {
           disabled: true,
         },
         {
-          key: 'name',
-          title: '字段名',
+          key: 'key',
+          title: '列名',
           showType: 'input',
         },
         {
           key: 'title',
-          title: '标题',
+          title: '注释',
           showType: 'input',
         },
         {
-          key: 'showType',
-          title: '显示类型',
+          key: 'javaType',
+          title: '类型',
           showType: 'select',
           options: OptionConstants.showType,
           defaultValue: 'input'
         },
         {
-          key: 'notAsFilter',
-          title: '过滤条件',
+          key: 'size',
+          title: '大小',
+          showType: 'number',
+        },
+        {
+          key: 'primary',
+          title: '主键',
           showType: 'switch',
           render: Formatter.yesOrNo
         },
         {
-          key: 'notAsColumn',
-          title: '主表列',
+          key: 'notNull',
+          title: '必需',
           showType: 'switch',
           render: Formatter.yesOrNo
         },
         {
-          key: 'notAsEditor',
-          title: '编辑字段',
-          showType: 'switch',
-          render: Formatter.yesOrNo
-        },
-        {
-          key: 'disabled',
-          title: '只读字段',
-          showType: 'switch',
-          render: Formatter.yesOrNo
+          key: 'sorter',
+          title: '顺序',
+          showType: 'number',
         },
       ]
     }

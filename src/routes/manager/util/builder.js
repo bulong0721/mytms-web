@@ -87,7 +87,7 @@ const Builder = {
     let filters = [];
     let editors = [];
     let primary = null;
-    const { tableName, fields } = table;
+    const { key, fields } = table;
     fields.forEach((field) => {
       this.generateElement(table, field, columns, filters, editors);
       if ('ID' === field.showType) {
@@ -101,22 +101,28 @@ const Builder = {
         editors.push(this.buildCollapse(field, subEditors));
       }
     });
-    Renders.bindRender(tableName, columns, { ...component, primary });
+    Renders.bindRender(key, columns, { ...component, primary });
     return { table, primary, columns, filters, editors };
   },
 
   buildNestedEditor(nestedTables, context, component) {
     const buildNestedTable = (nested) => {
-      const { table: { key, title, tableName }, primary, columns, filters, editors } = nested;
+      const { table: { key, title, disableNew, disableEdit, disableRemove }, primary, columns, filters, editors } = nested;
       const dataSource = context.getNestedSource(key);
       const { newNestedRecord, removeNestedAt } = component;
-      return <EditableTable bordered parentKey={key} dataSource={dataSource} columns={columns} addNew={newNestedRecord} removeAt={removeNestedAt} primary={primary} />;
+      const tableProps = {
+        addNew: newNestedRecord,
+        removeAt: removeNestedAt,
+        parentKey: key, dataSource, columns, primary,
+        disableNew, disableEdit, disableRemove
+      };
+      return <EditableTable bordered {...tableProps} />;
     };
     if (nestedTables.length > 1) {
       return getFieldDecorator => (
-        <Tabs type="card" className="ant-layout-tab" key="nestedTables">
+        <Tabs type="card" className="ant-layout-tab" key="nestedTables" activeKey={context.activedNested} onChange={component.activeNestedTab}>
           {nestedTables.map(nested => {
-            const { table: { key, title, tableName } } = nested;
+            const { table: { key, title } } = nested;
             return (
               <Tabs.TabPane tab={title} key={key}>
                 {buildNestedTable(nested)}
@@ -128,7 +134,7 @@ const Builder = {
       );
     }
     const nested = nestedTables[0];
-    const { table: { key, title, tableName } } = nested;
+    const { table: { key, title } } = nested;
     return getFieldDecorator => (
       <Collapse defaultActiveKey={key} key={key}>
         <Collapse.Panel header={title} key={key} className="collapse-space-table">
@@ -141,7 +147,7 @@ const Builder = {
   parseBySchema(schema, context, component) {
     const { handlePageAction, handleRowAction, newNestedRecord } = component;
     const { selectedRowKeys, nestedFields } = context;
-    const { tableName, nestedTables, nestedIndex } = schema;
+    const { nestedTables, nestedIndex } = schema;
     let mainTable = this.build4Table(schema, component);
     const { editors } = mainTable;
     if (nestedTables) {
@@ -149,12 +155,20 @@ const Builder = {
         nestedFields.add(table.key);
         return this.build4Table(table, component);
       });
+      if (null == context.activedNested) {
+        context.activedNested = nestedTables[0].key;
+      }
       editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nesteds, context, component));
     }
     const actions = schema.actions.map((action, index) => {
       action.$schema = schema;
       const { icon, title, type, target } = action;
-      const disabled = 'rows' === target ? selectedRowKeys.length <= 0 : false;
+      let disabled = false;
+      if ('rows' === target) {
+        disabled = selectedRowKeys.length <= 0;
+      } else if ('row' === target) {
+        disabled = selectedRowKeys.length != 1;
+      }
       return (
         <Button type={type} disabled={disabled} onClick={handlePageAction(action)} key={index}>
           <Icon type={icon} />{title}
@@ -236,7 +250,7 @@ const Builder = {
       const children = subEditors.map(subEditor => subEditor(getFieldDecorator));
       return (
         <Collapse defaultActiveKey={field.activeKey || '1'} key={field.title}>
-          <Collapse.Panel header={field.title} key="1" className="collapse-space">
+          <Collapse.Panel header={field.title} key='1' className="collapse-space">
             {children}
           </Collapse.Panel>
         </Collapse>
@@ -248,9 +262,10 @@ const Builder = {
     const forFilter = useFor === 'filter';
     const { filterSpan, editorSpan } = table;
     const fieldSpan = forFilter ? filterSpan || 6 : editorSpan || 12;
+    const { key, title } = field;
     return getFieldDecorator => (
-      <Col key={field.key} span={fieldSpan}>
-        <FormItem key={field.key} label={field.title} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+      <Col key={key} span={fieldSpan}>
+        <FormItem key={key} label={title} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
           {formItem(getFieldDecorator)}
         </FormItem>
       </Col>
@@ -298,9 +313,8 @@ const Builder = {
   },
 
   buildPlaceholder(table, field, useFor) {
-    const editor = null;
-    const wrapper = this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, field, useFor);
-    return { fieldProps: null, wrapper };
+    const wrapper = this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, table, field, useFor);
+    return { fieldProps: {}, wrapper };
   },
 
   buildDatetime(table, field, useFor) {
