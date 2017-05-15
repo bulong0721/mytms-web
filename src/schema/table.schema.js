@@ -1,10 +1,9 @@
 import { Formatter, Parser } from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
-import ImportTable from '../routes/scaffold/importTable';
 
 module.exports = {
   actions: [
-    { icon: 'plus-circle-o', title: '新增', type: 'primary', action: 'manager/save', component: ImportTable, },
+    { icon: 'upload', title: '导入', type: 'primary', action: 'manager/save' },
   ],
   fields: [
     {

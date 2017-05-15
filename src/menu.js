@@ -85,7 +85,8 @@ module.exports = [
     name: '开发工具',
     icon: 'tool',
     child: [
-      { key: 'table', name: '表管理', icon: 'book' },
+      // { key: 'table', name: '表管理', icon: 'book' },
+      { key: 'newTab', name: '新建窗体', icon: 'api' },
       { key: 'tab', name: '窗体管理', icon: 'layout' },
     ]
   },

@@ -98,6 +98,7 @@ const Builder = {
         field.child.forEach((subField) => {
           this.generateElement(table, subField, columns, filters, subEditors);
         });
+        field.$subEditors = subEditors;
         editors.push(this.buildCollapse(field, subEditors));
       }
     });

@@ -4,6 +4,7 @@ import App from './routes/index';
 import Dashboard from './routes/dashboard';
 import Manager from './routes/manager'
 import AddOrder from './routes/pickup/addOrder';
+import MakeTab from './routes/scaffold/makeTab';
 
 export default function ({ history, app }) {
   return (
@@ -54,6 +55,7 @@ export default function ({ history, app }) {
 
         <Route path="/scaffold/table" tableName="table" component={Manager} />
         <Route path="/scaffold/tab" tableName="tab" component={Manager} />
+        <Route path="/scaffold/newTab" component={MakeTab} />
       </Route>
     </Router>
   );
