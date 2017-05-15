@@ -1,6 +1,6 @@
 import { query, save } from '../services/manager';
 import { Modal, notification } from 'antd';
-import MgrCtx from './mgrCtx';
+import { MgrCtx } from './context';
 
 const getMgrCtx = (state, tableName) => {
   state.tableName = tableName;

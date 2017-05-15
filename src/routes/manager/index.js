@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Row, Col, Button, Icon, Tabs, Table, Modal, Tag } from 'antd';
-import MgrCtx from '../../models/mgrCtx';
+import { MgrCtx } from '../../models/context';
 import Builder from './util/builder';
 import styles from './index.less';
 
