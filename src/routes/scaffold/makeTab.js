@@ -156,7 +156,7 @@ class MakeTab extends React.Component {
   }
 
   goNext = () => {
-    const { dispatch, tab: { tabCtx: { currentStep, fieldMap } } } = this.props;
+    const { dispatch, tab: { tabCtx: { currentStep, fieldMap, targetSchema } } } = this.props;
     switch (currentStep) {
       case 0:
         if (fieldMap.size <= 0) {
@@ -175,6 +175,9 @@ class MakeTab extends React.Component {
           message.error("请先填充编辑字段");
           return;
         }
+        break;
+      case 2:
+        console.log('targetSchema', targetSchema);
         break;
     }
     dispatch({ type: 'tab/goNext' });
@@ -198,7 +201,7 @@ class MakeTab extends React.Component {
   }
 
   handlePageAction = ({ action, popupEditor, component, title }) => {
-    message.info(title);
+    // message.info(title);
   }
 
   columnAdd = { title: <a onClick={() => this.showModal("addColumns")} style={{ color: 'red', fontWeight: '600' }}><Icon type="plus" />填充列</a> };
@@ -259,8 +262,8 @@ class MakeTab extends React.Component {
               <Row className="ant-advanced-search-list">
                 <Button.Group style={{ marginBottom: '8px' }}>
                   {actions}
+                  <Button type="dashed" onClick={() => this.showModal("addActions")}><Icon type="plus" />填充动作</Button>
                 </Button.Group>
-                 <Button type="dashed" onClick={() => this.showModal("addActions")}><Icon type="plus" />填充动作</Button>
                 <Table bordered columns={columns} pagination={false} />
               </Row>
             </Tabs.TabPane>
