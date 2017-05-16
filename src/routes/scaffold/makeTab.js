@@ -72,9 +72,12 @@ class MakeTab extends React.Component {
     );
   }
 
+  formBasicEditor = null;
   buildBaseEditor = (mgrCtx) => {
+    if (this.formBasicEditor != null) return this.formBasicEditor;
     const { schema, editors } = Builder.parseBySchema(this.tabSchema, mgrCtx, this);
-    return Builder.buildEditorForm(editors);
+    this.formBasicEditor = Builder.buildEditorForm(editors);
+    return this.formBasicEditor;
   }
 
   buildFieldEditor = (mgrCtx) => {
@@ -142,11 +145,19 @@ class MakeTab extends React.Component {
 
   importFields = () => {
     if (this.formBasic) {
-      const data = this.formBasic.getFieldsValue();
-      const { dispatch } = this.props;
-      const { key } = data;
-      dispatch({ type: 'tab/importFields', tableName: key });
+      let allError = null;
+      this.formBasic.validateFields(errors => {
+        allError = errors;
+      });
+      if (!allError) {
+        const { key } = this.formBasic.getFieldsValue();
+        const { dispatch } = this.props;
+        dispatch({ type: 'tab/importFields', tableName: key });
+      }
     }
+  }
+
+  importNesteds = () => {
   }
 
   onTabRemove = (targetKey) => {
@@ -201,7 +212,7 @@ class MakeTab extends React.Component {
   }
 
   handlePageAction = ({ action, popupEditor, component, title }) => {
-    // message.info(title);
+    console.log(title);
   }
 
   columnAdd = { title: <a onClick={() => this.showModal("addColumns")} style={{ color: 'red', fontWeight: '600' }}><Icon type="plus" />填充列</a> };
@@ -290,10 +301,10 @@ class MakeTab extends React.Component {
             </Button.Group>
           </Col>
         </Row>
-        <Modal visible={modalVisible} title={modalTitle} onOk={this.handleModalOk} onCancel={this.hideModal} maskClosable={false}>
+        <Modal visible={modalVisible} title={modalTitle} onOk={this.handleModalOk} onCancel={this.hideModal} maskClosable={false} width={610}>
           <Tabs activeKey={modalActiveKey} className="hide-header-tabs">
             <Tabs.TabPane tab="transfer" key="transfer">
-              <Transfer listStyle={{ width: 220, height: 400 }} onChange={this.handleTransferChange} dataSource={transferSource} showSearch targetKeys={targetSource} render={item => `${item.title}(${item.key})`} />
+              <Transfer listStyle={{ width: 265, height: 400 }} onChange={this.handleTransferChange} dataSource={transferSource} showSearch targetKeys={targetSource} render={item => `${item.title}(${item.key})`} />
             </Tabs.TabPane>
             <Tabs.TabPane tab="field" key="field">
               <FormField ref={(input) => this.setModalForm(input, 'field')} />
