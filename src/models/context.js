@@ -5,19 +5,37 @@ class TabCtx {
   editorSpan = 12;
   filterSpan = 6;
   nested = false;
-  fields = [];
-  schema = {};
+  fieldMap = new Map();
+  targetSchema = {
+    actions: [
+    ],
+    fields: [
+      {
+        title: '基本信息',
+        showType: 'collapse',
+        child: [
+        ]
+      }
+    ],
+  };
+  fieldSource = [];
   tabSource = [];
-  modalVisible = true;
+  modalVisible = false;
   modalTitle = '导入字段';
   modalActiveKey = 'field';
   modalAction = 'modalNestedTabs';
   transferSource = [];
+  transferMap = new Map();
   targetSource = [];
+  currentField = null;
 
-  showModal = (action) => {
+  showModal = ({ action, fields, field }) => {
+    this.currentField = field;
     this.modalAction = action;
     this.modalVisible = true;
+    this.transferMap.clear();
+    this.transferSource = [];
+    this.targetSource = [];
     switch (action) {
       case 'addFieldGroup':
         this.modalTitle = '新增字段组';
@@ -30,6 +48,10 @@ class TabCtx {
       case 'importFields':
         this.modalTitle = '导入字段';
         this.modalActiveKey = 'transfer';
+        this.transferSource = fields;
+        fields.forEach(field => {
+          this.transferMap.set(field.key, field);
+        });
         break;
       case 'newField':
         this.modalTitle = '新增字段';
@@ -42,28 +64,136 @@ class TabCtx {
       case 'addFilters':
         this.modalTitle = '配置过滤字段';
         this.modalActiveKey = 'transfer';
+        this.fieldMap.forEach((value, index) => {
+          this.transferSource.push(value);
+          if (!value.notAsFilter) {
+            this.targetSource.push(value.key);
+          }
+        });
         break;
       case 'addColumns':
         this.modalTitle = '配置主表列';
         this.modalActiveKey = 'transfer';
+        this.fieldMap.forEach((value, index) => {
+          this.transferSource.push(value);
+          if (!value.notAsColumn) {
+            this.targetSource.push(value.key);
+          }
+        });
         break;
       case 'addEditors':
         this.modalTitle = '配置编辑字段';
         this.modalActiveKey = 'transfer';
+        this.fieldMap.forEach((value, index) => {
+          if (!value.grpTitle) {
+            this.transferSource.push(value);
+          }
+          if (value.grpTitle == this.currentField.title) {
+            this.transferSource.push(value);
+            this.targetSource.push(value.key);
+          }
+        });
         break;
       case 'addActions':
         this.modalTitle = '添加动作';
-        this.modalActiveKey = 'transfer';
+        this.modalActiveKey = 'action';
         break;
     }
+  }
+
+  toTargetSchema = () => {
+    const grpMap = new Map();
+    this.fieldMap.forEach((value, index) => {
+      if (value.notAsColumn && value.notAsFilter && value.notAsEditor) {
+        return;
+      }
+      if (value.grpTitle) {
+        let grpField = grpMap.get(value.grpTitle);
+        if (grpField == null) {
+          grpField = { title: value.grpTitle, showType: 'collapse', child: [] };
+          grpMap.set(value.grpTitle, grpField);
+        }
+        grpField.child.push(value);
+      }
+    });
+    const fields = [];
+    grpMap.forEach((value, index) => {
+      fields.push(value);
+    });
+    this.targetSchema.fields = fields;
   }
 
   hideModal = () => {
     this.modalVisible = false;
   }
 
-  handleModalOK = () => {
-
+  handleModalOK = ({ modalValues }) => {
+    switch (this.modalAction) {
+      case 'addFieldGroup':
+        this.modalTitle = '新增字段组';
+        const { key, title } = modalValues;
+        this.targetSchema.fields.push({ title: title, showType: 'collapse', child: [] });
+        this.hideModal();
+        return;
+      case 'nestedTabs':
+        this.modalTitle = '配置内嵌页';
+        break;
+      case 'importFields':
+        this.modalTitle = '导入字段';
+        this.targetSource.forEach(key => {
+          const field = this.transferMap.get(key);
+          this.fieldMap.set(key, field);
+        });
+        this.fieldSource = [];
+        this.fieldMap.forEach((value, index) => {
+          this.fieldSource.push(value);
+        });
+        break;
+      case 'newField':
+        this.modalTitle = '新增字段';
+        break;
+      case 'editField':
+        this.modalTitle = '编辑字段';
+        break;
+      case 'addFilters':
+        this.modalTitle = '配置过滤字段';
+        this.transferSource.forEach(field => {
+          field.notAsFilter = true;
+        });
+        this.targetSource.forEach(key => {
+          const field = this.fieldMap.get(key);
+          field.notAsFilter = false;
+        });
+        break;
+      case 'addColumns':
+        this.modalTitle = '配置主表列';
+        this.transferSource.forEach(field => {
+          field.notAsColumn = true;
+        });
+        this.targetSource.forEach(key => {
+          const field = this.fieldMap.get(key);
+          field.notAsColumn = false;
+        });
+        break;
+      case 'addEditors':
+        this.modalTitle = '配置编辑字段';
+        this.transferSource.forEach(field => {
+          field.grpTitle = null;
+          field.notAsEditor = true;
+        });
+        this.targetSource.forEach(key => {
+          const field = this.fieldMap.get(key);
+          field.notAsEditor = false;
+          field.grpTitle = this.currentField.title;
+        });
+        break;
+      case 'addActions':
+        this.modalTitle = '添加动作';
+        this.targetSchema.actions.push(modalValues);
+        break;
+    }
+    this.toTargetSchema();
+    this.hideModal();
   }
 
   transferChange = (targetKeys) => {

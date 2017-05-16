@@ -13,8 +13,12 @@ export default {
   },
 
   effects: {
-    *importFields({ key, title }, { call, put }) {
-
+    *importFields({ tableName }, { call, put }) {
+      const url = 'http://localhost:8080/tab/listFieldsByTable';
+      const data = yield call(post, url, tableName);
+      if (data) {
+        yield put({ type: 'showModal', action: 'importFields', fields: data.list });
+      }
     }
   },
 
@@ -31,13 +35,13 @@ export default {
       return { ...state };
     },
 
-    handleModalOk(state) {
+    handleModalOk(state, action) {
       const { tabCtx } = state;
-      tabCtx.handleModalOk();
+      tabCtx.handleModalOK(action);
       return { ...state };
     },
 
-    showModal(state, { action }) {
+    showModal(state, action) {
       const { tabCtx } = state;
       tabCtx.showModal(action);
       return { ...state };
@@ -52,6 +56,12 @@ export default {
     goPrivous(state) {
       const { tabCtx } = state;
       tabCtx.goPrivous();
+      return { ...state };
+    },
+
+    transferChange(state, { targetKeys }) {
+      const { tabCtx } = state;
+      tabCtx.transferChange(targetKeys);
       return { ...state };
     },
   }
