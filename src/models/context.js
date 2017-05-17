@@ -1,23 +1,9 @@
+import lodash from 'lodash';
+
 class TabCtx {
-  key = null;
-  title = '';
   currentStep = 0;
-  editorSpan = 12;
-  filterSpan = 6;
-  nested = false;
   fieldMap = new Map();
-  targetSchema = {
-    actions: [
-    ],
-    fields: [
-      {
-        title: '基本信息',
-        showType: 'collapse',
-        child: [
-        ]
-      }
-    ],
-  };
+  targetSchema = { actions: [], fields: [], };
   fieldSource = [];
   tabSource = [];
   modalVisible = false;
@@ -27,10 +13,9 @@ class TabCtx {
   transferSource = [];
   transferMap = new Map();
   targetSource = [];
-  currentField = null;
+  currentGroup = null;
 
-  showModal = ({ action, fields, field }) => {
-    this.currentField = field;
+  showModal = ({ action, fields, group }) => {
     this.modalAction = action;
     this.modalVisible = true;
     this.transferMap.clear();
@@ -83,12 +68,13 @@ class TabCtx {
         break;
       case 'addEditors':
         this.modalTitle = '配置编辑字段';
+        this.currentGroup = group;
         this.modalActiveKey = 'transfer';
         this.fieldMap.forEach((value, index) => {
-          if (!value.grpTitle) {
+          if (!value.group) {
             this.transferSource.push(value);
           }
-          if (value.grpTitle == this.currentField.title) {
+          if (value.group == this.currentGroup) {
             this.transferSource.push(value);
             this.targetSource.push(value.key);
           }
@@ -102,22 +88,11 @@ class TabCtx {
   }
 
   toTargetSchema = () => {
-    const grpMap = new Map();
+    const fields = [];
     this.fieldMap.forEach((value, index) => {
       if (value.notAsColumn && value.notAsFilter && value.notAsEditor) {
         return;
       }
-      if (value.grpTitle) {
-        let grpField = grpMap.get(value.grpTitle);
-        if (grpField == null) {
-          grpField = { title: value.grpTitle, showType: 'collapse', child: [] };
-          grpMap.set(value.grpTitle, grpField);
-        }
-        grpField.child.push(value);
-      }
-    });
-    const fields = [];
-    grpMap.forEach((value, index) => {
       fields.push(value);
     });
     this.targetSchema.fields = fields;
@@ -130,11 +105,18 @@ class TabCtx {
   handleModalOK = ({ modalValues }) => {
     switch (this.modalAction) {
       case 'addFieldGroup':
-        this.modalTitle = '新增字段组';
         const { key, title } = modalValues;
-        this.targetSchema.fields.push({ title: title, showType: 'collapse', child: [] });
-        this.hideModal();
-        return;
+        this.modalTitle = '新增字段组';
+        this.currentGroup = title;
+        for (let i = 0; i < this.fieldSource.length; i++) {
+          const unGrouped = this.fieldSource[i];
+          if (!unGrouped.group) {
+            unGrouped.group = title;
+            unGrouped.notAsEditor = false;
+            break;
+          }
+        }
+        break;
       case 'nestedTabs':
         this.modalTitle = '配置内嵌页';
         break;
@@ -178,13 +160,13 @@ class TabCtx {
       case 'addEditors':
         this.modalTitle = '配置编辑字段';
         this.transferSource.forEach(field => {
-          field.grpTitle = null;
+          field.group = null;
           field.notAsEditor = true;
         });
         this.targetSource.forEach(key => {
           const field = this.fieldMap.get(key);
           field.notAsEditor = false;
-          field.grpTitle = this.currentField.title;
+          field.group = this.currentGroup;
         });
         break;
       case 'addActions':
@@ -200,8 +182,17 @@ class TabCtx {
     this.targetSource = targetKeys;
   }
 
-  goNext = () => {
+  goNext = ({ basicData }) => {
     if (this.currentStep < 2) {
+      if (basicData) {
+        const { id, key, title, editorSpan, filterSpan, nested } = basicData;
+        this.targetSchema.id = id;
+        this.targetSchema.key = key;
+        this.targetSchema.title = title;
+        this.targetSchema.editorSpan = editorSpan;
+        this.targetSchema.filterSpan = filterSpan;
+        this.targetSchema.nested = nested;
+      }
       this.currentStep++;
     }
   }
@@ -210,6 +201,10 @@ class TabCtx {
     if (this.currentStep > 0) {
       this.currentStep--;
     }
+  }
+
+  updateSchema = (schema) => {
+
   }
 }
 

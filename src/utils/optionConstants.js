@@ -8,7 +8,6 @@ const OptionConstants = {
     { key: 'select', value: 'select' },
     { key: 'cascader', value: 'cascader' },
     { key: 'actions', value: 'actions' },
-    { key: 'collapse', value: 'collapse' },
     { key: 'placeholder', value: 'placeholder' },
   ],
 
@@ -21,7 +20,6 @@ const OptionConstants = {
     { key: 'select', value: 'select' },
     { key: 'cascader', value: 'cascader' },
     { key: 'actions', value: 'actions' },
-    { key: 'collapse', value: 'collapse' },
     { key: 'placeholder', value: 'placeholder' },
   ],
 }

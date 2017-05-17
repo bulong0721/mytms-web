@@ -1,9 +1,9 @@
 module.exports = {
-  name: '营运系统',
+  name: '客户管理平台',
   prefix: 'maintenance',
   footerText: '上海嗨酷强供应链信息技术有限公司 版权所有 沪ICP备16042340号',
   logoSrc: 'images/antd.png',
-  logoText: '营运系统',
+  logoText: '客户管理平台',
   needLogin: true,
   
   api: {  // 对后端请求的相关配置

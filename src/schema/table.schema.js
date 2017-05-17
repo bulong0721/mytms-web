@@ -7,41 +7,35 @@ module.exports = {
   ],
   fields: [
     {
-      title: '基本信息',
-      showType: 'collapse',
-      child: [
-        {
-          key: 'id',
-          title: 'ID',
-          showType: 'ID',
-          disabled: true,
-        },
-        {
-          key: 'key',
-          title: '表名',
-          showType: 'input',
-          validator: [{ required: true }],
-        },
-        {
-          key: 'title',
-          title: '标题',
-          showType: 'input',
-        },
-        {
-          key: 'active',
-          title: '激活',
-          showType: 'switch',
-          render: Formatter.yesOrNo
-        },
-        {
-          showType: 'actions',
-          title: '操作',
-          width: 120,
-          actions: [
-            { icon: 'edit', title: '修改', action: 'manager/save', popupEditor: true },
-            { icon: 'delete', title: '删除', action: 'manager/delete' },
-          ]
-        }
+      key: 'id',
+      title: 'ID',
+      showType: 'ID',
+      disabled: true,
+    },
+    {
+      key: 'key',
+      title: '表名',
+      showType: 'input',
+      validator: [{ required: true }],
+    },
+    {
+      key: 'title',
+      title: '标题',
+      showType: 'input',
+    },
+    {
+      key: 'active',
+      title: '激活',
+      showType: 'switch',
+      render: Formatter.yesOrNo
+    },
+    {
+      showType: 'actions',
+      title: '操作',
+      width: 120,
+      actions: [
+        { icon: 'edit', title: '修改', action: 'manager/save', popupEditor: true },
+        { icon: 'delete', title: '删除', action: 'manager/delete' },
       ]
     }
   ],

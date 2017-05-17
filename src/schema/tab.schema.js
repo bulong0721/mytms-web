@@ -7,64 +7,59 @@ module.exports = {
     { icon: 'upload', title: '导入字段', action: 'manager/save', popupEditor: true, },
   ],
   fields: [
+
     {
-      title: '基本信息',
-      showType: 'collapse',
-      child: [
-        {
-          key: 'id',
-          title: 'ID',
-          showType: 'ID',
-          disabled: true,
-        },
-        {
-          key: 'title',
-          title: '窗体名',
-          showType: 'input',
-          validator: [{ required: true }],
-        },
-        {
-          key: 'key',
-          title: '映射表名',
-          showType: 'input',
-          validator: [{ required: true }],
-        },
-        {
-          key: 'p01',
-          notAsFilter: true,
-          showType: 'placeholder',
-        },
-        {
-          key: 'filterSpan',
-          title: '过滤字段列宽',
-          showType: 'number',
-          defaultValue: 6,
-          min: 4,
-          max: 24
-        },
-        {
-          key: 'editorSpan',
-          title: '编辑字段列宽',
-          showType: 'number',
-          defaultValue: 8,
-          min: 4,
-          max: 24
-        },
-        {
-          key: 'nested',
-          title: '内嵌窗体',
-          showType: 'switch',
-          render: Formatter.yesOrNo
-        },
-        {
-          showType: 'actions',
-          title: '操作',
-          width: 120,
-          actions: [
-            { icon: 'edit', title: '修改', action: 'manager/save', popupEditor: true },
-            { icon: 'delete', title: '删除', action: 'manager/delete' },
-          ]
-        }
+      key: 'id',
+      title: 'ID',
+      showType: 'ID',
+      disabled: true,
+    },
+    {
+      key: 'title',
+      title: '窗体名',
+      showType: 'input',
+      validator: [{ required: true }],
+    },
+    {
+      key: 'key',
+      title: '映射表名',
+      showType: 'input',
+      validator: [{ required: true }],
+    },
+    {
+      key: 'p01',
+      notAsFilter: true,
+      showType: 'placeholder',
+    },
+    {
+      key: 'filterSpan',
+      title: '过滤字段列宽',
+      showType: 'number',
+      defaultValue: 6,
+      min: 4,
+      max: 24
+    },
+    {
+      key: 'editorSpan',
+      title: '编辑字段列宽',
+      showType: 'number',
+      defaultValue: 8,
+      min: 4,
+      max: 24
+    },
+    {
+      key: 'nested',
+      title: '内嵌窗体',
+      showType: 'switch',
+      render: Formatter.yesOrNo
+    },
+    {
+      showType: 'actions',
+      title: '操作',
+      width: 120,
+      actions: [
+        { icon: 'edit', title: '修改', action: 'manager/save', popupEditor: true },
+        { icon: 'delete', title: '删除', action: 'manager/delete' },
       ]
     }
   ],

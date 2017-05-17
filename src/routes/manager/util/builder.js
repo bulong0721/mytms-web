@@ -88,22 +88,30 @@ const Builder = {
     let editors = [];
     let primary = null;
     const { key, fields } = table;
+    const groupMap = new Map();
     fields.forEach((field) => {
       this.generateElement(table, field, columns, filters, editors);
       if ('ID' === field.showType) {
         primary = field;
       }
-      if (field.child) {
-        const subEditors = [];
-        field.child.forEach((subField) => {
-          this.generateElement(table, subField, columns, filters, subEditors);
-        });
-        field.$subEditors = subEditors;
-        editors.push(this.buildCollapse(field, subEditors));
+      if (field.group) {
+        let groupEditors = groupMap.get(field.group);
+        if (null == groupEditors) {
+          groupEditors = [];
+          groupMap.set(field.group, groupEditors);
+        }
+        groupEditors.push(editors.slice(-1)[0]);
       }
     });
+    const groupEditors = [];
+    groupMap.forEach((subEditors, title) => {
+      groupEditors.push(this.buildCollapse(title, subEditors));
+    });
+    if (groupEditors.length > 0) {
+      editors = groupEditors;
+    }
     Renders.bindRender(key, columns, { ...component, primary });
-    return { table, primary, columns, filters, editors };
+    return { table, primary, columns, filters, editors, groupMap };
   },
 
   buildNestedEditor(nestedTables, context, component) {
@@ -162,7 +170,6 @@ const Builder = {
       editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nesteds, context, component));
     }
     const actions = schema.actions.map((action, index) => {
-      action.$schema = schema;
       const { icon, title, type, target } = action;
       let disabled = false;
       if ('rows' === target) {
@@ -246,12 +253,12 @@ const Builder = {
     }
   },
 
-  buildCollapse(field, subEditors) {
+  buildCollapse(title, subEditors) {
     return getFieldDecorator => {
       const children = subEditors.map(subEditor => subEditor(getFieldDecorator));
       return (
-        <Collapse defaultActiveKey={field.activeKey || '1'} key={field.title}>
-          <Collapse.Panel header={field.title} key='1' className="collapse-space">
+        <Collapse defaultActiveKey={'1'} key={title}>
+          <Collapse.Panel header={title} key='1' className="collapse-space">
             {children}
           </Collapse.Panel>
         </Collapse>

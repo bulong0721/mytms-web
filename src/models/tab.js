@@ -19,6 +19,19 @@ export default {
       if (data) {
         yield put({ type: 'showModal', action: 'importFields', fields: data.list });
       }
+    },
+    *saveSchema({ tabCtx, tabCtx: { targetSchema } }, { call, put }) {
+      const url = 'http://localhost:8080/tab/saveSchema';
+      console.log('schema', targetSchema);
+      const data = yield call(post, url, targetSchema);
+      if (data) {
+        tabCtx.updateSchema(data);
+        notification.info({
+          message: '保存成功',
+          description: `Tab配置保存成功`,
+          duration: 3,
+        });
+      }
     }
   },
 
@@ -47,9 +60,9 @@ export default {
       return { ...state };
     },
 
-    goNext(state) {
+    goNext(state, action) {
       const { tabCtx } = state;
-      tabCtx.goNext();
+      tabCtx.goNext(action);
       return { ...state };
     },
 

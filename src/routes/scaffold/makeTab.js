@@ -20,19 +20,14 @@ class MakeTab extends React.Component {
   tabSchema = {
     actions: [],
     fields: [
-      {
-        title: '基本信息',
-        showType: 'collapse',
-        child: [
-          { key: 'id', title: 'ID', showType: 'ID', disabled: true, },
-          { key: 'title', title: '窗体名', showType: 'input', validator: [{ required: true }], },
-          { key: 'key', title: '映射表名', showType: 'input', validator: [{ required: true }], },
-          { key: 'p01', notAsFilter: true, showType: 'placeholder', },
-          { key: 'filterSpan', title: '过滤列宽', showType: 'number', defaultValue: 6, min: 4, max: 24 },
-          { key: 'editorSpan', title: '编辑列宽', showType: 'number', defaultValue: 8, min: 4, max: 24 },
-          { key: 'nested', title: '内嵌窗体', showType: 'switch', render: Formatter.yesOrNo },
-        ]
-      }
+      { key: 'id', title: 'ID', showType: 'ID', disabled: true, },
+      { key: 'title', title: '窗体名', showType: 'input', validator: [{ required: true }], },
+      { key: 'key', title: '映射表名', showType: 'input', validator: [{ required: true }], },
+      { key: 'p01', notAsFilter: true, showType: 'placeholder', },
+      { key: 'filterSpan', title: '过滤列宽', showType: 'number', defaultValue: 6, min: 4, max: 24 },
+      { key: 'editorSpan', title: '编辑列宽', showType: 'number', defaultValue: 8, min: 4, max: 24 },
+      { key: 'nested', title: '内嵌窗体', showType: 'switch', render: Formatter.yesOrNo },
+      { key: 'parentKey', title: '关联字段', showType: 'input', },
     ]
   };
 
@@ -41,7 +36,7 @@ class MakeTab extends React.Component {
     { key: 'key', dataIndex: 'key', title: '列名', showType: 'ID', validator: [{ required: true }], },
     { key: 'title', dataIndex: 'title', title: '标题', showType: 'input', validator: [{ required: true }], },
     { key: 'showType', dataIndex: 'showType', title: '类型', showType: 'select', options: OptionConstants.showType, defaultValue: 'input' },
-    { key: 'grpTitle', dataIndex: 'grpTitle', title: '字段组', showType: 'input', },
+    { key: 'group', dataIndex: 'group', title: '字段组', showType: 'input', },
     { key: 'notAsFilter', dataIndex: 'notAsFilter', title: '非过滤字段', showType: 'switch', render: Formatter.yesOrNo },
     { key: 'notAsColumn', dataIndex: 'notAsColumn', title: '非主表列', showType: 'switch', render: Formatter.yesOrNo },
     { key: 'notAsEditor', dataIndex: 'notAsEditor', title: '非编辑字段', showType: 'switch', render: Formatter.yesOrNo },
@@ -138,9 +133,9 @@ class MakeTab extends React.Component {
     dispatch({ type: 'tab/handleModalOk', modalValues });
   };
 
-  showModal = (action, field) => {
+  showModal = (action, group) => {
     const { dispatch } = this.props;
-    dispatch({ type: 'tab/showModal', action, field });
+    dispatch({ type: 'tab/showModal', action, group });
   }
 
   importFields = () => {
@@ -168,17 +163,28 @@ class MakeTab extends React.Component {
 
   goNext = () => {
     const { dispatch, tab: { tabCtx: { currentStep, fieldMap, targetSchema } } } = this.props;
+    let basicData = null;
     switch (currentStep) {
       case 0:
         if (fieldMap.size <= 0) {
           message.error("请先导入或创建字段");
           return;
         }
+        if (this.formBasic) {
+          let allError = null;
+          this.formBasic.validateFields(errors => {
+            allError = errors;
+          });
+          if (allError) {
+            return;
+          }
+          basicData = this.formBasic.getFieldsValue();
+        }
         break;
       case 1:
         let count = 0;
         fieldMap.forEach((value, index) => {
-          if (value.grpTitle != null) {
+          if (value.group != null) {
             count++;
           }
         });
@@ -191,12 +197,17 @@ class MakeTab extends React.Component {
         console.log('targetSchema', targetSchema);
         break;
     }
-    dispatch({ type: 'tab/goNext' });
+    dispatch({ type: 'tab/goNext', basicData });
   }
 
   goPrivous = () => {
     const { dispatch } = this.props;
     dispatch({ type: 'tab/goPrivous' });
+  }
+
+  saveSchema = () => {
+    const { dispatch, tab: { tabCtx } } = this.props;
+    dispatch({ type: 'tab/saveSchema', tabCtx });
   }
 
   handleTransferChange = (targetKeys, direction, moveKeys) => {
@@ -215,23 +226,32 @@ class MakeTab extends React.Component {
     console.log(title);
   }
 
-  columnAdd = { title: <a onClick={() => this.showModal("addColumns")} style={{ color: 'red', fontWeight: '600' }}><Icon type="plus" />填充列</a> };
-  filterAdd = getFieldDecorator => <Col key="addFilter" span={6}><Button style={{ width: '80%' }} type="dashed" onClick={() => this.showModal("addFilters")}><Icon type="plus" />填充字段</Button></Col>;
-  editorAdd = (field, getFieldDecorator) => <Col key="addEditor" span={12} style={{ textAlign: 'center' }}><Button style={{ width: '80%' }} type="dashed" onClick={() => this.showModal("addEditors", field)}><Icon type="plus" />填充字段</Button></Col>;
+  columnAdd = { title: <a onClick={() => this.showModal("addColumns")} style={{ color: 'red' }}><Icon type="plus" />填充列</a> };
+  filterAdd = ({ filterSpan }) => {
+    const span = filterSpan || 6;
+    return getFieldDecorator => <Col key="addFilter" span={span} style={{ textAlign: 'right' }}>
+      <Button style={{ width: '75%', color: 'red' }} type="dashed" onClick={() => this.showModal("addFilters")}><Icon type="plus" />填充字段</Button>
+    </Col>;
+  }
+  editorAdd = ({ editorSpan }) => {
+    const span = editorSpan || 12;
+    return (group, getFieldDecorator) =>
+      <Col key="addEditor" span={span} style={{ textAlign: 'right' }}>
+        <Button style={{ width: '75%', color: 'red' }} type="dashed" onClick={() => this.showModal("addEditors", group)}><Icon type="plus" />填充字段</Button>
+      </Col>;
+  }
 
   formBasic = null;
   formModal = null;
   render() {
     const { tabCtx: { targetSchema, modalAction, fieldSource, tabSource, modalVisible, modalTitle, modalActiveKey, transferSource, targetSource, currentStep } } = this.props.tab;
     const mgrCtx = new MgrCtx();
-    const { schema, columns, filters, editors, actions } = Builder.parseBySchema(targetSchema, mgrCtx, this);
-    schema.fields.forEach(field => {
-      if (field.$subEditors) {
-        field.$subEditors.push(getFieldDecorator => this.editorAdd(field, getFieldDecorator));
-      }
+    const { schema, columns, filters, editors, actions, groupMap } = Builder.parseBySchema(targetSchema, mgrCtx, this);
+    groupMap.forEach((groupEditors, group) => {
+      groupEditors.push(getFieldDecorator => this.editorAdd(targetSchema)(group, getFieldDecorator));
     });
     columns.push(this.columnAdd);
-    filters.push(this.filterAdd);
+    filters.push(this.filterAdd(targetSchema));
     const FormBasic = this.buildBaseEditor(mgrCtx);
     const FormQuery = this.buildQueryForm(filters);
     const FormField = this.buildFieldEditor(mgrCtx);
@@ -273,7 +293,7 @@ class MakeTab extends React.Component {
               <Row className="ant-advanced-search-list">
                 <Button.Group style={{ marginBottom: '8px' }}>
                   {actions}
-                  <Button type="dashed" onClick={() => this.showModal("addActions")}><Icon type="plus" />填充动作</Button>
+                  <Button type="dashed" style={{ color: 'red' }} onClick={() => this.showModal("addActions")}><Icon type="plus" />填充动作</Button>
                 </Button.Group>
                 <Table bordered columns={columns} pagination={false} />
               </Row>
@@ -281,12 +301,12 @@ class MakeTab extends React.Component {
             <Tabs.TabPane tab="edit" key={'1'}>
               <FormEditor />
               <Row style={{ textAlign: 'center', marginBottom: '12px' }}>
-                <Button style={{ width: '100%' }} type="dashed" onClick={() => this.showModal("addFieldGroup")}><Icon type="plus" />新建字段组</Button>
+                <Button style={{ width: '100%', color: 'red' }} type="dashed" onClick={() => this.showModal("addFieldGroup")}><Icon type="plus" />新建字段组</Button>
               </Row>
               <Row style={{ textAlign: 'center' }}>
                 <Tabs type="editable-card" onEdit={this.onTabRemove} hideAdd onChange={this.onTabChange} className="ant-layout-tab">
                   <Tabs.TabPane closable={false} tab="内嵌页" key="empty">
-                    <Button style={{ width: '100%' }} type="dashed" onClick={() => this.showModal("nestedTabs")}><Icon type="plus" />配置内嵌页</Button>
+                    <Button style={{ width: '100%', color: 'red' }} type="dashed" onClick={() => this.showModal("nestedTabs")}><Icon type="plus" />配置内嵌页</Button>
                   </Tabs.TabPane>
                 </Tabs>
               </Row>
@@ -294,7 +314,12 @@ class MakeTab extends React.Component {
           </Tabs>
         </Row>
         <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
+          <Col span={12} style={{ textAlign: 'left' }}>
+            {currentStep == 2 ?
+              <Button onClick={this.saveSchema} type='primary'><Icon type="save" />保存</Button>
+              : ''}
+          </Col>
+          <Col span={12} style={{ textAlign: 'right' }}>
             <Button.Group>
               <Button onClick={this.goPrivous} style={{ marginRight: '12px' }}><Icon type="left" />上一步</Button>
               <Button onClick={this.goNext}>下一步<Icon type="right" /></Button>

@@ -75,9 +75,10 @@ class EditableTable extends React.Component {
     const { changeMap } = this.state;
     return (value, record, index) => {
       const handleChange = (newValue) => {
-        const change = changeMap.get(index) || {};
-        change[dataIndex] = newValue;
-        changeMap.set(index, change);
+        // const change = changeMap.get(index) || {};
+        // change[dataIndex] = newValue;
+        // changeMap.set(index, change);
+        record[dataIndex] = newValue;
       };
       const { $editable, $status } = record;
       return (<EditableCell editable={$editable} value={value} onChange={handleChange} status={$status} column={column} />);
