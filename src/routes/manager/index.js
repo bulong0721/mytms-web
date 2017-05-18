@@ -25,6 +25,11 @@ class Manager extends React.Component {
   //   return sholdUpdate;
   // };
 
+  componentWillUnmount = () => {
+    const { dispatch, route: { tableName } } = this.props;
+    console.log('componentWillUnmount', tableName);
+  }
+
   handleQuery = () => {
     const { dispatch, route: { tableName } } = this.props;
     const filter = this.formQuery.getFieldsValue();

@@ -210,6 +210,17 @@ class MakeTab extends React.Component {
     dispatch({ type: 'tab/saveSchema', tabCtx });
   }
 
+  exportSchema = () => {
+    const { tabCtx: { targetSchema, targetSchema:{key}  } } = this.props.tab;
+    const json = JSON.stringify(targetSchema, null, 2);
+    const fileContent = `import { Formatter, Parser } from '../utils/columnRender';\nimport OptionConstants from '../utils/optionConstants';\n\nmodule.exports = ${json}`;
+    const a = document.createElement('a');
+    a.textContent = 'download';
+    a.download = `${key}.schema.js`;
+    a.href = `data:application/js;charset=utf-8,${encodeURIComponent(fileContent)}`;
+    a.click();
+  }
+
   handleTransferChange = (targetKeys, direction, moveKeys) => {
     const { dispatch } = this.props;
     dispatch({ type: 'tab/transferChange', targetKeys });
@@ -316,7 +327,10 @@ class MakeTab extends React.Component {
         <Row>
           <Col span={12} style={{ textAlign: 'left' }}>
             {currentStep == 2 ?
-              <Button onClick={this.saveSchema} type='primary'><Icon type="save" />保存</Button>
+              <Button.Group>
+                <Button onClick={this.saveSchema} type='primary'><Icon type="save" />保存</Button>
+                <Button onClick={this.exportSchema}><Icon type="download" />导出</Button>
+              </Button.Group>
               : ''}
           </Col>
           <Col span={12} style={{ textAlign: 'right' }}>

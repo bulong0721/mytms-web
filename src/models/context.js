@@ -93,6 +93,15 @@ class TabCtx {
       if (value.notAsColumn && value.notAsFilter && value.notAsEditor) {
         return;
       }
+      if (false === value.notAsColumn) {
+        delete value.notAsColumn;
+      }
+      if (false === value.notAsFilter) {
+        delete value.notAsFilter;
+      }
+      if (false === value.notAsEditor) {
+        delete value.notAsEditor;
+      }
       fields.push(value);
     });
     this.targetSchema.fields = fields;

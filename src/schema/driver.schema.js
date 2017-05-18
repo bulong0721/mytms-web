@@ -2,136 +2,77 @@ import { Formatter, Parser } from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
 
 module.exports = {
-	actions:[
-		{
-			action:'manager/save',
-			icon:'plus-circle-o',
-			popupEditor:true,
-			title:'新增',
-			type:'primary'
-		}
-	],
-	editorSpan:8,
-	fields:[
-		{
-			key:'cdAuditStatus',
-			showType:'input',
-			title:'审核状态'
-		},
-		{
-			key:'cdAuditor',
-			showType:'input',
-			title:'审核人'
-		},
-		{
-			key:'cdCustomerCode',
-			showType:'input',
-			title:'所属供应商代码'
-		},
-		{
-			key:'cdCustomerName',
-			showType:'input',
-			title:'所属供应商名称'
-		},
-		{
-			key:'cdCustomerPmCode',
-			showType:'input',
-			title:'所属供应商PM代码'
-		},
-		{
-			key:'cdDomicle',
-			notAsFilter:true,
-			showType:'input',
-			title:'居住地'
-		},
-		{
-			key:'cdDriverName',
-			notAsFilter:true,
-			showType:'input',
-			title:'司机名称'
-		},
-		{
-			key:'cdDriverNo',
-			notAsFilter:true,
-			showType:'input',
-			title:'行驶证号'
-		},
-		{
-			key:'cdDrivercardPhoto',
-			notAsFilter:true,
-			showType:'input',
-			title:'驾驶证图片'
-		},
-		{
-			key:'cdDrivingType',
-			notAsFilter:true,
-			options:[],
-			showType:'select',
-			title:'准驾车型'
-		},
-		{
-			key:'cdIdentifyPhoto',
-			notAsFilter:true,
-			showType:'input',
-			title:'身份证图片'
-		},
-		{
-			key:'cdLicensePeriod',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'驾驶证有限期'
-		},
-		{
-			key:'cdMobile',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'手机号码'
-		},
-		{
-			key:'cdOtherPhoto',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'其他图片'
-		},
-		{
-			key:'cdPermanentLocation',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'户口所在地'
-		},
-		{
-			key:'cdRemark',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'备注'
-		},
-		{
-			key:'cdSex',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'性别'
-		},
-		{
-			disabled:true,
-			key:'id',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'ID',
-			title:'主键'
-		},
-		{
-			key:'pmCode',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'逻辑主键'
-		}
-	],
-	filterSpan:6
+  "actions": [],
+  "fields": [
+    {
+      "key": "ID",
+      "notAsFilter": true,
+      "showType": "input",
+      "title": "主键",
+      "group": "基本信息"
+    },
+    {
+      "key": "PM_CODE",
+      "notAsFilter": true,
+      "showType": "input",
+      "title": "逻辑主键",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_CUSTOMER_PM_CODE",
+      "notAsFilter": true,
+      "showType": "input",
+      "title": "公司PM代码",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_DEPARTURE_CODE",
+      "showType": "input",
+      "title": "起运地代码",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_DEPARTURE_NAME",
+      "showType": "input",
+      "title": "起运地",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_DESTINATION_CODE",
+      "showType": "input",
+      "title": "目的地代码",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_DESTINATION_NAME",
+      "showType": "input",
+      "title": "目的地",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCLREMARK",
+      "notAsFilter": true,
+      "showType": "input",
+      "title": "备注",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_BUSINESS_TYPE",
+      "notAsFilter": true,
+      "showType": "input",
+      "title": "业务类型",
+      "group": "基本信息"
+    },
+    {
+      "key": "CCL_DELIVERY_AREA",
+      "notAsFilter": true,
+      "showType": "input",
+      "title": "配送区域",
+      "group": "基本信息"
+    }
+  ],
+  "key": "crm_customer_line",
+  "title": "客户",
+  "editorSpan": 8,
+  "filterSpan": 6
 }

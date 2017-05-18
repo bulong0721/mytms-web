@@ -16,7 +16,9 @@ export default {
     *importFields({ tableName }, { call, put }) {
       const url = 'http://localhost:8080/tab/listFieldsByTable';
       const data = yield call(post, url, { tableName });
+      console.log(data);
       if (data) {
+        console.log('showModal', data);
         yield put({ type: 'showModal', action: 'importFields', fields: data.list });
       }
     },
