@@ -31,7 +31,7 @@ module.exports = [
     ]
   },
   {
-    key: 'scaffold',
+    key: 'develop',
     name: '开发工具',
     icon: 'tool',
     child: [

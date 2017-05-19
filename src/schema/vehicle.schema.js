@@ -2,272 +2,328 @@ import { Formatter, Parser } from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
 
 module.exports = {
-	actions:[
-		{
-			action:'manager/save',
-			icon:'plus-circle-o',
-			popupEditor:true,
-			title:'新增',
-			type:'primary'
-		}
-	],
-	editorSpan:8,
-	fields:[
-		{
-			key:'cvApproedLoad',
-			showType:'input',
-			title:'核定载量'
-		},
-		{
-			key:'cvAuditStatus',
-			showType:'input',
-			title:'审核状态'
-		},
-		{
-			key:'cvAuditor',
-			showType:'input',
-			title:'审核人'
-		},
-		{
-			key:'cvBrandModel',
-			showType:'input',
-			title:'品牌型号'
-		},
-		{
-			key:'cvBusinessPolicy',
-			showType:'input',
-			title:'商业险保单'
-		},
-		{
-			key:'cvCarOperationPic',
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆运营证'
-		},
-		{
-			key:'cvCarOwner',
-			notAsFilter:true,
-			showType:'input',
-			title:'行驶证车主'
-		},
-		{
-			key:'cvCarPic',
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆照片'
-		},
-		{
-			key:'cvCard',
-			notAsFilter:true,
-			showType:'input',
-			title:'车牌号'
-		},
-		{
-			key:'cvCarriageFormat',
-			notAsFilter:true,
-			showType:'input',
-			title:'车厢规格'
-		},
-		{
-			key:'cvCompany',
-			notAsFilter:true,
-			showType:'input',
-			title:'所属公司'
-		},
-		{
-			key:'cvCustomerCode',
-			notAsFilter:true,
-			showType:'input',
-			title:'供应商代码'
-		},
-		{
-			key:'cvCustomerName',
-			notAsFilter:true,
-			showType:'input',
-			title:'供应商名称'
-		},
-		{
-			key:'cvCustomerPmCode',
-			notAsFilter:true,
-			showType:'input',
-			title:'供应商PM代码'
-		},
-		{
-			key:'cvDrivingPic',
-			notAsFilter:true,
-			showType:'input',
-			title:'行驶证扫描件'
-		},
-		{
-			key:'cvEngineNo',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'发动机号码'
-		},
-		{
-			key:'cvEquipmentNum',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'number',
-			title:'温湿度探头个数'
-		},
-		{
-			key:'cvGpsManufacturer',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'GPS厂商'
-		},
-		{
-			key:'cvHygroscopeManufacturer',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'湿度设备厂商'
-		},
-		{
-			key:'cvIsGps',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'GPS'
-		},
-		{
-			key:'cvIsHygroscop',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'是否有湿度设备'
-		},
-		{
-			key:'cvIsLoan',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'是否贷款'
-		},
-		{
-			key:'cvIsThermostat',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'是否有温度设备'
-		},
-		{
-			key:'cvMaxTemp',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'最高温'
-		},
-		{
-			key:'cvMinTemp',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'最低温'
-		},
-		{
-			key:'cvOperateNo',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆运营证'
-		},
-		{
-			key:'cvRegdate',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'datetime',
-			title:'注册日期'
-		},
-		{
-			key:'cvRemark',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'备注'
-		},
-		{
-			key:'cvServiceLife',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'number',
-			title:'使用年限'
-		},
-		{
-			key:'cvStrongPolicy',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'交强险保单'
-		},
-		{
-			key:'cvThermostatManufacturer',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'温控设备厂商'
-		},
-		{
-			key:'cvVehicleLength',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'车长'
-		},
-		{
-			key:'cvVehicleOwnership',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆归属'
-		},
-		{
-			key:'cvVehicleType',
-			notAsColumn:true,
-			notAsFilter:true,
-			options:[],
-			showType:'select',
-			title:'车辆类型'
-		},
-		{
-			key:'cvVin',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'车辆识别代码'
-		},
-		{
-			key:'cvWarrantPic',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'保单扫描件'
-		},
-		{
-			key:'cvWeightLoad',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'核载提交'
-		},
-		{
-			disabled:true,
-			key:'id',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'ID',
-			title:'主键'
-		},
-		{
-			key:'pmCode',
-			notAsColumn:true,
-			notAsFilter:true,
-			showType:'input',
-			title:'逻辑主键'
-		}
-	],
-	filterSpan:6
+  "actions": [
+    {
+      "title": "新增",
+      "icon": "plus",
+      "type": "primary",
+      "action": "vechile/save",
+      "popupEditor": true
+    },
+    {
+      "title": "编辑",
+      "icon": "edit",
+      "action": "vehicle/save",
+      "popupEditor": true
+    },
+    {
+      "title": "删除",
+      "icon": "close",
+      "action": "vehicle/remove"
+    },
+    {
+      "title": "导入",
+      "icon": "upload",
+      "action": "vehicle/import"
+    }
+  ],
+  "fields": [
+    {
+      "key": "id",
+      "showType": "ID",
+      "title": "主键",
+      "group": "基本信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "cardNo",
+      "showType": "input",
+      "title": "车牌号",
+      "group": "基本信息"
+    },
+    {
+      "key": "ownerType",
+      "options": [],
+      "showType": "select",
+      "title": "车辆归属",
+      "group": "基本信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "carOwner",
+      "showType": "input",
+      "title": "行驶证车主",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "brandModel",
+      "showType": "input",
+      "title": "品牌型号",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "vin",
+      "showType": "input",
+      "title": "车辆识别码",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "engineNo",
+      "showType": "input",
+      "title": "发动机号",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "regdate",
+      "showType": "datetime",
+      "title": "注册日期",
+      "group": "基本信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "approedLoad",
+      "showType": "number",
+      "title": "核定载量",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "company",
+      "showType": "input",
+      "title": "所属公司",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "loan",
+      "showType": "switch",
+      "title": "是否贷款",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "serviceLife",
+      "showType": "number",
+      "title": "使用年限",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "operateNo",
+      "showType": "input",
+      "title": "车辆运营证",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "strongPolicy",
+      "showType": "input",
+      "title": "交强险保单",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "businessPolicy",
+      "showType": "input",
+      "title": "商业险保单",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "vehicleLength",
+      "showType": "number",
+      "title": "车长",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "vehicleType",
+      "options": [],
+      "showType": "select",
+      "title": "车辆类型",
+      "group": "规格信息"
+    },
+    {
+      "key": "carriageFormat",
+      "showType": "input",
+      "title": "车厢规格",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "maxTemp",
+      "showType": "number",
+      "title": "最高温",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "minTemp",
+      "showType": "number",
+      "title": "最低温",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "gps",
+      "showType": "switch",
+      "title": "GPS",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "gpsManufacturerId",
+      "showType": "autoComplete",
+      "title": "GPS厂商",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "equipmentNum",
+      "showType": "number",
+      "title": "温湿度探头个数",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "hasThermostat",
+      "showType": "switch",
+      "title": "是否有温度设备",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "thermostatManufacturerId",
+      "showType": "autoComplete",
+      "title": "温控设备厂商",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "hasHygroscop",
+      "showType": "switch",
+      "title": "是否有湿度设备",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "hygroscopeManufacturerId",
+      "showType": "autoComplete",
+      "title": "湿度设备厂商",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "auditor",
+      "showType": "input",
+      "title": "审核人",
+      "group": null,
+      "notAsEditor": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "auditStatus",
+      "options": [],
+      "showType": "select",
+      "title": "审核状态",
+      "group": null,
+      "notAsEditor": true
+    },
+    {
+      "key": "remark",
+      "showType": "input",
+      "title": "备注",
+      "group": "基本信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "imgCar",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "showType": "image",
+      "title": "车辆照片",
+      "group": "附件信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "imgDriving",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "showType": "image",
+      "title": "行驶证扫描件",
+      "group": "附件信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "imgCarOperation",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "showType": "image",
+      "title": "车辆运营证",
+      "group": "附件信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "imgWarrant",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "showType": "image",
+      "title": "保单扫描件",
+      "group": "附件信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "orgId",
+      "showType": "autoComplete",
+      "title": "所属供应商",
+      "group": "基本信息"
+    }
+  ],
+  "key": "vehicle",
+  "title": "车辆列表",
+  "editorSpan": 8,
+  "filterSpan": 6
 }

@@ -39,7 +39,7 @@ module.exports = {
       ]
     }
   ],
-  nestedTables: [
+  nesteds: [
     {
       key: 'columns',
       title: '列',

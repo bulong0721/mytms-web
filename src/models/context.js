@@ -15,7 +15,7 @@ class TabCtx {
   targetSource = [];
   currentGroup = null;
 
-  showModal = ({ action, fields, group }) => {
+  showModal = ({ action, fields, group, tabs }) => {
     this.modalAction = action;
     this.modalVisible = true;
     this.transferMap.clear();
@@ -29,6 +29,10 @@ class TabCtx {
       case 'nestedTabs':
         this.modalTitle = '配置内嵌页';
         this.modalActiveKey = 'transfer';
+        this.transferSource = tabs;
+        tabs.forEach(tab => {
+          this.transferMap.set(tab.key, tab);
+        });
         break;
       case 'importFields':
         this.modalTitle = '导入字段';
@@ -128,6 +132,21 @@ class TabCtx {
         break;
       case 'nestedTabs':
         this.modalTitle = '配置内嵌页';
+        const nestedTabs = [];
+        this.targetSource.forEach(key => {
+          const tab = this.transferMap.get(key);
+          if (tab.actions) delete tab.actions;
+          if (tab.nesteds) delete tab.nesteds;
+          const columns = [];
+          tab.fields.forEach(field => {
+            if (!field.notAsColumn) {
+              columns.push(field);
+            }
+          });
+          tab.fields = columns;
+          nestedTabs.push(tab);
+        });
+        this.targetSchema.nesteds = nestedTabs;
         break;
       case 'importFields':
         this.modalTitle = '导入字段';

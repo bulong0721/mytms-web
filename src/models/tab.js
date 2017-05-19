@@ -22,6 +22,15 @@ export default {
         yield put({ type: 'showModal', action: 'importFields', fields: data.list });
       }
     },
+    *nestedTabs({ }, { call, put }) {
+      const url = 'http://localhost:8080/tab/listTabs';
+      const data = yield call(post, url, {});
+      console.log(data);
+      if (data) {
+        console.log('showModal', data);
+        yield put({ type: 'showModal', action: 'nestedTabs', tabs: data.list });
+      }
+    },
     *saveSchema({ tabCtx, tabCtx: { targetSchema } }, { call, put }) {
       const url = 'http://localhost:8080/tab/saveSchema';
       console.log('schema', targetSchema);

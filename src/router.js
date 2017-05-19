@@ -3,8 +3,7 @@ import { Router, Route, IndexRedirect } from 'dva/router';
 import App from './routes/index';
 import Dashboard from './routes/dashboard';
 import Manager from './routes/manager'
-import AddOrder from './routes/pickup/addOrder';
-import MakeTab from './routes/scaffold/makeTab';
+import MakeTab from './routes/develop/makeTab';
 
 export default function ({ history, app }) {
   return (
@@ -14,9 +13,9 @@ export default function ({ history, app }) {
         <Route path="/customer/customer" tableName="customer" component={Manager} />
         <Route path="/customer/group" tableName="customerGroup" component={Manager} />
 
-        <Route path="/suppiler/thridly" tableName="customer" component={Manager} />
-        <Route path="/suppiler/fleet" tableName="customer" component={Manager} />
-        <Route path="/suppiler/private" tableName="customer" component={Manager} />
+        <Route path="/suppiler/thridly" tableName="thridly" component={Manager} />
+        <Route path="/suppiler/fleet" tableName="fleet" component={Manager} />
+        <Route path="/suppiler/private" tableName="private" component={Manager} />
 
         <Route path="/assets/line" tableName="line" component={Manager} />
         <Route path="/assets/equipment" tableName="equipment" component={Manager} />
@@ -24,9 +23,9 @@ export default function ({ history, app }) {
         <Route path="/assets/vehicle" tableName="vehicle" component={Manager} />
         <Route path="/assets/warehouse" tableName="warehouse" component={Manager} />
 
-        <Route path="/scaffold/table" tableName="table" component={Manager} />
-        <Route path="/scaffold/tab" tableName="tab" component={Manager} />
-        <Route path="/scaffold/newTab" component={MakeTab} />
+        <Route path="/develop/table" tableName="table" component={Manager} />
+        <Route path="/develop/tab" tableName="tab" component={Manager} />
+        <Route path="/develop/newTab" component={MakeTab} />
       </Route>
     </Router>
   );

@@ -114,7 +114,7 @@ const Builder = {
     return { table, primary, columns, filters, editors, groupMap };
   },
 
-  buildNestedEditor(nestedTables, context, component) {
+  buildNestedEditor(nesteds, context, component) {
     const buildNestedTable = (nested) => {
       const { table: { key, title, disableNew, disableEdit, disableRemove }, primary, columns, filters, editors } = nested;
       const dataSource = context.getNestedSource(key);
@@ -127,10 +127,10 @@ const Builder = {
       };
       return <EditableTable bordered {...tableProps} />;
     };
-    if (nestedTables.length > 1) {
+    if (nesteds.length > 1) {
       return getFieldDecorator => (
-        <Tabs type="card" className="ant-layout-tab" key="nestedTables" activeKey={context.activedNested} onChange={component.activeNestedTab}>
-          {nestedTables.map(nested => {
+        <Tabs type="card" className="ant-layout-tab" key="nesteds" activeKey={context.activedNested} onChange={component.activeNestedTab}>
+          {nesteds.map(nested => {
             const { table: { key, title } } = nested;
             return (
               <Tabs.TabPane tab={title} key={key}>
@@ -142,7 +142,7 @@ const Builder = {
         </Tabs>
       );
     }
-    const nested = nestedTables[0];
+    const nested = nesteds[0];
     const { table: { key, title } } = nested;
     return getFieldDecorator => (
       <Collapse defaultActiveKey={key} key={key}>
@@ -156,18 +156,18 @@ const Builder = {
   parseBySchema(schema, context, component) {
     const { handlePageAction, handleRowAction, newNestedRecord } = component;
     const { selectedRowKeys, nestedFields } = context;
-    const { nestedTables, nestedIndex } = schema;
+    const { nesteds, nestedIndex } = schema;
     let mainTable = this.build4Table(schema, component);
     const { editors } = mainTable;
-    if (nestedTables) {
-      const nesteds = nestedTables.map(table => {
+    if (nesteds) {
+      const nestedTabs = nesteds.map(table => {
         nestedFields.add(table.key);
         return this.build4Table(table, component);
       });
       if (null == context.activedNested) {
-        context.activedNested = nestedTables[0].key;
+        context.activedNested = nesteds[0].key;
       }
-      editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nesteds, context, component));
+      editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nestedTabs, context, component));
     }
     const actions = schema.actions.map((action, index) => {
       const { icon, title, type, target } = action;
@@ -270,10 +270,18 @@ const Builder = {
     const forFilter = useFor === 'filter';
     const { filterSpan, editorSpan } = table;
     const fieldSpan = forFilter ? filterSpan || 6 : editorSpan || 12;
-    const { key, title } = field;
+    const { key, title, layout } = field;
+    let colSpan = fieldSpan;
+    let labelSpan = 6;
+    let wrapperSpan = 18;
+    if (layout) {
+      colSpan = layout.colSpan;
+      labelSpan = layout.labelSpan;
+      wrapperSpan = layout.wrapperSpan;
+    }
     return getFieldDecorator => (
-      <Col key={key} span={fieldSpan}>
-        <FormItem key={key} label={title} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+      <Col key={key} span={colSpan}>
+        <FormItem key={key} label={title} labelCol={{ span: labelSpan }} wrapperCol={{ span: wrapperSpan }}>
           {formItem(getFieldDecorator)}
         </FormItem>
       </Col>
@@ -344,7 +352,7 @@ const Builder = {
 
   buildSelect(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
-    const options = field.options.map((option) =>
+    const options = (field.options || []).map((option) =>
       <Option disabled={fieldOpts.disabled} key={option.key} value={option.key}>{option.value}</Option>
     );
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(

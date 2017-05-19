@@ -22,8 +22,8 @@ module.exports = {
       "action": "customer/remove"
     },
     {
-      "title": "绑定关系",
-      "icon": "link",
+      "title": "审核",
+      "icon": "schedule",
       "action": "customer/bind"
     }
   ],

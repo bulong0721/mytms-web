@@ -7,33 +7,39 @@ module.exports = {
     { icon: 'upload', title: '导入字段', action: 'manager/save', popupEditor: true, },
   ],
   fields: [
-
     {
       key: 'id',
       title: 'ID',
       showType: 'ID',
+      notAsFilter: true,
+      group: '基本信息',
       disabled: true,
     },
     {
       key: 'title',
       title: '窗体名',
+      group: '基本信息',
       showType: 'input',
       validator: [{ required: true }],
     },
     {
       key: 'key',
       title: '映射表名',
+      group: '基本信息',
       showType: 'input',
       validator: [{ required: true }],
     },
     {
       key: 'p01',
       notAsFilter: true,
+      group: '基本信息',
       showType: 'placeholder',
     },
     {
       key: 'filterSpan',
       title: '过滤字段列宽',
+      group: '基本信息',
+      notAsFilter: true,
       showType: 'number',
       defaultValue: 6,
       min: 4,
@@ -42,6 +48,8 @@ module.exports = {
     {
       key: 'editorSpan',
       title: '编辑字段列宽',
+      group: '基本信息',
+      notAsFilter: true,
       showType: 'number',
       defaultValue: 8,
       min: 4,
@@ -50,6 +58,8 @@ module.exports = {
     {
       key: 'nested',
       title: '内嵌窗体',
+      group: '基本信息',
+      notAsFilter: true,
       showType: 'switch',
       render: Formatter.yesOrNo
     },
@@ -63,7 +73,7 @@ module.exports = {
       ]
     }
   ],
-  nestedTables: [
+  nesteds: [
     {
       key: 'fields',
       title: '表字段',
@@ -114,29 +124,6 @@ module.exports = {
           title: '只读字段',
           showType: 'switch',
           render: Formatter.yesOrNo
-        },
-      ]
-    },
-    {
-      key: 'fieldGroups',
-      title: '字段组',
-      fields: [
-        {
-          key: 'id',
-          title: 'ID',
-          showType: 'ID',
-          disabled: true,
-        },
-        {
-          key: 'title',
-          title: '字段组名',
-          showType: 'input',
-        },
-        {
-          key: 'sorter',
-          title: '顺序',
-          showType: 'number',
-          disabled: true
         },
       ]
     },

@@ -2,77 +2,165 @@ import { Formatter, Parser } from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
 
 module.exports = {
-  "actions": [],
+  "actions": [
+    {
+      "title": "新增",
+      "icon": "plus",
+      "type": "primary",
+      "action": "driver/save",
+      "popupEditor": true
+    },
+    {
+      "title": "编辑",
+      "icon": "edit",
+      "action": "driver/save",
+      "popupEditor": true
+    },
+    {
+      "title": "删除",
+      "icon": "close",
+      "action": "driver/remove",
+      "popupEditor": false
+    },
+    {
+      "title": "导入",
+      "icon": "upload",
+      "action": "driver/import"
+    }
+  ],
   "fields": [
     {
-      "key": "ID",
+      "key": "driverName",
+      "showType": "input",
+      "title": "司机姓名",
+      "group": "基本信息"
+    },
+    {
+      "key": "sex",
+      "notAsFilter": true,
+      "showType": "switch",
+      "title": "性别",
+      "group": "基本信息"
+    },
+    {
+      "key": "mobile",
       "notAsFilter": true,
       "showType": "input",
-      "title": "主键",
+      "title": "手机号码",
       "group": "基本信息"
     },
     {
-      "key": "PM_CODE",
+      "key": "driverNo",
       "notAsFilter": true,
       "showType": "input",
-      "title": "逻辑主键",
+      "title": "行驶证号",
       "group": "基本信息"
     },
     {
-      "key": "CCL_CUSTOMER_PM_CODE",
+      "key": "licensePeriodType",
+      "notAsColumn": true,
+      "notAsFilter": true,
+      "options": [],
+      "showType": "select",
+      "title": "驾驶证有效期",
+      "group": "基本信息"
+    },
+    {
+      "key": "drivingType",
+      "notAsFilter": true,
+      "options": [],
+      "showType": "select",
+      "title": "准驾车型",
+      "group": "基本信息"
+    },
+    {
+      "key": "permanentLocation",
+      "notAsColumn": true,
       "notAsFilter": true,
       "showType": "input",
-      "title": "公司PM代码",
+      "title": "户口所在地",
       "group": "基本信息"
     },
     {
-      "key": "CCL_DEPARTURE_CODE",
+      "key": "domicle",
+      "notAsColumn": true,
+      "notAsFilter": true,
       "showType": "input",
-      "title": "起运地代码",
+      "title": "居住地",
       "group": "基本信息"
     },
     {
-      "key": "CCL_DEPARTURE_NAME",
+      "key": "auditor",
+      "notAsEditor": true,
+      "notAsFilter": true,
       "showType": "input",
-      "title": "起运地",
-      "group": "基本信息"
+      "title": "审核人",
+      "group": null
     },
     {
-      "key": "CCL_DESTINATION_CODE",
-      "showType": "input",
-      "title": "目的地代码",
-      "group": "基本信息"
+      "key": "auditStatus",
+      "notAsEditor": true,
+      "options": [],
+      "showType": "select",
+      "title": "审核状态",
+      "group": null
     },
     {
-      "key": "CCL_DESTINATION_NAME",
-      "showType": "input",
-      "title": "目的地",
-      "group": "基本信息"
-    },
-    {
-      "key": "CCLREMARK",
+      "key": "remark",
+      "notAsColumn": true,
       "notAsFilter": true,
       "showType": "input",
       "title": "备注",
       "group": "基本信息"
     },
     {
-      "key": "CCL_BUSINESS_TYPE",
+      "key": "imgIdentify",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "notAsColumn": true,
       "notAsFilter": true,
-      "showType": "input",
-      "title": "业务类型",
-      "group": "基本信息"
+      "showType": "image",
+      "title": "身份证图片",
+      "group": "证照信息"
     },
     {
-      "key": "CCL_DELIVERY_AREA",
+      "key": "imgDriverCard",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "notAsColumn": true,
       "notAsFilter": true,
-      "showType": "input",
-      "title": "配送区域",
+      "showType": "image",
+      "title": "驾驶证图片",
+      "group": "证照信息"
+    },
+    {
+      "key": "imgOther",
+      "layout": {
+        "colSpan": 24,
+        "labelSpan": 2,
+        "wrapperSpan": 22
+      },
+      "notAsColumn": true,
+      "notAsFilter": true,
+      "showType": "image",
+      "title": "其他图片",
+      "group": "证照信息"
+    },
+    {
+      "key": "orgId",
+      "showType": "autoComplete",
+      "title": "所属供应商",
       "group": "基本信息"
     }
   ],
-  "key": "crm_customer_line",
-  "title": "客户",
+  "key": "driver",
+  "title": "司机列表",
   "editorSpan": 8,
   "filterSpan": 6
 }

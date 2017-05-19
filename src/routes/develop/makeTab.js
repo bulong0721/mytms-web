@@ -27,7 +27,7 @@ class MakeTab extends React.Component {
       { key: 'filterSpan', title: '过滤列宽', showType: 'number', defaultValue: 6, min: 4, max: 24 },
       { key: 'editorSpan', title: '编辑列宽', showType: 'number', defaultValue: 8, min: 4, max: 24 },
       { key: 'nested', title: '内嵌窗体', showType: 'switch', render: Formatter.yesOrNo },
-      { key: 'parentKey', title: '关联字段', showType: 'input', },
+      { key: 'parentKey', title: '关联字段', showType: 'input' },
     ]
   };
 
@@ -77,21 +77,6 @@ class MakeTab extends React.Component {
 
   buildFieldEditor = (mgrCtx) => {
     const fieldSchema = { editorSpan: 24, fields: this.fieldColumns, actions: [] };
-    const { editors } = Builder.parseBySchema(fieldSchema, mgrCtx, this);
-    return Builder.buildEditorForm(editors);
-  }
-
-  buildNestedTabEditor = (mgrCtx) => {
-    const fields = [
-      { key: 'key', title: '关联字段', showType: 'input', validator: [{ required: true }], },
-      { key: 'title', title: '标题', showType: 'input', validator: [{ required: true }], },
-      { key: 'actualTab', title: 'Tab页', showType: 'select', options: [], validator: [{ required: true }], },
-      { key: 'disableNew', title: '禁止新增', showType: 'switch', },
-      { key: 'disableEdit', title: '禁止编辑', showType: 'switch', },
-      { key: 'disableRemove', title: '禁止删除', showType: 'switch', },
-      { key: 'sorter', title: '顺序', showType: 'number', },
-    ];
-    const fieldSchema = { editorSpan: 24, fields, actions: [] };
     const { editors } = Builder.parseBySchema(fieldSchema, mgrCtx, this);
     return Builder.buildEditorForm(editors);
   }
@@ -150,6 +135,11 @@ class MakeTab extends React.Component {
         dispatch({ type: 'tab/importFields', tableName: key });
       }
     }
+  }
+
+  nestedTabs = () => {
+    const { dispatch } = this.props;
+    dispatch({ type: 'tab/nestedTabs' });
   }
 
   importNesteds = () => {
@@ -211,7 +201,7 @@ class MakeTab extends React.Component {
   }
 
   exportSchema = () => {
-    const { tabCtx: { targetSchema, targetSchema:{key}  } } = this.props.tab;
+    const { tabCtx: { targetSchema, targetSchema: { key } } } = this.props.tab;
     const json = JSON.stringify(targetSchema, null, 2);
     const fileContent = `import { Formatter, Parser } from '../utils/columnRender';\nimport OptionConstants from '../utils/optionConstants';\n\nmodule.exports = ${json}`;
     const a = document.createElement('a');
@@ -269,7 +259,6 @@ class MakeTab extends React.Component {
 
     const FormAction = this.buildActionEditor(mgrCtx);
     const FormFieldGroup = this.buildFieldGroupEditor(mgrCtx);
-    const FormNestedTab = this.buildNestedTabEditor(mgrCtx);
 
     const FormEditor = Builder.buildEditorForm(editors);
     return (
@@ -317,7 +306,7 @@ class MakeTab extends React.Component {
               <Row style={{ textAlign: 'center' }}>
                 <Tabs type="editable-card" onEdit={this.onTabRemove} hideAdd onChange={this.onTabChange} className="ant-layout-tab">
                   <Tabs.TabPane closable={false} tab="内嵌页" key="empty">
-                    <Button style={{ width: '100%', color: 'red' }} type="dashed" onClick={() => this.showModal("nestedTabs")}><Icon type="plus" />配置内嵌页</Button>
+                    <Button style={{ width: '100%', color: 'red' }} type="dashed" onClick={() => this.nestedTabs()}><Icon type="plus" />配置内嵌页</Button>
                   </Tabs.TabPane>
                 </Tabs>
               </Row>
@@ -353,9 +342,6 @@ class MakeTab extends React.Component {
             </Tabs.TabPane>
             <Tabs.TabPane tab="fieldGroup" key="fieldGroup">
               <FormFieldGroup ref={(input) => this.setModalForm(input, 'fieldGroup')} />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="nested" key="nested">
-              <FormNestedTab ref={(input) => this.setModalForm(input, 'nested')} />
             </Tabs.TabPane>
           </Tabs>
         </Modal>
