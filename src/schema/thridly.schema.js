@@ -14,16 +14,19 @@ module.exports = {
       "title": "编辑",
       "icon": "edit",
       "action": "customer/save",
+      "target": "row",
       "popupEditor": true
     },
     {
       "title": "删除",
       "icon": "close",
+      "target": "rows",
       "action": "customer/remove"
     },
     {
-      "title": "审核",
-      "icon": "schedule",
+      "title": "绑定关系",
+      "icon": "link",
+      "target": "row",
       "action": "customer/bind"
     }
   ],
@@ -185,103 +188,6 @@ module.exports = {
       "group": "基本信息"
     },
     {
-      "key": "supplyIndustry",
-      "showType": "input",
-      "title": "供应行业",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "deliveryType",
-      "options": [],
-      "showType": "select",
-      "title": "送货方式",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "productLife",
-      "showType": "input",
-      "title": "产品生产年限",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "hasQms",
-      "showType": "switch",
-      "title": "是否有质量管理系统证书",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "ccir",
-      "showType": "switch",
-      "title": "是否提供商品检验报告",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "productProcessing",
-      "showType": "switch",
-      "title": "是否进行产品加工",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "proxyNo",
-      "showType": "input",
-      "title": "代理授权证书号",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "proxyDeadline",
-      "showType": "datetime",
-      "title": "代理有限期截止",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "proxyArea",
-      "showType": "input",
-      "title": "代理区域",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "productionLicense",
-      "showType": "input",
-      "title": "生产许可证号",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "hasWh",
-      "showType": "switch",
-      "title": "是否拥有仓库",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "hasCar",
-      "showType": "switch",
-      "title": "是否拥有车辆",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
       "key": "auditor",
       "showType": "input",
       "title": "审核人",
@@ -434,9 +340,178 @@ module.exports = {
         },
       ],
     },
+    {
+      "key": 'vehicles',
+      "title": '车辆信息',
+      "fields": [
+        {
+          "key": "id",
+          "showType": "ID",
+          "title": "主键",
+          "group": "xxxx"
+        },
+        {
+          "key": "cardNo",
+          "showType": "input",
+          "title": "车牌号",
+          "notAsFilter": true
+        },
+        {
+          "key": "ownerType",
+          "options": [],
+          "showType": "select",
+          "title": "车辆归属",
+          "notAsFilter": true
+        },
+        {
+          "key": "brandModel",
+          "showType": "input",
+          "title": "品牌型号",
+          "notAsFilter": true
+        },
+        {
+          "key": "approedLoad",
+          "showType": "number",
+          "title": "核定载量",
+          "notAsFilter": true
+        },
+        {
+          "key": "serviceLife",
+          "showType": "number",
+          "title": "使用年限",
+          "notAsFilter": true
+        },
+        {
+          "key": "strongPolicy",
+          "showType": "input",
+          "title": "交强险保单",
+          "notAsFilter": true
+        },
+        {
+          "key": "businessPolicy",
+          "showType": "input",
+          "title": "商业险保单",
+          "notAsFilter": true
+        },
+        {
+          "key": "vehicleType",
+          "options": [],
+          "showType": "select",
+          "title": "车辆类型",
+          "notAsFilter": true
+        },
+        {
+          "key": "carriageFormat",
+          "showType": "input",
+          "title": "车厢规格",
+          "notAsFilter": true
+        },
+        {
+          "key": "gps",
+          "showType": "switch",
+          "title": "GPS",
+          "notAsFilter": true
+        },
+        {
+          "key": "auditStatus",
+          "options": [],
+          "showType": "select",
+          "title": "审核状态",
+          "notAsFilter": true
+        }
+      ]
+    },
+    {
+      "key": 'drivers',
+      "title": '司机信息',
+      "fields": [
+        {
+          "key": "id",
+          "showType": "ID",
+          "title": "主键",
+          "group": "eeee"
+        },
+        {
+          "key": "driverName",
+          "showType": "input",
+          "title": "司机姓名",
+          "notAsFilter": true
+        },
+        {
+          "key": "driverNo",
+          "showType": "input",
+          "title": "行驶证号",
+          "notAsFilter": true
+        },
+        {
+          "key": "mobile",
+          "showType": "input",
+          "title": "手机号码",
+          "notAsFilter": true
+        },
+        {
+          "key": "drivingType",
+          "options": [],
+          "showType": "select",
+          "title": "准驾车型",
+          "notAsFilter": true
+        },
+        {
+          "key": "licensePeriodType",
+          "options": [],
+          "showType": "select",
+          "title": "驾驶证有效期",
+          "notAsFilter": true
+        },
+        {
+          "key": "auditStatus",
+          "options": [],
+          "showType": "select",
+          "title": "审核状态",
+          "notAsFilter": true
+        }
+      ],
+    },
+    {
+      "key": 'lines',
+      "title": '线路信息',
+      "fields": [
+        {
+          "key": "departureName",
+          "showType": "input",
+          "title": "起运地",
+          "group": "eee",
+          "notAsFilter": true
+        },
+        {
+          "key": "destinationName",
+          "showType": "input",
+          "title": "目的地",
+          "notAsFilter": true
+        },
+        {
+          "key": "businessType",
+          "options": [],
+          "showType": "select",
+          "title": "业务类型",
+          "notAsFilter": true
+        },
+        {
+          "key": "deliveryArea",
+          "showType": "input",
+          "title": "配送区域",
+          "notAsFilter": true
+        },
+        {
+          "key": "id",
+          "showType": "ID",
+          "title": "主键"
+        }
+      ]
+    }
   ],
   "key": "customer",
-  "title": "客户列表",
+  "title": "三方供应商",
   "editorSpan": 8,
   "filterSpan": 6
 }

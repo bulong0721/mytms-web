@@ -14,15 +14,18 @@ module.exports = {
       "title": "编辑",
       "icon": "edit",
       "action": "customer/save",
+      "target": "row",
       "popupEditor": true
     },
     {
       "title": "删除",
       "icon": "close",
+      "target": "rows",
       "action": "customer/remove"
     },
     {
       "title": "绑定关系",
+      "target": "row",
       "icon": "link",
       "action": "customer/bind"
     }
@@ -183,103 +186,6 @@ module.exports = {
       "showType": "select",
       "title": "经营类型",
       "group": "基本信息"
-    },
-    {
-      "key": "supplyIndustry",
-      "showType": "input",
-      "title": "供应行业",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "deliveryType",
-      "options": [],
-      "showType": "select",
-      "title": "送货方式",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "productLife",
-      "showType": "input",
-      "title": "产品生产年限",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "hasQms",
-      "showType": "switch",
-      "title": "是否有质量管理系统证书",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "ccir",
-      "showType": "switch",
-      "title": "是否提供商品检验报告",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "productProcessing",
-      "showType": "switch",
-      "title": "是否进行产品加工",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "proxyNo",
-      "showType": "input",
-      "title": "代理授权证书号",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "proxyDeadline",
-      "showType": "datetime",
-      "title": "代理有限期截止",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "proxyArea",
-      "showType": "input",
-      "title": "代理区域",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "productionLicense",
-      "showType": "input",
-      "title": "生产许可证号",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "hasWh",
-      "showType": "switch",
-      "title": "是否拥有仓库",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "hasCar",
-      "showType": "switch",
-      "title": "是否拥有车辆",
-      "group": "原材料供应信息",
-      "notAsFilter": true,
-      "notAsColumn": true
     },
     {
       "key": "auditor",

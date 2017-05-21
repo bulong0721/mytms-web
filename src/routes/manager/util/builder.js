@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Form, Input, Row, Col, DatePicker, Switch, Select, Icon, Radio, Collapse, Table, InputNumber, Checkbox, Cascader, Button, notification } from 'antd';
+import { Tabs, Form, BackTop, Input, Row, Col, DatePicker, Switch, Select, Icon, Radio, Collapse, Table, InputNumber, Checkbox, Cascader, Button, Upload, AutoComplete, notification } from 'antd';
 import moment from 'moment';
 import Renders from './renders';
 import EditableTable from '../../../components/extension/editableTable';
@@ -82,12 +82,12 @@ const Builder = {
     return this.parseBySchema(schema, context, component);
   },
 
-  build4Table(table, component) {
+  build4Table(table, context, component) {
     let columns = [];
     let filters = [];
     let editors = [];
     let primary = null;
-    const { key, fields } = table;
+    const { key, fields, useGroupTab } = table;
     const groupMap = new Map();
     fields.forEach((field) => {
       this.generateElement(table, field, columns, filters, editors);
@@ -108,10 +108,42 @@ const Builder = {
       groupEditors.push(this.buildCollapse(title, subEditors));
     });
     if (groupEditors.length > 0) {
-      editors = groupEditors;
+      editors = this.buildGroupEditor(groupMap, useGroupTab, context, component);
     }
     Renders.bindRender(key, columns, { ...component, primary });
     return { table, primary, columns, filters, editors, groupMap };
+  },
+
+  buildGroupEditor(groupMap, useGroupTab, context, component) {
+    const groupEditors = [];
+    if (groupMap.size > 1 && useGroupTab) {
+      const tabEditor = getFieldDecorator => {
+        const children = [];
+        groupMap.forEach((subEditors, title) => {
+          children.push(
+            <Tabs.TabPane tab={title} key={title}>
+              {subEditors.map(subEditor => subEditor(getFieldDecorator))}
+            </Tabs.TabPane>
+          );
+        });
+        return <Tabs type="card" className="ant-layout-tab" key="groups" activeKey={context.activedGroup} onChange={component.activeGroupTab}>
+          {children}
+        </Tabs>
+      };
+      groupEditors.push(tabEditor);
+    } else {
+      groupMap.forEach((subEditors, title) => {
+        const collapse = getFieldDecorator => (
+          <Collapse defaultActiveKey={title} key={title}>
+            <Collapse.Panel header={title} key={title} className="collapse-space">
+              {subEditors.map(subEditor => subEditor(getFieldDecorator))}
+            </Collapse.Panel>
+          </Collapse>
+        );
+        groupEditors.push(collapse);
+      });
+    }
+    return groupEditors;
   },
 
   buildNestedEditor(nesteds, context, component) {
@@ -127,29 +159,18 @@ const Builder = {
       };
       return <EditableTable bordered {...tableProps} />;
     };
-    if (nesteds.length > 1) {
-      return getFieldDecorator => (
-        <Tabs type="card" className="ant-layout-tab" key="nesteds" activeKey={context.activedNested} onChange={component.activeNestedTab}>
-          {nesteds.map(nested => {
-            const { table: { key, title } } = nested;
-            return (
-              <Tabs.TabPane tab={title} key={key}>
-                {buildNestedTable(nested)}
-              </Tabs.TabPane>
-            );
-          })
-          }
-        </Tabs>
-      );
-    }
-    const nested = nesteds[0];
-    const { table: { key, title } } = nested;
     return getFieldDecorator => (
-      <Collapse defaultActiveKey={key} key={key}>
-        <Collapse.Panel header={title} key={key} className="collapse-space-table">
-          {buildNestedTable(nested)}
-        </Collapse.Panel>
-      </Collapse>
+      <Tabs type="card" className="ant-layout-tab" key="nesteds" activeKey={context.activedNested} onChange={component.activeNestedTab}>
+        {nesteds.map(nested => {
+          const { table: { key, title } } = nested;
+          return (
+            <Tabs.TabPane tab={title} key={key}>
+              {buildNestedTable(nested)}
+            </Tabs.TabPane>
+          );
+        })
+        }
+      </Tabs>
     );
   },
 
@@ -157,12 +178,12 @@ const Builder = {
     const { handlePageAction, handleRowAction, newNestedRecord } = component;
     const { selectedRowKeys, nestedFields } = context;
     const { nesteds, nestedIndex } = schema;
-    let mainTable = this.build4Table(schema, component);
+    let mainTable = this.build4Table(schema, context, component);
     const { editors } = mainTable;
     if (nesteds) {
       const nestedTabs = nesteds.map(table => {
         nestedFields.add(table.key);
-        return this.build4Table(table, component);
+        return this.build4Table(table, context, component);
       });
       if (null == context.activedNested) {
         context.activedNested = nesteds[0].key;
@@ -220,6 +241,15 @@ const Builder = {
         editorField = this.buildPlaceholder(table, field, 'editor');
         field.notAsColumn = true;
         break;
+      case 'image':
+        filterField = this.buildImage(table, field, 'filter');
+        editorField = this.buildImage(table, field, 'editor');
+        field.notAsFilter = true;
+        break;
+      // case 'autoComplete':
+      //   filterField = this.buildAutoComplete(table, field, 'filter');
+      //   editorField = this.buildAutoComplete(table, field, 'editor');
+      //   break;
       case 'actions':
         field.notAsFilter = true;
         field.notAsEditor = true;
@@ -324,6 +354,26 @@ const Builder = {
     const fieldOpts = this.getOptions(useFor, field);
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <InputNumber {...fieldOpts} />
+    ), table, field, useFor);
+    return { fieldProps: fieldOpts, wrapper };
+  },
+
+  buildAutoComplete(table, field, useFor) {
+    const fieldOpts = this.getOptions(useFor, field);
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <AutoComplete>
+        <Input suffix={<Icon type="search" />} />
+      </AutoComplete>
+    ), table, field, useFor);
+    return { fieldProps: fieldOpts, wrapper };
+  },
+
+  buildImage(table, field, useFor) {
+    const fieldOpts = this.getOptions(useFor, field);
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <Upload action='//jsonplaceholder.typicode.com/posts/' listType='picture'>
+        <Button type='dashed'><Icon type="upload" />添加图片</Button><span style={{ marginLeft: '12px' }}>图片大小不超过3M，最多1张，支持JPG,JPEG,PNG,BMP格式</span>
+      </Upload>
     ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper };
   },

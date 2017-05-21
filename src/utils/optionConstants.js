@@ -11,6 +11,11 @@ const OptionConstants = {
     { key: 'placeholder', value: 'placeholder' },
   ],
 
+  actionTarget: [
+    { key: 'rows', value: '多行动作' },
+    { key: 'row', value: '单行动作' },
+  ],
+
   javaType: [
     { key: 'input', value: 'input' },
     { key: 'radio', value: 'radio' },

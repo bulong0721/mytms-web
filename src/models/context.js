@@ -1,4 +1,5 @@
 import lodash from 'lodash';
+import { notification } from 'antd';
 
 class TabCtx {
   currentStep = 0;
@@ -234,10 +235,26 @@ class TabCtx {
   updateSchema = (schema) => {
 
   }
+
+  loadSchema = ({ tableName }) => {
+    try {
+      this.targetSchema = require(`../schema/${tableName}.schema.js`);
+      notification.info({
+        message: '加载成功',
+        description: `${tableName}.schema.js加载成功`
+      })
+    } catch (e) {
+      notification.error({
+        message: '出错啦!',
+        description: `加载页面配置错误：${tableName}.schema.js`,
+      });
+    }
+  }
 }
 
 class MgrCtx {
   activeTab = 'list';
+
   formData = {};
   editComponent = null;
   editAction = 'manager/noops';
@@ -247,6 +264,7 @@ class MgrCtx {
   nestedFields = new Set();
   nestedSources = new Map();
   activedNested = null;
+  activedGroup = null;
   expandAll = false;
   pagination = {
     showSizeChanger: true,
@@ -290,6 +308,10 @@ class MgrCtx {
 
   activeNestedTab = (subField) => {
     this.activedNested = subField;
+  };
+
+  activeGroupTab = (group) => {
+    this.activedGroup = group;
   };
 
   removeNestedAt = (subField, index) => {

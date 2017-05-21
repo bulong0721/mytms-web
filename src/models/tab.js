@@ -43,7 +43,7 @@ export default {
           duration: 3,
         });
       }
-    }
+    },
   },
 
   reducers: {
@@ -88,5 +88,11 @@ export default {
       tabCtx.transferChange(targetKeys);
       return { ...state };
     },
+
+    loadSchema(state, action) {
+      const { tabCtx } = state;
+      tabCtx.loadSchema(action);
+      return { ...state };
+    }
   }
 }

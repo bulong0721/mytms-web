@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Button, Icon, Tabs, Table, Modal, Tag } from 'antd';
+import { Row, Col, Button, Icon, Tabs, Table, Modal, Tag, BackTop } from 'antd';
 import { MgrCtx } from '../../models/context';
 import Builder from './util/builder';
 import styles from './index.less';
@@ -84,6 +84,11 @@ class Manager extends React.Component {
     dispatch({ type: 'manager/activeNestedTab', tableName, subField });
   };
 
+  activeGroupTab = (group) => {
+    const { dispatch, route: { tableName } } = this.props;
+    dispatch({ type: 'manager/activeGroupTab', tableName, group });
+  };
+
   removeNestedAt = (subField, index) => {
     const { dispatch, route: { tableName } } = this.props;
     dispatch({ type: 'manager/removeNestedAt', tableName, subField, index });
@@ -152,20 +157,20 @@ class Manager extends React.Component {
           </Row>
         </Tabs.TabPane>
         <Tabs.TabPane tab="edit" key="edit">
-          <FormEditor ref={(input) => {
-            this.formEditor = input;
-            if (input && formData) {
-              input.setFieldsValue(formData);
-            }
-          }} />
           <Row>
-            <Col span={12} offset={12} style={{ textAlign: 'right' }}>
+            <Col span={12} style={{ textAlign: 'left', marginBottom: '12px' }}>
               <Button.Group>
                 <Button type="primary" icon="check" onClick={this.handleModalOk}>确定</Button>
                 <Button icon="rollback" onClick={this.goList} style={{ marginLeft: '12px' }}>返回</Button>
               </Button.Group>
             </Col>
           </Row>
+          <FormEditor ref={(input) => {
+            this.formEditor = input;
+            if (input && formData) {
+              input.setFieldsValue(formData);
+            }
+          }} />
         </Tabs.TabPane>
       </Tabs>
     );

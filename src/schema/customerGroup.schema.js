@@ -13,11 +13,13 @@ module.exports = {
     {
       "title": "编辑",
       "icon": "edit",
+      "target": "row",
       "action": "group/save",
       "popupEditor": true
     },
     {
       "title": "删除",
+      "target": "rows",
       "icon": "close"
     }
   ],

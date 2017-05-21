@@ -111,5 +111,10 @@ export default {
       mgrCtx.activeNestedTab(subField);
       return { ...state };
     },
+    activeGroupTab(state, { tableName, group }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.activeGroupTab(group);
+      return { ...state };
+    },
   }
 }

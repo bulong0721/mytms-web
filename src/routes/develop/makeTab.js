@@ -20,14 +20,14 @@ class MakeTab extends React.Component {
   tabSchema = {
     actions: [],
     fields: [
-      { key: 'id', title: 'ID', showType: 'ID', disabled: true, },
-      { key: 'title', title: '窗体名', showType: 'input', validator: [{ required: true }], },
-      { key: 'key', title: '映射表名', showType: 'input', validator: [{ required: true }], },
-      { key: 'p01', notAsFilter: true, showType: 'placeholder', },
-      { key: 'filterSpan', title: '过滤列宽', showType: 'number', defaultValue: 6, min: 4, max: 24 },
-      { key: 'editorSpan', title: '编辑列宽', showType: 'number', defaultValue: 8, min: 4, max: 24 },
-      { key: 'nested', title: '内嵌窗体', showType: 'switch', render: Formatter.yesOrNo },
-      { key: 'parentKey', title: '关联字段', showType: 'input' },
+      { key: 'id', title: 'ID', group: 'Tab页信息', showType: 'ID', disabled: true, },
+      { key: 'title', title: '窗体名', group: 'Tab页信息', showType: 'input', validator: [{ required: true }], },
+      { key: 'key', title: '映射表名', group: 'Tab页信息', showType: 'input', validator: [{ required: true }], },
+      { key: 'p01', notAsFilter: true, group: 'Tab页信息', showType: 'placeholder', },
+      { key: 'filterSpan', group: 'Tab页信息', title: '过滤列宽', showType: 'number', defaultValue: 6, min: 4, max: 24 },
+      { key: 'editorSpan', group: 'Tab页信息', title: '编辑列宽', showType: 'number', defaultValue: 8, min: 4, max: 24 },
+      { key: 'nested', group: 'Tab页信息', title: '内嵌窗体', showType: 'switch', render: Formatter.yesOrNo },
+      { key: 'parentKey', group: 'Tab页信息', title: '关联字段', showType: 'input' },
     ]
   };
 
@@ -85,7 +85,8 @@ class MakeTab extends React.Component {
     const fields = [
       { key: 'title', title: '标题', showType: 'input', validator: [{ required: true }], },
       { key: 'icon', title: '图标', showType: 'input', },
-      { key: 'type', title: '类型', showType: 'input', },
+      { key: 'type', title: '按钮风格', showType: 'input', },
+      { key: 'target', title: '可用性', showType: 'select', options: OptionConstants.actionTarget },
       { key: 'action', title: '动作', showType: 'input', },
       { key: 'popupEditor', title: '默认编辑组件', showType: 'switch', },
       { key: 'component', title: '自定义编辑组件', showType: 'input', },
@@ -137,6 +138,20 @@ class MakeTab extends React.Component {
     }
   }
 
+  loadSchema = () => {
+    if (this.formBasic) {
+      let allError = null;
+      this.formBasic.validateFields(errors => {
+        allError = errors;
+      });
+      if (!allError) {
+        const { key } = this.formBasic.getFieldsValue();
+        const { dispatch } = this.props;
+        dispatch({ type: 'tab/loadSchema', tableName: key });
+      }
+    }
+  }
+
   nestedTabs = () => {
     const { dispatch } = this.props;
     dispatch({ type: 'tab/nestedTabs' });
@@ -156,7 +171,7 @@ class MakeTab extends React.Component {
     let basicData = null;
     switch (currentStep) {
       case 0:
-        if (fieldMap.size <= 0) {
+        if (fieldMap.size <= 0 && targetSchema.fields.length == 0) {
           message.error("请先导入或创建字段");
           return;
         }
@@ -178,7 +193,7 @@ class MakeTab extends React.Component {
             count++;
           }
         });
-        if (count == 0) {
+        if (count == 0 && targetSchema.fields.length == 0) {
           message.error("请先填充编辑字段");
           return;
         }
@@ -315,6 +330,9 @@ class MakeTab extends React.Component {
         </Row>
         <Row>
           <Col span={12} style={{ textAlign: 'left' }}>
+            {currentStep == 0 ?
+              <Button onClick={this.loadSchema} type='primary'><Icon type="upload" />加载</Button>
+              : ''}
             {currentStep == 2 ?
               <Button.Group>
                 <Button onClick={this.saveSchema} type='primary'><Icon type="save" />保存</Button>
