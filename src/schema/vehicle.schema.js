@@ -1,9 +1,11 @@
-import { Formatter, Parser } from '../utils/columnRender';
+import {
+  Formatter,
+  Parser
+} from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
 
 module.exports = {
-  "actions": [
-    {
+  "actions": [{
       "title": "新增",
       "icon": "plus",
       "type": "primary",
@@ -29,10 +31,10 @@ module.exports = {
       "action": "vehicle/import"
     }
   ],
-  "fields": [
-    {
+  "fields": [{
       "key": "id",
       "showType": "ID",
+      "disabled": true,
       "title": "主键",
       "group": "基本信息",
       "notAsFilter": true
@@ -204,7 +206,7 @@ module.exports = {
     {
       "key": "equipmentNum",
       "showType": "number",
-      "title": "温湿度探头个数",
+      "title": "温湿度探头数",
       "group": "规格信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -212,7 +214,7 @@ module.exports = {
     {
       "key": "hasThermostat",
       "showType": "switch",
-      "title": "是否有温度设备",
+      "title": "有温度设备",
       "group": "规格信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -228,7 +230,7 @@ module.exports = {
     {
       "key": "hasHygroscop",
       "showType": "switch",
-      "title": "是否有湿度设备",
+      "title": "有湿度设备",
       "group": "规格信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -324,76 +326,80 @@ module.exports = {
       "group": "基本信息"
     }
   ],
-  "nesteds": [
-    {
-      "key": 'contacts',
-      "title": '保险信息',
-      "fields": [
-        {
-          "key": "id",
-          "showType": "ID",
-          "title": "主键",
-          "group": "基本信息"
-        },
-        {
-          "key": "contactName",
-          "showType": "input",
-          "title": "姓名",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "isDefault",
-          "showType": "switch",
-          "title": "是否默认",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "mobile",
-          "showType": "input",
-          "title": "联系手机",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "tel",
-          "showType": "input",
-          "title": "联系电话",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "tax",
-          "showType": "input",
-          "title": "联系传真",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "post",
-          "showType": "input",
-          "title": "职务",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "email",
-          "showType": "input",
-          "title": "邮箱",
-          "group": "基本信息",
-          "notAsFilter": true
-        },
-        {
-          "key": "address",
-          "showType": "input",
-          "title": "地址",
-          "group": "基本信息",
-          "notAsFilter": true
-        }
-      ],
-    },
-  ],
+  "nesteds": [{
+    "key": 'contacts',
+    "title": '保险信息',
+    "fields": [{
+        "key": "id",
+        "showType": "ID",
+        "title": "主键",
+        "disabled": true,
+        "group": "基本信息",
+        "notAsFilter": true
+      },
+      {
+        "key": "supplier",
+        "showType": "input",
+        "title": "保险公司",
+        "group": "基本信息"
+      },
+      {
+        "key": "policyType",
+        "options": [],
+        "showType": "select",
+        "title": "保险类型",
+        "group": "基本信息"
+      },
+      {
+        "key": "policyNo",
+        "showType": "input",
+        "title": "保险单号",
+        "group": "基本信息"
+      },
+      {
+        "key": "deadline",
+        "showType": "datetime",
+        "title": "保险到期日",
+        "group": "基本信息",
+        "notAsFilter": true
+      },
+      {
+        "key": "totalPolicy",
+        "showType": "number",
+        "title": "总保额",
+        "group": "基本信息",
+        "notAsFilter": true
+      },
+      {
+        "key": "temperturePolicy",
+        "showType": "number",
+        "title": "温控险保额",
+        "group": "基本信息",
+        "notAsFilter": true
+      },
+      {
+        "key": "thirdPartyPolicy",
+        "showType": "number",
+        "title": "第三方险保额",
+        "group": "基本信息",
+        "notAsFilter": true
+      },
+      {
+        "key": "driverPolicy",
+        "showType": "number",
+        "title": "司机险保额",
+        "group": "基本信息",
+        "notAsFilter": true
+      },
+      {
+        "key": "passengerPolicy",
+        "showType": "number",
+        "title": "乘客险保额",
+        "group": "基本信息",
+        "notAsFilter": true
+      }
+    ],
+  }, ],
   "key": "vehicle",
   "title": "车辆列表",
   "nestedIndex": 2,
