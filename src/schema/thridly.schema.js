@@ -513,5 +513,5 @@ module.exports = {
   "key": "customer",
   "title": "三方供应商",
   "editorSpan": 8,
-  "filterSpan": 6
+  "filterSpan": 8
 }

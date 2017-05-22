@@ -26,6 +26,8 @@ const Renders = {
         col.render = field.render.bind(container);
       } else if (field.showType === 'image') {
         // col.render = this.getImageRender()(onClickImage);
+      } else if(field.showType ==='select') {
+        col.render = this.getSelectRender(field);
       } else if (field.showType === 'file') {
         // col.render = this.getFileRender;
       } else if (field.showType === 'actions' && field.actions && field.actions.length > 0) {
@@ -38,6 +40,17 @@ const Renders = {
       this.tableNameSet.add(tableName);
     }
     return columns;
+  },
+
+  getSelectRender(field) {
+    const options = field.options || [];
+    return (text, record, index) => {
+      for(const {key, value} of options) {
+        if(key == text)
+        return value;
+      }
+      return text;
+    }
   },
 
   getImageRender() {
@@ -68,7 +81,7 @@ const Renders = {
     }
     return null;
   },
-
+ 
   getActionRender(field, primaryKey) {
     return (handleRowAction) => (text, record, index) => {
       const actions = field.actions;

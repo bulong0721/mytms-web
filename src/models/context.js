@@ -297,6 +297,10 @@ class MgrCtx {
     }
   };
 
+  getSelected = () => {
+    
+  }
+
   goList = () => {
     this.activeTab = 'list';
   };

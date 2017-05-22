@@ -1,20 +1,22 @@
-import { Formatter, Parser } from '../utils/columnRender';
+import {
+  Formatter,
+  Parser
+} from '../utils/columnRender';
 import OptionConstants from '../utils/optionConstants';
 
 module.exports = {
-  "actions": [
-    {
+  "actions": [{
       "title": "新增",
       "icon": "plus",
       "type": "primary",
-      "action": "group/save",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "编辑",
       "icon": "edit",
       "target": "row",
-      "action": "group/save",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
@@ -23,10 +25,10 @@ module.exports = {
       "icon": "close"
     }
   ],
-  "fields": [
-    {
+  "fields": [{
       "key": "id",
       "showType": "ID",
+      "disabled": true,
       "title": "主键",
       "group": "基本信息",
       "notAsFilter": true
@@ -35,11 +37,21 @@ module.exports = {
       "key": "company",
       "showType": "input",
       "title": "公司名称",
+      "validator": [{ "required": true, "whitespace": true, "message": "请输入公司名称" }],
+      "group": "基本信息"
+    },
+    {
+      "key": "groupType",
+      "options": OptionConstants.shipType,
+      "showType": "select",
+      "title": "关系类型",
+      "validator": [{ "required": true, "whitespace": true, "message": "请选择关系类型" }],
       "group": "基本信息"
     },
     {
       "key": "industryType",
-      "options": [],
+      "options": OptionConstants.industryType,
+      "validator": [{ "required": true, "whitespace": true, "message": "请选择经营行业" }],
       "showType": "select",
       "title": "经营行业",
       "group": "基本信息"
@@ -77,21 +89,24 @@ module.exports = {
       "showType": "input",
       "title": "办公地址",
       "group": "基本信息",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 3,
+        "wrapperSpan": 21
+      },
       "notAsFilter": true,
       "notAsColumn": true
-    },
-    {
-      "key": "groupType",
-      "options": [],
-      "showType": "select",
-      "title": "关系类型",
-      "group": "基本信息"
     },
     {
       "key": "remark",
       "showType": "input",
       "title": "备注",
       "group": "基本信息",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 3,
+        "wrapperSpan": 21
+      },
       "notAsFilter": true
     }
   ],
