@@ -46,7 +46,7 @@ const OptionConstants = {
     { key:"全顺" ,value:"全顺"},
     { key:"长安" ,value:"长安"},
     { key:"五菱" ,value:"五菱"},
-    { key:"江淮" ,value:"江淮"},
+    { key:"江淮" ,value:"江淮"}, 
     { key:"上汽大通" ,value:"上汽大通"},
     { key:"福田" ,value:"福田"},
     { key:"解放" ,value:"解放"},
@@ -100,6 +100,18 @@ const OptionConstants = {
     { key: '2', value: '易流' },
   ],
 
+  sex: [ 
+    { key: '0', value: '男' }, 
+    { key: '1', value: '女' }, 
+  ], 
+ 
+  drivingType: [ 
+    { key: '', value: '' }, 
+    { key: '1', value: 'A1' }, 
+    { key: '2', value: 'B1' }, 
+    { key: '3', value: 'C1' }, 
+  ], 
+
   actionTarget: [
     { key: 'rows', value: '多行动作' },
     { key: 'row', value: '单行动作' },
@@ -113,7 +125,7 @@ const OptionConstants = {
     { key: 'switch', value: 'switch' },
     { key: 'select', value: 'select' },
     { key: 'cascader', value: 'cascader' },
-    { key: 'actions', value: 'actions' },
+    { key: 'actions', value: 'actions' }, 
     { key: 'placeholder', value: 'placeholder' },
   ],
 }
