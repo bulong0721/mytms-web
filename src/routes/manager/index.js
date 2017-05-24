@@ -57,11 +57,11 @@ class Manager extends React.Component {
     };
   };
 
-  handlePageAction = ({ action, popupEditor, component, title }) => {
+  handlePageAction = ({ action, popupEditor, component, title, target }) => {
     const { dispatch, mgrCtx: { selectedRowKeys, dataSource }, tableName } = this.getMgrCtx();
     return (e) => {
       if (component || popupEditor) {
-        dispatch({ type: 'manager/goEditor', tableName, title, action, component, popupEditor });
+        dispatch({ type: 'manager/goEditor', tableName, title, action, target, component, popupEditor });
       } else {
         const filter = formQuery.getFieldsValue();
         dispatch({ type: action, payload: { tableName, selectedRowKeys, dataSource, filter } });

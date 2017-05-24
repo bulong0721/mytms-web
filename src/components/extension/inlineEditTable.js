@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Input, Popconfirm, Button } from 'antd';
-import EditableCell from './editableCell';
+import InlineEditCell from './inlineEditCell';
 
-class EditableTable extends React.Component {
+class InlineEditTable extends React.Component {
   state = {
     changeMap: new Map(),
     index: 0
@@ -81,7 +81,7 @@ class EditableTable extends React.Component {
         record[dataIndex] = newValue;
       };
       const { $editable, $status } = record;
-      return (<EditableCell editable={$editable} value={value} onChange={handleChange} status={$status} column={column} />);
+      return (<InlineEditCell editable={$editable} value={value} onChange={handleChange} status={$status} column={column} />);
     };
   }
 
@@ -108,4 +108,4 @@ class EditableTable extends React.Component {
   }
 };
 
-export default EditableTable;
+export default InlineEditTable;

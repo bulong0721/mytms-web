@@ -77,6 +77,7 @@ module.exports = {
     {
       key: 'fields',
       title: '表字段',
+      editorSpan: 24,
       fields: [
         {
           key: 'id',

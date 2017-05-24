@@ -1,5 +1,6 @@
 import superagent from 'superagent';
 import globalConfig from '../config';
+import { notification } from 'antd';
 
 /**
  * 封装所有ajax逻辑, 为了配合async/await, 所有ajax请求都要返回promise对象
@@ -22,7 +23,11 @@ class Ajax {
    * @param headers 额外设置的http header
    * @returns {Promise}
    */
-  requestWrapper(method, url, { params, data, headers } = {}) {
+  requestWrapper(method, url, {
+    params,
+    data,
+    headers
+  } = {}) {
     return new Promise((resolve, reject) => {
       const tmp = superagent(method, url);
       // 是否是跨域请求
@@ -54,6 +59,11 @@ class Ajax {
         if (res && res.body) {
           resolve(res.body);
         } else {
+          notification.error({
+            message: '请求失败',
+            description: `后台请求失败：${err.message}`,
+            duration: 3,
+          });
           resolve(null);
         }
       });
@@ -63,11 +73,14 @@ class Ajax {
   // 基础的get/post方法
 
   get(url, opts = {}) {
-    return this.requestWrapper('GET', url, { ...opts });
+    return this.requestWrapper('GET', url, { ...opts
+    });
   }
 
   post(url, data, opts = {}) {
-    return this.requestWrapper('POST', url, { ...opts, data });
+    return this.requestWrapper('POST', url, { ...opts,
+      data
+    });
   }
 
   /**
@@ -86,8 +99,15 @@ class Ajax {
    * @param password
    */
   login(username, password) {
-    const headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
-    return this.post(`${globalConfig.getAPIPath()}${globalConfig.login.validate}`, { username, password }, { headers });
+    const headers = {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    return this.post(`${globalConfig.getAPIPath()}${globalConfig.login.validate}`, {
+      username,
+      password
+    }, {
+      headers
+    });
   }
 
   /**
@@ -146,7 +166,11 @@ class CRUDUtil {
    */
   update(keys = [], dataObj) {
     const tmp = keys.join(',');
-    return this.ajax.post(`${globalConfig.getAPIPath()}/${this.tableName}/save`, dataObj, { params: { keys: tmp } });
+    return this.ajax.post(`${globalConfig.getAPIPath()}/${this.tableName}/save`, dataObj, {
+      params: {
+        keys: tmp
+      }
+    });
   }
 
   /**
@@ -157,7 +181,11 @@ class CRUDUtil {
    */
   delete(keys = []) {
     const tmp = keys.join(',');
-    return this.ajax.get(`${globalConfig.getAPIPath()}/${this.tableName}/delete`, { params: { keys: tmp } });
+    return this.ajax.get(`${globalConfig.getAPIPath()}/${this.tableName}/delete`, {
+      params: {
+        keys: tmp
+      }
+    });
   }
 
   /**

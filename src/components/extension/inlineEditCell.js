@@ -3,7 +3,7 @@ import { Table, Input, Popconfirm, Radio, Switch, Select, InputNumber, DatePicke
 const RadioGroup = Radio.Group;
 const Option = Select.Option;
 
-class EditableCell extends React.Component {
+class InlineEditCell extends React.Component {
   state = {
     value: this.props.value,
     editable: this.props.editable || false,
@@ -80,4 +80,4 @@ class EditableCell extends React.Component {
   }
 }
 
-export default EditableCell;
+export default InlineEditCell;

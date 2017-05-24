@@ -9,26 +9,26 @@ module.exports = {
       "title": "新增",
       "icon": "plus",
       "type": "primary",
-      "action": "vechile/save",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "编辑",
       "icon": "edit",
       "target": "row",
-      "action": "vehicle/save",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "删除",
       "icon": "close",
       "target": "rows",
-      "action": "vehicle/remove"
+      "action": "manager/remove"
     },
     {
       "title": "导入",
       "icon": "upload",
-      "action": "vehicle/import"
+      "action": "manager/import"
     }
   ],
   "fields": [{
@@ -40,16 +40,24 @@ module.exports = {
       "notAsFilter": true
     },
     {
+      "key": "orgId",
+      "showType": "autoComplete",
+      "title": "所属供应商",
+      "group": "基本信息"
+    },
+    {
       "key": "cardNo",
       "showType": "input",
       "title": "车牌号",
+      "validator": [{ "required": true, "whitespace": true, "message": "请输入车牌号" }],
       "group": "基本信息"
     },
     {
       "key": "ownerType",
-      "options": [],
+      "options": OptionConstants.ownerType,
       "showType": "select",
       "title": "车辆归属",
+      "validator": [{ "required": true, "whitespace": true, "message": "请选择车辆归属" }],
       "group": "基本信息",
       "notAsFilter": true
     },
@@ -96,22 +104,7 @@ module.exports = {
       "key": "approedLoad",
       "showType": "number",
       "title": "核定载量",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "company",
-      "showType": "input",
-      "title": "所属公司",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "loan",
-      "showType": "switch",
-      "title": "是否贷款",
+      "validator": [{ "required": true, "message": "请输入核定载量" }],
       "group": "基本信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -133,22 +126,6 @@ module.exports = {
       "notAsColumn": true
     },
     {
-      "key": "strongPolicy",
-      "showType": "input",
-      "title": "交强险保单",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "businessPolicy",
-      "showType": "input",
-      "title": "商业险保单",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
       "key": "vehicleLength",
       "showType": "number",
       "title": "车长",
@@ -158,7 +135,8 @@ module.exports = {
     },
     {
       "key": "vehicleType",
-      "options": [],
+      "options": OptionConstants.vehicleType,
+      "validator": [{ "required": true, "whitespace": true, "message": "请选择车辆类型" }],
       "showType": "select",
       "title": "车辆类型",
       "group": "规格信息"
@@ -188,9 +166,16 @@ module.exports = {
       "notAsColumn": true
     },
     {
+      "key": "ph00",
+      "showType": "placeholder",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
       "key": "gps",
       "showType": "switch",
-      "title": "GPS",
+      "title": "定位设备",
       "group": "规格信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -198,15 +183,14 @@ module.exports = {
     {
       "key": "gpsManufacturerId",
       "showType": "autoComplete",
-      "title": "GPS厂商",
+      "title": "定位设备厂商",
       "group": "规格信息",
       "notAsFilter": true,
       "notAsColumn": true
     },
     {
-      "key": "equipmentNum",
-      "showType": "number",
-      "title": "温湿度探头数",
+      "key": "ph01",
+      "showType": "placeholder",
       "group": "规格信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -228,6 +212,13 @@ module.exports = {
       "notAsColumn": true
     },
     {
+      "key": "ph02",
+      "showType": "placeholder",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
       "key": "hasHygroscop",
       "showType": "switch",
       "title": "有湿度设备",
@@ -244,6 +235,21 @@ module.exports = {
       "notAsColumn": true
     },
     {
+      "key": "ph04",
+      "showType": "placeholder",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
+      "key": "equipmentNum",
+      "showType": "number",
+      "title": "温湿度探头数",
+      "group": "规格信息",
+      "notAsFilter": true,
+      "notAsColumn": true
+    },
+    {
       "key": "auditor",
       "showType": "input",
       "title": "审核人",
@@ -253,7 +259,7 @@ module.exports = {
     },
     {
       "key": "auditStatus",
-      "options": [],
+      "options": OptionConstants.auditStatus,
       "showType": "select",
       "title": "审核状态",
       "group": null,
@@ -319,12 +325,6 @@ module.exports = {
       "notAsFilter": true,
       "notAsColumn": true
     },
-    {
-      "key": "orgId",
-      "showType": "autoComplete",
-      "title": "所属供应商",
-      "group": "基本信息"
-    }
   ],
   "nesteds": [{
     "key": 'contacts',
@@ -345,7 +345,7 @@ module.exports = {
       },
       {
         "key": "policyType",
-        "options": [],
+        "options": OptionConstants.policyType,
         "showType": "select",
         "title": "保险类型",
         "group": "基本信息"

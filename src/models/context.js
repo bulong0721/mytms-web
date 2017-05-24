@@ -261,6 +261,7 @@ class MgrCtx {
   useEditor = true;
   selectedRowKeys = [];
   dataSource = [];
+  primaryKey = null;
   nestedFields = new Set();
   nestedSources = new Map();
   activedNested = null;
@@ -283,10 +284,10 @@ class MgrCtx {
   };
 
   goEditor = (params) => {
-    const { popupEditor, action, payload, record, component } = params;
+    const { popupEditor, action, target, payload, record, component } = params;
     this.activeTab = 'edit';
     this.useEditor = popupEditor;
-    this.formData = payload || record;
+    this.formData = record || this.getSelectedRow(target);
     this.editComponent = component;
     this.editAction = action;
     if (this.formData) {
@@ -297,8 +298,22 @@ class MgrCtx {
     }
   };
 
-  getSelected = () => {
-    
+  setPrimaryKey = (primary) => {
+    this.primaryKey = primary;
+  }
+
+  getSelectedRow = (target) => {
+    if(!this.primaryKey || 'row' != target || !this.selectedRowKeys || this.selectedRowKeys.length == 0){
+      return null;
+    }
+    const {key} = this.primaryKey;
+    const selectedKey = this.selectedRowKeys[0];
+    for(const row of this.dataSource) {
+      if(selectedKey === row[key]) {
+        return row;
+      }
+    }
+    return null;
   }
 
   goList = () => {

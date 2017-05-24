@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, Form, BackTop, Input, Row, Col, DatePicker, Switch, Select, Icon, Radio, Collapse, Table, InputNumber, Checkbox, Cascader, Button, Upload, AutoComplete, notification } from 'antd';
 import moment from 'moment';
 import Renders from './renders';
-import EditableTable from '../../../components/extension/editableTable';
+import DialogEditTable from '../../../components/extension/dialogEditTable';
 
 const schemaMap = new Map();
 const formMap = new Map();
@@ -92,6 +92,7 @@ const Builder = {
     fields.forEach((field) => {
       this.generateElement(table, field, columns, filters, editors);
       if ('ID' === field.showType) {
+        context.setPrimaryKey(field);
         primary = field;
       }
       if (field.group) {
@@ -154,10 +155,10 @@ const Builder = {
       const tableProps = {
         addNew: newNestedRecord,
         removeAt: removeNestedAt,
-        parentKey: key, dataSource, columns, primary,
+        parentKey: key, dataSource, columns, primary, editors,
         disableNew, disableEdit, disableRemove
       };
-      return <EditableTable bordered {...tableProps} />;
+      return <DialogEditTable bordered {...tableProps} />;
     };
     return getFieldDecorator => (
       <Tabs type="card" className="ant-layout-tab" key="nesteds" activeKey={context.activedNested} onChange={component.activeNestedTab}>
