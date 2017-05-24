@@ -100,6 +100,18 @@ const OptionConstants = {
     { key: '2', value: '易流' },
   ],
 
+  sex: [ 
+    { key: '0', value: '男' }, 
+    { key: '1', value: '女' }, 
+  ], 
+ 
+  drivingType: [ 
+    { key: '', value: '' }, 
+    { key: '1', value: 'A1' }, 
+    { key: '2', value: 'B1' }, 
+    { key: '3', value: 'C1' }, 
+  ], 
+
   actionTarget: [
     { key: 'rows', value: '多行动作' },
     { key: 'row', value: '单行动作' },
@@ -113,7 +125,7 @@ const OptionConstants = {
     { key: 'switch', value: 'switch' },
     { key: 'select', value: 'select' },
     { key: 'cascader', value: 'cascader' },
-    { key: 'actions', value: 'actions' },
+    { key: 'actions', value: 'actions' }, 
     { key: 'placeholder', value: 'placeholder' },
   ],
 }
