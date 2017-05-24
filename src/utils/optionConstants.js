@@ -88,6 +88,18 @@ const OptionConstants = {
     { key: 2, value: '下游' },
   ],
 
+  ceType: [
+    { key: '1', value: '视频设备' },
+    { key: '2', value: '温度设备' },
+    { key: '3', value: '湿度设备' },
+    { key: '4', value: '温湿度设备' },
+  ],
+
+  ceManufacturer: [
+    { key: '1', value: 'G7' },
+    { key: '2', value: '易流' },
+  ],
+
   actionTarget: [
     { key: 'rows', value: '多行动作' },
     { key: 'row', value: '单行动作' },
