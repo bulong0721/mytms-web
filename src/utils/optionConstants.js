@@ -112,6 +112,22 @@ const OptionConstants = {
     { key: '3', value: 'C1' }, 
   ], 
 
+  businessType: [ 
+    { key: 1, value: '整车' }, 
+    { key: 2, value: '零担' }, 
+  ], 
+
+  yesOrNo: [ 
+    { key: 'Y', value: '是' }, 
+    { key: 'N', value: '否' }, 
+  ], 
+
+  chargeWay: [ 
+    { key: 1, value: '按吨' }, 
+    { key: 2, value: '按方' }, 
+    { key: 3, value: '按单' }, 
+  ],
+
   actionTarget: [
     { key: 'rows', value: '多行动作' },
     { key: 'row', value: '单行动作' },
