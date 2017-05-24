@@ -73,12 +73,14 @@ class Ajax {
   // 基础的get/post方法
 
   get(url, opts = {}) {
-    return this.requestWrapper('GET', url, { ...opts
+    return this.requestWrapper('GET', url, {
+      ...opts
     });
   }
 
   post(url, data, opts = {}) {
-    return this.requestWrapper('POST', url, { ...opts,
+    return this.requestWrapper('POST', url, {
+      ...opts,
       data
     });
   }
@@ -106,8 +108,8 @@ class Ajax {
       username,
       password
     }, {
-      headers
-    });
+        headers
+      });
   }
 
   /**
@@ -158,34 +160,13 @@ class CRUDUtil {
   }
 
   /**
-   * 更新某个表的数据, 可以批量, 也可以单条
-   *
-   * @param keys 要更新的记录的主键
-   * @param dataObj 要更新哪些字段
-   * @returns {*}
-   */
-  update(keys = [], dataObj) {
-    const tmp = keys.join(',');
-    return this.ajax.post(`${globalConfig.getAPIPath()}/${this.tableName}/save`, dataObj, {
-      params: {
-        keys: tmp
-      }
-    });
-  }
-
-  /**
    * 删除某个表的数据, 可以批量, 也可以单条
    *
    * @param keys 要删除的记录的主键
    * @returns {*}
    */
   delete(keys = []) {
-    const tmp = keys.join(',');
-    return this.ajax.get(`${globalConfig.getAPIPath()}/${this.tableName}/delete`, {
-      params: {
-        keys: tmp
-      }
-    });
+    return this.ajax.post(`${globalConfig.getAPIPath()}/${this.tableName}/delete`, { deleteKeys: keys });
   }
 
   /**

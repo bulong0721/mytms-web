@@ -1,4 +1,4 @@
-import { query, save } from '../services/manager';
+import { query, save, remove } from '../services/manager';
 import { Modal, notification } from 'antd';
 import { MgrCtx } from './context';
 
@@ -34,19 +34,26 @@ export default {
         });
       }
     },
-    *save({ tableName, payload }, { call, put }) {
-      yield put({ type: 'goList', tableName });
-      const success = yield call(save, tableName, payload);
+    *save({ tableName, payload, mgrCtx: { formData } }, { call, put }) {
+      const success = yield call(save, tableName, { ...formData, ...payload });
+      if (success) {
+        notification.success({
+          message: '保存成功',
+          description: `表数据:${tableName}保存成功`,
+          duration: 3,
+        })
+        yield put({ type: 'goList', tableName });
+      }
     },
-    *delete({ tableName, payload }, { call, put }) {
-      Modal.confirm({
-        title: '确定要删除记录吗?',
-        content: 'xxxxx',
-        onOk() {
-
-        },
-        onCancel() { },
-      })
+    *delete({ tableName, selectedRowKeys }, { call, put }) {
+      const success = yield call(remove, tableName, selectedRowKeys);
+      if (success) {
+        notification.success({
+          message: '保存删除',
+          description: `表数据:${tableName}保存删除`,
+          duration: 3,
+        })
+      };
     },
     *export({ tableName, payload }, { call, put }) {
       notification.info({

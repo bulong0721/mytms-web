@@ -32,8 +32,8 @@ const OptionConstants = {
 
   policyType: [
     { key:1 ,value:"商业险"},
-    { key:2 ,value:"平板车"},
-    { key:3 ,value:"平板车"},
+    { key:2 ,value:"交强险"},
+    { key:3 ,value:"物流责任险"},
   ],
 
   bandType: [

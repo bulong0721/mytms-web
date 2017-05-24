@@ -23,7 +23,8 @@ module.exports = {
       "title": "删除",
       "icon": "close",
       "target": "rows",
-      "action": "manager/remove"
+      "confirm": true,
+      "action": "manager/delete"
     },
     {
       "title": "导入",
@@ -57,7 +58,7 @@ module.exports = {
       "options": OptionConstants.ownerType,
       "showType": "select",
       "title": "车辆归属",
-      "validator": [{ "required": true, "whitespace": true, "message": "请选择车辆归属" }],
+      "validator": [{ "required": true, "message": "请选择车辆归属" }],
       "group": "基本信息",
       "notAsFilter": true
     },
@@ -136,7 +137,7 @@ module.exports = {
     {
       "key": "vehicleType",
       "options": OptionConstants.vehicleType,
-      "validator": [{ "required": true, "whitespace": true, "message": "请选择车辆类型" }],
+      "validator": [{ "required": true, "message": "请选择车辆类型" }],
       "showType": "select",
       "title": "车辆类型",
       "group": "规格信息"
@@ -327,77 +328,72 @@ module.exports = {
     },
   ],
   "nesteds": [{
-    "key": 'contacts',
+    "key": 'insurances',
+    "editorSpan": 24,
     "title": '保险信息',
     "fields": [{
         "key": "id",
         "showType": "ID",
         "title": "主键",
         "disabled": true,
-        "group": "基本信息",
         "notAsFilter": true
       },
       {
         "key": "supplier",
         "showType": "input",
         "title": "保险公司",
-        "group": "基本信息"
+        "validator": [{ "required": true, "whitespace": true, "message": "请输入保险公司" }],
       },
       {
         "key": "policyType",
         "options": OptionConstants.policyType,
         "showType": "select",
+        "validator": [{ "required": true, "message": "请选择保险类型" }],
         "title": "保险类型",
-        "group": "基本信息"
       },
       {
         "key": "policyNo",
         "showType": "input",
         "title": "保险单号",
-        "group": "基本信息"
-      },
-      {
-        "key": "deadline",
-        "showType": "datetime",
-        "title": "保险到期日",
-        "group": "基本信息",
-        "notAsFilter": true
+        "validator": [{ "required": true, "whitespace": true, "message": "请选输入保险单号" }],
       },
       {
         "key": "totalPolicy",
         "showType": "number",
         "title": "总保额",
-        "group": "基本信息",
         "notAsFilter": true
       },
       {
         "key": "temperturePolicy",
         "showType": "number",
         "title": "温控险保额",
-        "group": "基本信息",
         "notAsFilter": true
       },
       {
         "key": "thirdPartyPolicy",
         "showType": "number",
         "title": "第三方险保额",
-        "group": "基本信息",
         "notAsFilter": true
       },
       {
         "key": "driverPolicy",
         "showType": "number",
         "title": "司机险保额",
-        "group": "基本信息",
         "notAsFilter": true
       },
       {
         "key": "passengerPolicy",
         "showType": "number",
         "title": "乘客险保额",
-        "group": "基本信息",
         "notAsFilter": true
-      }
+      },
+      {
+        "key": "deadline",
+        "showType": "datetime",
+        "title": "保险到期日",
+        "validator": [{ "required": true, "message": "请输入保险到期日" }],
+        "notAsFilter": true
+      },
     ],
   }, ],
   "key": "vehicle",

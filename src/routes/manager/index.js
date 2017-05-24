@@ -57,14 +57,26 @@ class Manager extends React.Component {
     };
   };
 
-  handlePageAction = ({ action, popupEditor, component, title, target }) => {
+  handlePageAction = ({ action, popupEditor, component, title, target, confirm }) => {
     const { dispatch, mgrCtx: { selectedRowKeys, dataSource }, tableName } = this.getMgrCtx();
     return (e) => {
-      if (component || popupEditor) {
-        dispatch({ type: 'manager/goEditor', tableName, title, action, target, component, popupEditor });
+      const doAction = () => {
+        if (component || popupEditor) {
+          dispatch({ type: 'manager/goEditor', tableName, title, action, target, component, popupEditor });
+        } else {
+          const filter = this.formQuery.getFieldsValue();
+          dispatch({ type: action, tableName, selectedRowKeys, dataSource, filter });
+        }
+      };
+      if (confirm) {
+        Modal.confirm({
+          title: `执行确认?`,
+          content: `确定要执行${title}操作吗？`,
+          onOk: doAction,
+          onCancel() { },
+        });
       } else {
-        const filter = formQuery.getFieldsValue();
-        dispatch({ type: action, payload: { tableName, selectedRowKeys, dataSource, filter } });
+        doAction();
       }
     };
   };
