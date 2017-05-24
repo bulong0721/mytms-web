@@ -43,7 +43,7 @@ class DialogEditTable extends React.Component {
 
   getActionColumn = ({ disableNew, disableEdit, disableRemove }) => {
     return {
-      title: disableNew ? '操作' : <Button type="danger" size='small' onClick={this.addNew.bind(this)}>新增</Button>,
+      title: disableNew ? '操作' : <a onClick={this.addNew.bind(this)}>新增</a>,
       width: 100,
       dataIndex: 'actions',
       render: (text, record, index) => {

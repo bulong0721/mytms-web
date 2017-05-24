@@ -271,6 +271,13 @@ module.exports = {
       "showType": "input",
       "title": "备注",
       "group": "基本信息",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 3,
+        "wrapperSpan": 21,
+      },
+      "rows": 3,
+      "type": "textarea",
       "notAsFilter": true,
       "notAsColumn": true
     },
