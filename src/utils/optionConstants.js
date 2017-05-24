@@ -46,7 +46,7 @@ const OptionConstants = {
     { key:"全顺" ,value:"全顺"},
     { key:"长安" ,value:"长安"},
     { key:"五菱" ,value:"五菱"},
-    { key:"江淮" ,value:"江淮"},
+    { key:"江淮" ,value:"江淮"}, 
     { key:"上汽大通" ,value:"上汽大通"},
     { key:"福田" ,value:"福田"},
     { key:"解放" ,value:"解放"},
