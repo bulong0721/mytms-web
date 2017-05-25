@@ -206,9 +206,9 @@ module.exports = {
     {
       "key": "imgLogo",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "企业logo图片",
@@ -221,67 +221,59 @@ module.exports = {
     {
       "key": 'contacts',
       "title": '联系人信息',
+      "editorSpan": 24,
       "fields": [
         {
           "key": "id",
           "showType": "ID",
           "title": "主键",
-          "group": "基本信息"
         },
         {
           "key": "contactName",
           "showType": "input",
           "title": "姓名",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "isDefault",
           "showType": "switch",
           "title": "是否默认",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "mobile",
           "showType": "input",
           "title": "联系手机",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "tel",
           "showType": "input",
           "title": "联系电话",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "tax",
           "showType": "input",
           "title": "联系传真",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "post",
           "showType": "input",
           "title": "职务",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "email",
           "showType": "input",
           "title": "邮箱",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "address",
           "showType": "input",
           "title": "地址",
-          "group": "基本信息",
           "notAsFilter": true
         }
       ],

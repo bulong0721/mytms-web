@@ -7,61 +7,50 @@ module.exports = {
       "title": "新增",
       "icon": "plus",
       "type": "primary",
-      "action": "customer/save",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "编辑",
       "icon": "edit",
-      "action": "customer/save",
-      "target": "row",
+      "target": "rows",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "删除",
       "icon": "close",
       "target": "rows",
-      "action": "customer/remove"
-    },
-    {
-      "title": "绑定关系",
-      "icon": "link",
-      "target": "row",
-      "action": "customer/bind"
+      "action": "manager/delete",
+      "component": ""
     }
   ],
   "fields": [
     {
       "key": "id",
       "showType": "ID",
+      "disabled": true,
       "title": "主键",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "customerCode",
-      "showType": "input",
-      "title": "公司编码",
       "group": "基本信息",
       "notAsFilter": true
     },
     {
-      "key": "customerName",
+      "key": "nameCn",
       "showType": "input",
-      "title": "公司名称",
+      "title": "供应商名称",
+      "validator": [{ "required": true, "whitespace": true, "message": "请输入公司名称" }],
       "group": "基本信息"
     },
     {
-      "key": "abbrev",
+      "key": "nameEn",
       "showType": "input",
-      "title": "公司简称",
+      "title": "供应商英文名称",
       "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
+      "notAsColumn": true,
+      "notAsFilter": true
     },
     {
-      "key": "companyType",
+      "key": "suppilerType",
       "options": [],
       "showType": "select",
       "title": "企业类型",
@@ -69,219 +58,605 @@ module.exports = {
       "notAsColumn": true
     },
     {
-      "key": "customerType",
+      "key": "natureType",
       "options": [],
       "showType": "select",
-      "title": "客户类型",
+      "title": "主体性质",
       "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "corporation",
-      "showType": "input",
-      "title": "法定代表人",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "registerCapital",
-      "showType": "input",
-      "title": "注册资本",
-      "group": "证照信息",
+      "notAsColumn": true,
       "notAsFilter": true
     },
     {
-      "key": "registerNo",
-      "showType": "input",
-      "title": "注册号",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
+      "key": "bizType",
+      "options": [],
+      "showType": "select",
+      "title": "业务类型",
+      "group": "基本信息"
+    },
+    {
+      "key": "transportType",
+      "options": [],
+      "showType": "select",
+      "title": "运输业务类型",
+      "group": "基本信息"
+    },
+    {
+      "key": "suppilerLevel",
+      "options": [],
+      "showType": "select",
+      "title": "供应商状态",
+      "group": "基本信息"
+    },
+    {
+      "key": "ph00",
+      "showType": "placeholder",
+      "group": "基本信息",
+      "notAsColumn": true,
+      "notAsFilter": true
     },
     {
       "key": "phone",
       "showType": "input",
-      "title": "公司电话",
+      "title": "企业电话",
       "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
+      "notAsColumn": true,
+      "notAsFilter": true
     },
     {
       "key": "fax",
       "showType": "input",
-      "title": "公司传真",
+      "title": "企业传真",
       "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "pyCode",
-      "showType": "input",
-      "title": "拼音编码",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "organizationNo",
-      "showType": "input",
-      "title": "组织机构代码",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "website",
-      "showType": "input",
-      "title": "公司官网",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "registerAddress",
-      "showType": "input",
-      "title": "注册地址",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "officeAddress",
-      "showType": "input",
-      "title": "办公地址",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "businessScope",
-      "showType": "input",
-      "title": "经营范围",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "profile",
-      "showType": "input",
-      "title": "公司简介",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "tfnNo",
-      "showType": "input",
-      "title": "税务登记号",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "businessType",
-      "options": [],
-      "showType": "select",
-      "title": "经营类型",
-      "group": "基本信息"
-    },
-    {
-      "key": "auditor",
-      "showType": "input",
-      "title": "审核人",
-      "group": null,
-      "notAsEditor": true,
+      "notAsColumn": true,
       "notAsFilter": true
     },
     {
-      "key": "auditStatus",
-      "options": [],
-      "showType": "select",
-      "title": "审核状态",
-      "group": null,
-      "notAsEditor": true
+      "key": "ph01",
+      "showType": "placeholder",
+      "group": "基本信息",
+      "notAsColumn": true,
+      "notAsFilter": true
     },
     {
-      "key": "imgLogo",
+      "key": "industryType",
+      "options": [],
+      "showType": "select",
+      "title": "经营行业",
+      "group": "基本信息"
+    },
+    {
+      "key": "ph02",
+      "showType": "placeholder",
+      "group": "基本信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "remark",
+      "showType": "input",
+      "title": "企业简介",
+      "group": "基本信息",
+      "notAsEditor": true,
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "pcc",
+      "showType": "input",
+      "title": "区域地址",
+      "group": "基本信息",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "address",
+      "showType": "input",
+      "title": "办公地址",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20,
+      },
+      "group": "基本信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "licenseCombine",
+      "showType": "switch",
+      "title": "是否三证合一",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "creditCd",
+      "showType": "input",
+      "title": "社会信用代码",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "creditDeadline",
+      "showType": "datetime",
+      "title": "社会信用证到期日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "licCertBegin",
+      "showType": "datetime",
+      "title": "营业执照注册号",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "licCertEnd",
+      "showType": "datetime",
+      "title": "营业执照到期日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ph11",
+      "group": "资质证照信息",
+      "showType": "placeholder",
+      "notAsFilter": true
+    },
+    {
+      "key": "registerCapital",
+      "showType": "number",
+      "title": "注册资本（万元）",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "legal",
+      "showType": "input",
+      "title": "法人代表",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "bizScope",
+      "showType": "input",
+      "title": "营业执照经营范围",
+      "group": "资质证照信息",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ph02",
+      "group": "资质证照信息",
+      "showType": "placeholder",
+      "notAsFilter": true
+    },
+    {
+      "key": "orgCertCd",
+      "showType": "input",
+      "title": "组织机构代码证号",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "orgCertBegin",
+      "showType": "datetime",
+      "title": "组织机构代码证起始日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "orgCertEnd",
+      "showType": "datetime",
+      "title": "组织机构代码证起到期日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "taxCertCd",
+      "showType": "input",
+      "title": "税务登记号",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "opCertCd",
+      "showType": "input",
+      "title": "道路运输许可证号",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "opCertBegin",
+      "showType": "datetime",
+      "title": "道路运输许可证发证日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "opCertEnd",
+      "showType": "datetime",
+      "title": "道路运输许可证到期日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "opCertScope",
+      "showType": "input",
+      "title": "道路运输许可证经营范围",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "imgLicCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
-      "title": "企业logo图片",
-      "group": "证照信息",
+      "title": "营业执照附件上传",
       "notAsFilter": true,
+      "group": "资质证照信息",
       "notAsColumn": true
+    },
+    {
+      "key": "imgOrgCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "showType": "image",
+      "title": "组织机构代码证上传",
+      "notAsFilter": true,
+      "group": "资质证照信息",
+      "notAsColumn": true
+    },
+    {
+      "key": "imgTaxCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "showType": "image",
+      "title": "税务登记证上传",
+      "notAsFilter": true,
+      "group": "资质证照信息",
+      "notAsColumn": true
+    },
+    {
+      "key": "imgOpCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "showType": "image",
+      "title": "道路运输许可证上传",
+      "notAsFilter": true,
+      "group": "资质证照信息",
+      "notAsColumn": true
+    },
+    {
+      "key": "is01",
+      "showType": "isolation",
+      "title": "运输能力信息",
+      "group": "能力库信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "empCount",
+      "showType": "number",
+      "title": "雇员数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ownCarCount",
+      "showType": "input",
+      "title": "自有常温车数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentCarCount",
+      "showType": "number",
+      "title": "协议常温车数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ownChillCount",
+      "showType": "number",
+      "title": "自有冷藏（冻）车数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentChillCount",
+      "showType": "number",
+      "title": "协议冷藏（冻）车数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "bizCover",
+      "showType": "input",
+      "title": "业务覆盖",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "gpsCount",
+      "showType": "number",
+      "title": "车辆GPS配置数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "equCount",
+      "showType": "number",
+      "title": "车辆温湿度配置数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "officeArea",
+      "showType": "number",
+      "title": "固定办公场所面积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "opArea",
+      "showType": "number",
+      "title": "营运操作场所面积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "is02",
+      "showType": "isolation",
+      "title": "仓储能力信息",
+      "group": "能力库信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "ownWhCount",
+      "showType": "number",
+      "title": "自有仓库数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ownWhArea",
+      "showType": "number",
+      "title": "自有仓库总面积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ownWhVol",
+      "showType": "number",
+      "title": "自有仓库总容积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ownRhArea",
+      "showType": "number",
+      "title": "自有冷库总面积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ownRhVol",
+      "showType": "number",
+      "title": "自有冷库总容积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ph20",
+      "showType": "placeholder",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentWhCount",
+      "showType": "number",
+      "title": "外租仓库总数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentWhArea",
+      "showType": "number",
+      "title": "外租仓库总面积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentWhVol",
+      "showType": "number",
+      "title": "外租仓库总容积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentRhArea",
+      "showType": "number",
+      "title": "外租冷库总面积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "rentRhVol",
+      "showType": "number",
+      "title": "外租冷库总容积",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "is03",
+      "showType": "isolation",
+      "title": "装卸能力信息",
+      "group": "能力库信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "dockType",
+      "options": [],
+      "showType": "select",
+      "title": "装卸队伍",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "dockEquCount",
+      "showType": "number",
+      "title": "装卸设备数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "dockMenCount",
+      "showType": "number",
+      "title": "装卸人员数量",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "is04",
+      "showType": "isolation",
+      "title": "系统信息化信息",
+      "group": "能力库信息",
+      "notAsFilter": true
+    },
+    {
+      "key": "standardIt",
+      "showType": "number",
+      "title": "上线系统",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "otherIt",
+      "showType": "input",
+      "title": "其他系统",
+      "group": "能力库信息",
+      "notAsColumn": true,
+      "notAsFilter": true
     }
   ],
   "nesteds": [
     {
       "key": 'contacts',
       "title": '联系人信息',
+      "editorSpan": 24,
       "fields": [
         {
           "key": "id",
           "showType": "ID",
           "title": "主键",
-          "group": "基本信息"
         },
         {
           "key": "contactName",
           "showType": "input",
           "title": "姓名",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "isDefault",
           "showType": "switch",
           "title": "是否默认",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "mobile",
           "showType": "input",
           "title": "联系手机",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "tel",
           "showType": "input",
           "title": "联系电话",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "tax",
           "showType": "input",
           "title": "联系传真",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "post",
           "showType": "input",
           "title": "职务",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "email",
           "showType": "input",
           "title": "邮箱",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "address",
           "showType": "input",
           "title": "地址",
-          "group": "基本信息",
           "notAsFilter": true
         }
       ],
@@ -340,178 +715,10 @@ module.exports = {
         },
       ],
     },
-    {
-      "key": 'vehicles',
-      "title": '车辆信息',
-      "fields": [
-        {
-          "key": "id",
-          "showType": "ID",
-          "title": "主键",
-          "group": "xxxx"
-        },
-        {
-          "key": "cardNo",
-          "showType": "input",
-          "title": "车牌号",
-          "notAsFilter": true
-        },
-        {
-          "key": "ownerType",
-          "options": [],
-          "showType": "select",
-          "title": "车辆归属",
-          "notAsFilter": true
-        },
-        {
-          "key": "brandModel",
-          "showType": "input",
-          "title": "品牌型号",
-          "notAsFilter": true
-        },
-        {
-          "key": "approedLoad",
-          "showType": "number",
-          "title": "核定载量",
-          "notAsFilter": true
-        },
-        {
-          "key": "serviceLife",
-          "showType": "number",
-          "title": "使用年限",
-          "notAsFilter": true
-        },
-        {
-          "key": "strongPolicy",
-          "showType": "input",
-          "title": "交强险保单",
-          "notAsFilter": true
-        },
-        {
-          "key": "businessPolicy",
-          "showType": "input",
-          "title": "商业险保单",
-          "notAsFilter": true
-        },
-        {
-          "key": "vehicleType",
-          "options": [],
-          "showType": "select",
-          "title": "车辆类型",
-          "notAsFilter": true
-        },
-        {
-          "key": "carriageFormat",
-          "showType": "input",
-          "title": "车厢规格",
-          "notAsFilter": true
-        },
-        {
-          "key": "gps",
-          "showType": "switch",
-          "title": "GPS",
-          "notAsFilter": true
-        },
-        {
-          "key": "auditStatus",
-          "options": [],
-          "showType": "select",
-          "title": "审核状态",
-          "notAsFilter": true
-        }
-      ]
-    },
-    {
-      "key": 'drivers',
-      "title": '司机信息',
-      "fields": [
-        {
-          "key": "id",
-          "showType": "ID",
-          "title": "主键",
-          "group": "eeee"
-        },
-        {
-          "key": "driverName",
-          "showType": "input",
-          "title": "司机姓名",
-          "notAsFilter": true
-        },
-        {
-          "key": "driverNo",
-          "showType": "input",
-          "title": "行驶证号",
-          "notAsFilter": true
-        },
-        {
-          "key": "mobile",
-          "showType": "input",
-          "title": "手机号码",
-          "notAsFilter": true
-        },
-        {
-          "key": "drivingType",
-          "options": [],
-          "showType": "select",
-          "title": "准驾车型",
-          "notAsFilter": true
-        },
-        {
-          "key": "licensePeriodType",
-          "options": [],
-          "showType": "select",
-          "title": "驾驶证有效期",
-          "notAsFilter": true
-        },
-        {
-          "key": "auditStatus",
-          "options": [],
-          "showType": "select",
-          "title": "审核状态",
-          "notAsFilter": true
-        }
-      ],
-    },
-    {
-      "key": 'lines',
-      "title": '线路信息',
-      "fields": [
-        {
-          "key": "departureName",
-          "showType": "input",
-          "title": "起运地",
-          "group": "eee",
-          "notAsFilter": true
-        },
-        {
-          "key": "destinationName",
-          "showType": "input",
-          "title": "目的地",
-          "notAsFilter": true
-        },
-        {
-          "key": "businessType",
-          "options": [],
-          "showType": "select",
-          "title": "业务类型",
-          "notAsFilter": true
-        },
-        {
-          "key": "deliveryArea",
-          "showType": "input",
-          "title": "配送区域",
-          "notAsFilter": true
-        },
-        {
-          "key": "id",
-          "showType": "ID",
-          "title": "主键"
-        }
-      ]
-    }
   ],
-  "key": "customer",
-  "title": "三方供应商",
+  "key": "supplier",
+  "title": "供应商",
+  "useGroupTab": true,
   "editorSpan": 8,
-  "filterSpan": 8
+  "filterSpan": 6
 }

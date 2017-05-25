@@ -12,22 +12,22 @@ const OptionConstants = {
   ],
 
   ownerType: [
-    { key: 1, value: '自有' },
-    { key: 2, value: '外包' },
+    { key: '1', value: '自有' },
+    { key: '2', value: '外包' },
   ],
 
   auditStatus: [
-    { key: 1, value: '草稿' },
-    { key: 2, value: '待审核' },
-    { key: 3, value: '审核通过' },
-    { key: 4, value: '驳回' },
-    { key: 5, value: '已到期' },
-    { key: 6, value: '即将过期' },
+    { key: '1', value: '草稿' },
+    { key: '2', value: '待审核' },
+    { key: '3', value: '审核通过' },
+    { key: '4', value: '驳回' },
+    { key: '5', value: '已到期' },
+    { key: '6', value: '即将过期' },
   ],
 
   vehicleType: [
-    { key:1 ,value:"平板车"},
-    { key:2 ,value:"冷藏车"},
+    { key:'1' ,value:"平板车"},
+    { key:'2' ,value:"冷藏车"},
   ],
 
   policyType: [
@@ -74,18 +74,18 @@ const OptionConstants = {
   ],
 
   industryType: [
-    { key: 1, value: '果蔬' },
-    { key: 2, value: '海鲜' },
-    { key: 3, value: '乳制品' },
-    { key: 4, value: '餐饮' },
-    { key: 5, value: '医药' },
-    { key: 6, value: '肉类' },
-    { key: 7, value: '冷冻食品' },
+    { key: '1', value: '果蔬' },
+    { key: '2', value: '海鲜' },
+    { key: '3', value: '乳制品' },
+    { key: '4', value: '餐饮' },
+    { key: '5', value: '医药' },
+    { key: '6', value: '肉类' },
+    { key: '7', value: '冷冻食品' },
   ],
 
   shipType: [
-    { key: 1, value: '上游' },
-    { key: 2, value: '下游' },
+    { key: '1', value: '上游' },
+    { key: '2', value: '下游' },
   ],
 
   ceType: [
@@ -113,8 +113,8 @@ const OptionConstants = {
   ], 
 
   businessType: [ 
-    { key: 1, value: '整车' }, 
-    { key: 2, value: '零担' }, 
+    { key: '1', value: '整车' }, 
+    { key: '2', value: '零担' }, 
   ], 
 
   yesOrNo: [ 

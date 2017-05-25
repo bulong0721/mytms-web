@@ -273,8 +273,8 @@ module.exports = {
       "group": "基本信息",
       "layout": {
         "colSpan": 16,
-        "labelSpan": 3,
-        "wrapperSpan": 21,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "rows": 3,
       "type": "textarea",
@@ -284,9 +284,9 @@ module.exports = {
     {
       "key": "imgCar",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "车辆照片",
@@ -297,9 +297,9 @@ module.exports = {
     {
       "key": "imgDriving",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "行驶证扫描件",
@@ -310,9 +310,9 @@ module.exports = {
     {
       "key": "imgCarOperation",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "车辆运营证",
@@ -323,9 +323,9 @@ module.exports = {
     {
       "key": "imgWarrant",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "保单扫描件",

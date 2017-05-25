@@ -70,7 +70,9 @@ const Builder = {
         const children = editorFields.map(field => field(getFieldDecorator));
         return (
           <Form layout="horizontal" className="ant-advanced-search-edit">
-            {children}
+            <Row>
+              {children}
+            </Row>
           </Form>
         );
       }
@@ -121,13 +123,14 @@ const Builder = {
       const tabEditor = getFieldDecorator => {
         const children = [];
         groupMap.forEach((subEditors, title) => {
+          context.activedGroup = context.activedGroup || title;
           children.push(
-            <Tabs.TabPane tab={title} key={title}>
+            <Tabs.TabPane tab={title} key={title} style={{ padding: '12px', backgroundColor: '#fff' }}>
               {subEditors.map(subEditor => subEditor(getFieldDecorator))}
             </Tabs.TabPane>
           );
         });
-        return <Tabs type="card" className="ant-layout-tab" key="groups" activeKey={context.activedGroup} onChange={component.activeGroupTab}>
+        return <Tabs key="groups" activeKey={context.activedGroup} onChange={component.activeGroupTab}>
           {children}
         </Tabs>
       };
@@ -242,6 +245,11 @@ const Builder = {
         editorField = this.buildPlaceholder(table, field, 'editor');
         field.notAsColumn = true;
         break;
+        case 'isolation':
+        filterField = this.buildIsolation(table, field, 'filter');
+        editorField = this.buildIsolation(table, field, 'editor');
+        field.notAsColumn = true;
+        break;
       case 'image':
         filterField = this.buildImage(table, field, 'filter');
         editorField = this.buildImage(table, field, 'editor');
@@ -303,8 +311,8 @@ const Builder = {
     const fieldSpan = forFilter ? filterSpan || 6 : editorSpan || 12;
     const { key, title, layout } = field;
     let colSpan = fieldSpan;
-    let labelSpan = 6;
-    let wrapperSpan = 18;
+    let labelSpan = 8;
+    let wrapperSpan = 16;
     if (layout) {
       colSpan = layout.colSpan;
       labelSpan = layout.labelSpan;
@@ -373,7 +381,7 @@ const Builder = {
     const fieldOpts = this.getOptions(useFor, field);
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
       <Upload action='//jsonplaceholder.typicode.com/posts/' listType='picture'>
-        <Button type='dashed'><Icon type="upload" />添加图片</Button><span style={{ marginLeft: '12px' }}>图片大小不超过3M，最多1张，支持JPG,JPEG,PNG,BMP格式</span>
+        <Button type='dashed'><Icon type="upload" />添加图片</Button><span style={{ marginLeft: '12px' }}>图片大小不超过3M，最多1张，支持JPG，JPEG，PNG，BMP格式</span>
       </Upload>
     ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper };
@@ -381,6 +389,12 @@ const Builder = {
 
   buildPlaceholder(table, field, useFor) {
     const wrapper = this.colWrapper(getFieldDecorator => <span key={field.key}>&nbsp;</span>, table, field, useFor);
+    return { fieldProps: {}, wrapper };
+  },
+
+  buildIsolation(table, field, useFor) {
+    field.layout = { colSpan: 24, labelSpan: 0, wrapperSpan: 24 };
+    const wrapper = this.colWrapper(getFieldDecorator => <Row className="field-isolation-stript" key={field.key}><h3>{field.title}</h3></Row>, table, field, useFor);
     return { fieldProps: {}, wrapper };
   },
 
@@ -404,10 +418,10 @@ const Builder = {
   buildSelect(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const options = (field.options || []).map((option) =>
-      <Option disabled={fieldOpts.disabled} key={option.key} value={option.key}>{option.value}</Option>
+      <Option disabled={fieldOpts.disabled} key={option.key}>{option.value}</Option>
     );
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <Select {...fieldOpts}>{options}</Select>
+      <Select allowClear={true} {...fieldOpts}>{options}</Select>
     ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper, options };
   },

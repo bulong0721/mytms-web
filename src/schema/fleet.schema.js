@@ -206,9 +206,9 @@ module.exports = {
     {
       "key": "imgLogo",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "企业logo图片",

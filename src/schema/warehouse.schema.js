@@ -167,9 +167,9 @@ module.exports = {
     {
       "key": "imgProperty",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "产权证明",
@@ -180,9 +180,9 @@ module.exports = {
     {
       "key": "imgRentalAgreement",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "仓库租赁协议",
@@ -193,9 +193,9 @@ module.exports = {
     {
       "key": "imgFireAccept",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "消防验收证明",
@@ -206,9 +206,9 @@ module.exports = {
     {
       "key": "imgOperatePermit",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "仓库经营许可证",
@@ -219,9 +219,9 @@ module.exports = {
     {
       "key": "imgPlan",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "仓库平面",
@@ -232,9 +232,9 @@ module.exports = {
     {
       "key": "imgWarehouse",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "showType": "image",
       "title": "仓库照片",

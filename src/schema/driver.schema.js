@@ -115,9 +115,9 @@ module.exports = {
     {
       "key": "imgDriverCard",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "notAsColumn": true,
       "notAsFilter": true,
@@ -128,9 +128,9 @@ module.exports = {
     {
       "key": "imgIdentify",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "notAsColumn": true,
       "notAsFilter": true,
@@ -141,9 +141,9 @@ module.exports = {
     {
       "key": "imgHealthCard",
       "layout": {
-        "colSpan": 24,
-        "labelSpan": 2,
-        "wrapperSpan": 22
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
       },
       "notAsColumn": true,
       "notAsFilter": true,
