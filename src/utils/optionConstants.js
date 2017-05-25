@@ -123,9 +123,123 @@ const OptionConstants = {
   ], 
 
   chargeWay: [ 
-    { key: 1, value: '按吨' }, 
-    { key: 2, value: '按方' }, 
-    { key: 3, value: '按单' }, 
+    { key: '1', value: '按吨' }, 
+    { key: '2', value: '按方' }, 
+    { key: '3', value: '按单' }, 
+  ],
+
+  warehouseHeightLevel: [
+    { key: '1', value: '3M以内' }, 
+    { key: '2', value: '3-5M' }, 
+    { key: '3', value: '5-10M' }, 
+    { key: '4', value: '10M以上' }, 
+  ],
+
+  groundType: [
+    { key: '1', value: '防尘' }, 
+    { key: '2', value: '高标水泥' }, 
+    { key: '3', value: '地砖' }, 
+    { key: '4', value: '环氧' }, 
+    { key: '5', value: '防潮' }, 
+    { key: '6', value: '防静电' }, 
+    { key: '7', value: '金刚砂' }, 
+    { key: '8', value: '其他' }, 
+  ],
+
+  struct: [
+    { key: '1', value: '钢混结构' }, 
+    { key: '2', value: '彩钢结构' }, 
+    { key: '3', value: '砖混结构' }, 
+    { key: '4', value: '其他' }, 
+  ],
+
+  gradeLabel: [
+    { key: '1', value: '三星' }, 
+    { key: '2', value: '四星' }, 
+    { key: '3', value: '五星' }, 
+    { key: '4', value: '无' }, 
+  ],
+
+  firefight: [
+    { key: '1', value: '喷淋' }, 
+    { key: '2', value: '烟感' }, 
+    { key: '3', value: '沙桶' }, 
+    { key: '4', value: '消防栓' }, 
+    { key: '5', value: '灭火器' }, 
+    { key: '6', value: '消防毛毯' }, 
+    { key: '7', value: '隔热层' }, 
+    { key: '8', value: '消防警钟' }, 
+    { key: '9', value: '其他' }, 
+  ],
+
+  matchEquipment: [
+    { key: '1', value: '办公' }, 
+    { key: '2', value: '住宿' }, 
+    { key: '3', value: '食堂' }, 
+    { key: '4', value: '其他' }, 
+  ],
+
+  security: [
+    { key: '1', value: '中央监控' }, 
+    { key: '2', value: '保安人员' }, 
+    { key: '3', value: '警钟' }, 
+    { key: '4', value: '全球定位' }, 
+    { key: '5', value: '红外线' }, 
+    { key: '6', value: '连线警报' }, 
+    { key: '7', value: '园区安保' }, 
+    { key: '8', value: '其他' }, 
+  ],
+
+  refrigerationPlant: [
+    { key: '1', value: '风冷' }, 
+    { key: '2', value: '管冷' }, 
+    { key: '3', value: '急冻库' }, 
+  ],
+
+  distributionAbility: [
+    { key: '1', value: '有，仅市内' }, 
+    { key: '2', value: '有，可商讨' }, 
+    { key: '3', value: '无' }, 
+  ],
+
+  cooperateVehicleType: [
+    { key: '1', value: '自建车队' }, 
+    { key: '2', value: '临时外请' }, 
+    { key: '3', value: '固定车队' }, 
+  ],
+
+  hasWms: [
+    { key: '1', value: '有' }, 
+    { key: '2', value: '无，有系统需求' }, 
+    { key: '3', value: '无，无需求' }, 
+  ],
+
+  balanceType: [
+    { key: '1', value: '打包计费' }, 
+    { key: '2', value: '分别计费' }, 
+    { key: '3', value: '其他' }, 
+  ],
+
+  storageBalanceType: [
+    { key: '1', value: '按天' }, 
+    { key: '2', value: '按月' }, 
+    { key: '3', value: '按季' }, 
+    { key: '4', value: '按年' }, 
+  ],
+
+  storageChargeWay: [
+    { key: '1', value: '按板计' }, 
+    { key: '2', value: '按件计' }, 
+    { key: '3', value: '按面积计' }, 
+    { key: '4', value: '仓储打包计' }, 
+    { key: '5', value: '其他' }, 
+  ],
+
+  balancePeriod: [
+    { key: '1', value: '月结' }, 
+    { key: '2', value: '季度结' }, 
+    { key: '3', value: '现付' }, 
+    { key: '4', value: '到付' }, 
   ],
 
   actionTarget: [
