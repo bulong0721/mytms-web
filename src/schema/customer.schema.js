@@ -7,33 +7,29 @@ module.exports = {
       "title": "新增",
       "icon": "plus",
       "type": "primary",
-      "action": "customer/save",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "编辑",
       "icon": "edit",
-      "action": "customer/save",
-      "target": "row",
+      "target": "rows",
+      "action": "manager/save",
       "popupEditor": true
     },
     {
       "title": "删除",
       "icon": "close",
       "target": "rows",
-      "action": "customer/remove"
-    },
-    {
-      "title": "绑定关系",
-      "target": "row",
-      "icon": "link",
-      "action": "customer/bind"
+      "action": "manager/delete",
+      "component": ""
     }
   ],
   "fields": [
     {
       "key": "id",
       "showType": "ID",
+      "disabled": true,
       "title": "主键",
       "group": "基本信息",
       "notAsFilter": true,
@@ -42,20 +38,20 @@ module.exports = {
     {
       "key": "customerCode",
       "showType": "input",
-      "title": "公司编码",
+      "title": "客户编码",
       "group": "基本信息",
       "notAsFilter": true
     },
     {
       "key": "customerName",
       "showType": "input",
-      "title": "公司名称",
+      "title": "客户名称",
       "group": "基本信息"
     },
     {
-      "key": "abbrev",
+      "key": "customerEnglishName",
       "showType": "input",
-      "title": "公司简称",
+      "title": "客户英文名称",
       "group": "基本信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -66,44 +62,13 @@ module.exports = {
       "showType": "select",
       "title": "企业类型",
       "group": "基本信息",
-      "notAsColumn": true
-    },
-    {
-      "key": "customerType",
-      "options": [],
-      "showType": "select",
-      "title": "客户类型",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "corporation",
-      "showType": "input",
-      "title": "法定代表人",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "registerCapital",
-      "showType": "input",
-      "title": "注册资本",
-      "group": "证照信息",
-      "notAsFilter": true
-    },
-    {
-      "key": "registerNo",
-      "showType": "input",
-      "title": "注册号",
-      "group": "证照信息",
       "notAsFilter": true,
       "notAsColumn": true
     },
     {
       "key": "phone",
       "showType": "input",
-      "title": "公司电话",
+      "title": "企业电话",
       "group": "基本信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -111,39 +76,35 @@ module.exports = {
     {
       "key": "fax",
       "showType": "input",
-      "title": "公司传真",
+      "title": "企业传真",
       "group": "基本信息",
       "notAsFilter": true,
       "notAsColumn": true
     },
     {
-      "key": "pyCode",
+      "key": "settlingTime",
+      "showType": "datetime",
+      "title": "入驻时间",
+      "group": "基本信息"
+    },
+    {
+      "key": "businessScope",
       "showType": "input",
-      "title": "拼音编码",
+      "title": "经营行业",
+      "group": "基本信息"
+    },
+    {
+      "key": "profile",
+      "showType": "input",
+      "title": "企业简介",
       "group": "基本信息",
       "notAsFilter": true,
       "notAsColumn": true
     },
     {
-      "key": "organizationNo",
+      "key": "area",
       "showType": "input",
-      "title": "组织机构代码",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "website",
-      "showType": "input",
-      "title": "公司官网",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
-    },
-    {
-      "key": "registerAddress",
-      "showType": "input",
-      "title": "注册地址",
+      "title": "区域地址",
       "group": "基本信息",
       "notAsFilter": true,
       "notAsColumn": true
@@ -157,35 +118,162 @@ module.exports = {
       "notAsColumn": true
     },
     {
-      "key": "businessScope",
-      "showType": "input",
-      "title": "经营范围",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
+      "key": "licenseCombine",
+      "showType": "switch",
+      "title": "是否三证合一",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
     },
     {
-      "key": "profile",
+      "key": "creditCd",
       "showType": "input",
-      "title": "公司简介",
-      "group": "基本信息",
-      "notAsFilter": true,
-      "notAsColumn": true
+      "title": "社会信用代码",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
     },
     {
-      "key": "tfnNo",
+      "key": "registerDate",
+      "showType": "datetime",
+      "title": "注册日期",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "registerNo",
+      "showType": "input",
+      "title": "营业执照注册号",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "licCertEnd",
+      "showType": "datetime",
+      "title": "营业执照到期日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "legal",
+      "showType": "input",
+      "title": "法人代表",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },    
+    {
+      "key": "registerCapital",
+      "showType": "number",
+      "title": "注册资本（万元）",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "taxCertCd",
       "showType": "input",
       "title": "税务登记号",
-      "group": "证照信息",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ph11",
+      "group": "资质证照信息",
+      "showType": "placeholder",
+      "notAsFilter": true
+    },
+    {
+      "key": "ph11",
+      "group": "资质证照信息",
+      "showType": "placeholder",
+      "notAsFilter": true
+    },
+    {
+      "key": "bizScope",
+      "showType": "input",
+      "title": "营业执照经营范围",
+      "group": "资质证照信息",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "ph02",
+      "group": "资质证照信息",
+      "showType": "placeholder",
+      "notAsFilter": true
+    },
+    {
+      "key": "orgCertCd",
+      "showType": "input",
+      "title": "组织机构代码证号",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "orgCertBegin",
+      "showType": "datetime",
+      "title": "组织机构代码证起始日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "orgCertEnd",
+      "showType": "datetime",
+      "title": "组织机构代码证起到期日",
+      "group": "资质证照信息",
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "imgLicCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "showType": "image",
+      "title": "营业执照附件上传",
       "notAsFilter": true,
+      "group": "资质证照信息",
       "notAsColumn": true
     },
     {
-      "key": "businessType",
-      "options": [],
-      "showType": "select",
-      "title": "经营类型",
-      "group": "基本信息"
+      "key": "imgOrgCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "showType": "image",
+      "title": "组织机构代码证上传",
+      "notAsFilter": true,
+      "group": "资质证照信息",
+      "notAsColumn": true
+    },
+    {
+      "key": "imgTaxCert",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "showType": "image",
+      "title": "税务登记证上传",
+      "notAsFilter": true,
+      "group": "资质证照信息",
+      "notAsColumn": true
     },
     {
       "key": "auditor",
@@ -202,19 +290,6 @@ module.exports = {
       "title": "审核状态",
       "group": null,
       "notAsEditor": true
-    },
-    {
-      "key": "imgLogo",
-      "layout": {
-        "colSpan": 16,
-        "labelSpan": 4,
-        "wrapperSpan": 20
-      },
-      "showType": "image",
-      "title": "企业logo图片",
-      "group": "证照信息",
-      "notAsFilter": true,
-      "notAsColumn": true
     }
   ],
   "nesteds": [
@@ -334,7 +409,8 @@ module.exports = {
     },
   ],
   "key": "customer",
-  "title": "客户列表",
+  "title": "客户管理",
+  "useGroupTab": true,
   "editorSpan": 8,
   "filterSpan": 6
 }
