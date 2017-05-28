@@ -22,7 +22,6 @@ module.exports = {
       "icon": "close",
       "target": "rows",
       "action": "manager/delete",
-      "component": ""
     }
   ],
   "fields": [
@@ -119,13 +118,32 @@ module.exports = {
     },
     {
       "key": "industryType",
-      "options": [],
-      "showType": "select",
-      "title": "经营行业",
+      "options": OptionConstants.chillLogsType,
+      "showType": "checkbox",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "title": "冷链行业",
+      "notAsFilter": true,
       "group": "基本信息"
     },
     {
-      "key": "ph02",
+      "key": "industryType2",
+      "options": OptionConstants.commonLogsType,
+      "showType": "checkbox",
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
+      "title": "普货行业",
+      "notAsFilter": true,
+      "group": "基本信息"
+    },
+    {
+      "key": "ph09",
       "showType": "placeholder",
       "group": "基本信息",
       "notAsColumn": true,
@@ -242,7 +260,7 @@ module.exports = {
       "notAsFilter": true
     },
     {
-      "key": "ph02",
+      "key": "ph32",
       "group": "资质证照信息",
       "showType": "placeholder",
       "notAsFilter": true
@@ -663,33 +681,31 @@ module.exports = {
     },
     {
       "key": 'finances',
+      "editorSpan": 24,
       "title": '财务信息',
       "fields": [
         {
           "key": "id",
           "showType": "ID",
           "title": "主键",
-          "group": "基本信息"
+          "disabled": true,
         },
         {
           "key": "bankAccountName",
           "showType": "input",
           "title": "收款方名称",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "bankCardNo",
           "showType": "input",
           "title": "收款方账号",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "bankName",
           "showType": "input",
           "title": "开户行名称（支行）",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
@@ -697,20 +713,17 @@ module.exports = {
           "options": [],
           "showType": "select",
           "title": "发票类型",
-          "group": "基本信息",
           "notAsFilter": true
         },
         {
           "key": "taxrate",
           "showType": "number",
           "title": "税率",
-          "group": "基本信息"
         },
         {
           "key": "imgBank",
           "showType": "image",
           "title": "附件",
-          "group": "基本信息",
           "notAsFilter": true
         },
       ],

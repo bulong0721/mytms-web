@@ -220,6 +220,10 @@ const Builder = {
         filterField = this.buildRadio(table, field, 'filter');
         editorField = this.buildRadio(table, field, 'editor');
         break;
+        case 'checkbox':
+        filterField = this.buildCheckbox(table, field, 'filter');
+        editorField = this.buildCheckbox(table, field, 'editor');
+        break;
       case 'number':
         filterField = this.buildNumber(table, field, 'filter');
         editorField = this.buildNumber(table, field, 'editor');
@@ -245,7 +249,7 @@ const Builder = {
         editorField = this.buildPlaceholder(table, field, 'editor');
         field.notAsColumn = true;
         break;
-        case 'isolation':
+      case 'isolation':
         filterField = this.buildIsolation(table, field, 'filter');
         editorField = this.buildIsolation(table, field, 'editor');
         field.notAsColumn = true;
@@ -413,6 +417,17 @@ const Builder = {
       <Switch {...fieldProps} />
     ), table, field, useFor);
     return { fieldProps, wrapper };
+  },
+
+  buildCheckbox(table, field, useFor) {
+    const fieldOpts = this.getOptions(useFor, field);
+    const options = (field.options || []).map(({ key, value }) => {
+      return { label: key, value }
+    });
+    const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
+      <Checkbox.Group options={options} />
+    ), table, field, useFor);
+    return { fieldProps: fieldOpts, wrapper, options };
   },
 
   buildSelect(table, field, useFor) {
