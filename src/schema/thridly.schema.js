@@ -149,12 +149,10 @@ module.exports = {
       "notAsColumn": true,
       "notAsFilter": true
     },
-    {
-      "key": "remark",
-      "showType": "input",
-      "title": "企业简介",
+     {
+      "key": "ph10",
+      "showType": "placeholder",
       "group": "基本信息",
-      "notAsEditor": true,
       "notAsColumn": true,
       "notAsFilter": true
     },
@@ -163,11 +161,13 @@ module.exports = {
       "showType": "input",
       "title": "区域地址",
       "group": "基本信息",
-      "layout": {
-        "colSpan": 16,
-        "labelSpan": 4,
-        "wrapperSpan": 20
-      },
+      "notAsColumn": true,
+      "notAsFilter": true
+    },
+     {
+      "key": "ph11",
+      "showType": "placeholder",
+      "group": "基本信息",
       "notAsColumn": true,
       "notAsFilter": true
     },
@@ -225,9 +225,11 @@ module.exports = {
       "notAsFilter": true
     },
     {
-      "key": "ph11",
+      "key": "legal",
+      "showType": "input",
+      "title": "法人代表",
       "group": "资质证照信息",
-      "showType": "placeholder",
+      "notAsColumn": true,
       "notAsFilter": true
     },
     {
@@ -239,11 +241,9 @@ module.exports = {
       "notAsFilter": true
     },
     {
-      "key": "legal",
-      "showType": "input",
-      "title": "法人代表",
+      "key": "ph11",
       "group": "资质证照信息",
-      "notAsColumn": true,
+      "showType": "placeholder",
       "notAsFilter": true
     },
     {
@@ -327,6 +327,13 @@ module.exports = {
       "title": "道路运输许可证经营范围",
       "group": "资质证照信息",
       "notAsColumn": true,
+      "notAsFilter": true
+    },
+    {
+      "key": "is14",
+      "showType": "isolation",
+      "title": "证照附件信息",
+      "group": "资质证照信息",
       "notAsFilter": true
     },
     {
@@ -571,7 +578,7 @@ module.exports = {
     },
     {
       "key": "dockType",
-      "options": [],
+      "options": OptionConstants.getOptions(1014),
       "showType": "select",
       "title": "装卸队伍",
       "group": "能力库信息",
@@ -603,7 +610,13 @@ module.exports = {
     },
     {
       "key": "standardIt",
-      "showType": "number",
+      "showType": "checkbox",
+      "options": OptionConstants.standardIt,
+      "layout": {
+        "colSpan": 16,
+        "labelSpan": 4,
+        "wrapperSpan": 20
+      },
       "title": "上线系统",
       "group": "能力库信息",
       "notAsColumn": true,

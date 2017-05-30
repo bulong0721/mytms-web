@@ -1,4 +1,23 @@
+import { post, get } from '../services/http'
+
 const OptionConstants = {
+
+  async getOptions(codeId) {
+    let dicMap = new Map();
+    if (dicMap.size != 0) return dicMap.get(codeId);
+    const resp = await post('http://localhost:8080/entry/dictionary');
+    if (resp) {
+      resp.list.forEach(({ key, value, groupId }) => {
+        const opts = dicMap.get(groupId) || [];
+        opts.push({ key, value });
+        dicMap.set(groupId, opts);
+      });
+    }
+    const data = dicMap.get(codeId);
+    console.log(dicMap, codeId, data);
+    return data;
+  },
+
   showType: [
     { key: 'input', value: 'input' },
     { key: 'radio', value: 'radio' },
@@ -78,6 +97,13 @@ const OptionConstants = {
     { key: '餐饮', value: '02' },
     { key: '农批', value: '03' },
     { key: '生鲜', value: '04' },
+  ],
+
+  standardIt: [
+    { key: '运输管理系统(TMS)', value: 'TMS' },
+    { key: '仓储管理系统(WMS)', value: 'WMS' },
+    { key: '订单管理系统(OMS)', value: 'OMS' },
+    { key: '结算管理系统(BMS)', value: 'BMS' },
   ],
 
   commonLogsType: [
