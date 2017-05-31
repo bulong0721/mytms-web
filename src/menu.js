@@ -13,9 +13,9 @@ module.exports = [
     name: '供应商管理',
     icon: 'contacts',
     child: [
-      { key: 'thridly', name: '三方供应商', icon: 'file-add' },
-      { key: 'fleet', name: '车队供应商', icon: 'book' },
-      { key: 'private', name: '个体供应商', icon: 'edit' },
+      { key: 'thridly', name: '三方供应商', icon: 'skin' },
+      { key: 'fleet', name: '车队供应商', icon: 'car' },
+      { key: 'private', name: '个体供应商', icon: 'compass' },
     ]
   },
   {

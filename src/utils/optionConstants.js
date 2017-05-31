@@ -2,20 +2,11 @@ import { post, get } from '../services/http'
 
 const OptionConstants = {
 
-  async getOptions(codeId) {
-    let dicMap = new Map();
-    if (dicMap.size != 0) return dicMap.get(codeId);
-    const resp = await post('http://localhost:8080/entry/dictionary');
-    if (resp) {
-      resp.list.forEach(({ key, value, groupId }) => {
-        const opts = dicMap.get(groupId) || [];
-        opts.push({ key, value });
-        dicMap.set(groupId, opts);
-      });
-    }
-    const data = dicMap.get(codeId);
-    console.log(dicMap, codeId, data);
-    return data;
+  getOptions(codeId) {
+    const dicMap = JSON.parse(localStorage.getItem('dictionary1')) || new Map();
+    // const data = dicMap.get(codeId);
+    // console.log(dicMap, codeId, data);
+    return [];
   },
 
   showType: [

@@ -1,4 +1,5 @@
 import { notification } from 'antd';
+import { get, post } from '../services/http';
 import config from '../config';
 const { prefix } = config;
 
@@ -19,10 +20,24 @@ export default {
   },
 
   subscriptions: {
-
+    setup({ dispatch }) {
+      dispatch({ type: 'launch' });
+    }
   },
 
   effects: {
+    *launch({}, { call, put }) {
+      const dicMap = JSON.parse(localStorage.getItem('dictionary1'));
+      if (dicMap.length === 0) {
+        const resp = yield call(post, 'http://localhost:8080/entry/dictionary');
+        resp.list.forEach(({ key, value, groupId }) => {
+          const opts = dicMap.get(groupId) || [];
+          opts.push({ key, value });
+          dicMap.set(groupId, opts);
+        });
+        localStorage.setItem('dictionary1', JSON.stringify(dicMap));
+      }
+    },
     *login({ payload }, { call, put }) {
       yield put({ type: 'showLoginButtonLoading' });
       yield put({

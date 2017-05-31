@@ -3,6 +3,7 @@ import { Tabs, Form, BackTop, Input, Row, Col, DatePicker, Switch, Select, Icon,
 import moment from 'moment';
 import Renders from './renders';
 import DialogEditTable from '../../../components/extension/dialogEditTable';
+import F7Picker from '../../../components/widget/f7Picker';
 
 const schemaMap = new Map();
 const formMap = new Map();
@@ -35,6 +36,32 @@ const Builder = {
     return true;
   },
 
+  buildQueryHeader(filterFields, container) {
+    const { handleQuery } = container;
+    return Form.create()(
+      props => {
+        const { getFieldDecorator } = props.form;
+        const children = filterFields.map(field => field(getFieldDecorator));
+        children.push(
+          <Col key="buttons" span={8} style={{ textAlign: 'right' }}>
+            <Button.Group>
+              <Button type="primary" onClick={handleQuery}><Icon type="search" />查询</Button>
+              <Button onClick={handleReset}><Icon type="cross" />清除</Button>
+            </Button.Group>
+          </Col>
+        );
+        const handleReset = () => props.form.resetFields();
+        return (
+          <Form>
+            <Row gutter={8}>
+              {children}
+            </Row>
+          </Form>
+        );
+      }
+    );
+  },
+
   buildQueryForm(filterFields, container) {
     const { handleQuery, toggleFilter, expandAll } = container;
     return Form.create()(
@@ -45,7 +72,7 @@ const Builder = {
         const handleReset = () => props.form.resetFields();
         return (
           <Form>
-            <Row gutter={18}>
+            <Row gutter={12}>
               {children.slice(0, count)}
             </Row>
             <Row>
@@ -220,7 +247,7 @@ const Builder = {
         filterField = this.buildRadio(table, field, 'filter');
         editorField = this.buildRadio(table, field, 'editor');
         break;
-        case 'checkbox':
+      case 'checkbox':
         filterField = this.buildCheckbox(table, field, 'filter');
         editorField = this.buildCheckbox(table, field, 'editor');
         break;
@@ -259,10 +286,10 @@ const Builder = {
         editorField = this.buildImage(table, field, 'editor');
         field.notAsFilter = true;
         break;
-      // case 'autoComplete':
-      //   filterField = this.buildAutoComplete(table, field, 'filter');
-      //   editorField = this.buildAutoComplete(table, field, 'editor');
-      //   break;
+      case 'f7Picker':
+        filterField = this.buildF7Picker(table, field, 'filter');
+        editorField = this.buildF7Picker(table, field, 'editor');
+        break;
       case 'actions':
         field.notAsFilter = true;
         field.notAsEditor = true;
@@ -371,12 +398,10 @@ const Builder = {
     return { fieldProps: fieldOpts, wrapper };
   },
 
-  buildAutoComplete(table, field, useFor) {
+  buildF7Picker(table, field, useFor) {
     const fieldOpts = this.getOptions(useFor, field);
     const wrapper = this.colWrapper(getFieldDecorator => getFieldDecorator(field.key, { ...fieldOpts })(
-      <AutoComplete>
-        <Input suffix={<Icon type="search" />} />
-      </AutoComplete>
+      <F7Picker { ...fieldOpts } />
     ), table, field, useFor);
     return { fieldProps: fieldOpts, wrapper };
   },

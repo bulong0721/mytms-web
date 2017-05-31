@@ -547,7 +547,8 @@ module.exports = {
     },
     {
       "key": "orgId",
-      "showType": "autoComplete",
+      "showType": "f7Picker",
+      "tableName": "customerGroup",
       "title": "所属供应商",
       "group": "仓库基本信息",
       "notAsFilter": true
@@ -612,7 +613,7 @@ module.exports = {
   }, ],
   "key": "warehouse",
   "title": "仓库管理",
-  "nestedIndex": 1,
+  "useGroupTab": true,
   "editorSpan": 8,
   "filterSpan": 6
 }

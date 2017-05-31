@@ -54,6 +54,7 @@ module.exports = {
     "validator": [{ "required": true, "whitespace": true, "message": "请选择经营行业" }],
     "showType": "select",
     "title": "经营行业",
+    "notAsFilter": true,
     "group": "基本信息"
   },
   {
@@ -115,5 +116,5 @@ module.exports = {
   "key": "customer_group",
   "title": "客户群维护",
   "editorSpan": 8,
-  "filterSpan": 6
+  "filterSpan": 8
 }
