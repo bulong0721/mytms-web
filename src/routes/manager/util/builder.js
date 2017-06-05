@@ -124,13 +124,10 @@ const Builder = {
         context.setPrimaryKey(field);
         primary = field;
       }
-      if (field.group) {
-        let groupEditors = groupMap.get(field.group);
-        if (null == groupEditors) {
-          groupEditors = [];
-          groupMap.set(field.group, groupEditors);
-        }
+      if (field.group && !field.notAsEditor) {
+        const groupEditors = groupMap.get(field.group) || [];
         groupEditors.push(editors.slice(-1)[0]);
+        groupMap.set(field.group, groupEditors);
       }
     });
     const groupEditors = [];
