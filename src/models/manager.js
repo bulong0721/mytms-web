@@ -25,8 +25,8 @@ export default {
   },
 
   effects: {
-    *query({ tableName, payload, pagination }, { call, put }) {
-      const params = { ...payload, ...pagination };
+    *query({ tableName, filter, pagination }, { call, put }) {
+      const params = { ...filter, ...pagination };
       const data = yield call(query, tableName, params);
       if (data) {
         yield put({
@@ -34,26 +34,43 @@ export default {
         });
       }
     },
-    *save({ tableName, payload, mgrCtx: { formData } }, { call, put }) {
+    *save({ tableName, payload, filter, mgrCtx: { formData, pagination } }, { call, put }) {
       const success = yield call(save, tableName, { ...formData, ...payload });
-      if (success) {
+      if (success && success.status == 0) {
         notification.success({
-          message: '保存成功',
+          message: '数据保存',
           description: `表数据:${tableName}保存成功`,
           duration: 3,
-        })
+        });
+        yield put({ type: 'query', tableName, filter, pagination });
         yield put({ type: 'goList', tableName });
-      }
-    },
-    *delete({ tableName, selectedRowKeys }, { call, put }) {
-      const success = yield call(remove, tableName, selectedRowKeys);
-      if (success) {
-        notification.success({
-          message: '保存删除',
-          description: `表数据:${tableName}保存删除`,
+      } else if (success && success.status != 0) {
+        Object.assign(formData, payload);
+        notification.error({
+          message: '数据保存',
+          description: `数据保存失败：${success.statusMessage}`,
           duration: 3,
         })
-      };
+      }
+    },
+    *delete({ tableName, filter, pagination, selectedRowKeys, record, primaryKey }, { call, put }) {
+      const deleteKeys = selectedRowKeys || [record[primaryKey.key]];
+      const success = yield call(remove, tableName, deleteKeys);
+      if (success && success.status == 0) {
+        if (selectedRowKeys) selectedRowKeys.length = 0;
+        yield put({ type: 'query', tableName, filter, pagination });
+        notification.success({
+          message: '数据删除',
+          description: `表数据:${tableName}保存删除`,
+          duration: 3,
+        });
+      } else if (success && success.status != 0) {
+        notification.error({
+          message: '数据删除',
+          description: `数据删除失败：${success.statusMessage}`,
+          duration: 3,
+        });
+      }
     },
     *export({ tableName, payload }, { call, put }) {
       notification.info({
@@ -122,6 +139,18 @@ export default {
       const mgrCtx = getMgrCtx(state, tableName);
       mgrCtx.activeGroupTab(group);
       return { ...state };
+    },
+    
+    clear(state, { tableName }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      mgrCtx.clear();
+      return { ...state, tableName };
+    },
+
+    store(state, { tableName, ...payload }) {
+      const mgrCtx = getMgrCtx(state, tableName);
+      Object.assign(mgrCtx, payload);
+      return { ...state, tableName };
     },
   }
 }

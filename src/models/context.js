@@ -251,10 +251,10 @@ class TabCtx {
     }
   }
 }
-
 class MgrCtx {
+  tableSchema = null;
+  filter = null;
   activeTab = 'list';
-
   formData = {};
   editComponent = null;
   editAction = 'manager/noops';
@@ -275,6 +275,22 @@ class MgrCtx {
     total: null,
   };
 
+  clear = () => {
+    this.activeTab = 'list';
+    this.filter = null;
+    this.formData = {};
+    this.selectedRowKeys = [];
+    this.dataSource = [];
+    this.nestedSources = new Map();
+    this.pagination = {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      showTotal: total => `共 ${total} 条`,
+      current: 1,
+      total: null,
+    };
+  };
+
   toggleFilter = () => {
     this.expandAll = !this.expandAll;
   };
@@ -284,16 +300,21 @@ class MgrCtx {
   };
 
   goEditor = (params) => {
-    const { popupEditor, action, target, payload, record, component } = params;
-    this.activeTab = 'edit';
+    const { popupEditor, action, target, payload, record, component, newEditor } = params;
+    if (newEditor) {
+      this.activeTab = 'newEdit';
+    } else {
+      this.activeTab = 'edit';
+    }
     this.useEditor = popupEditor;
     this.formData = record || this.getSelectedRow(target);
     this.editComponent = component;
     this.editAction = action;
     if (this.formData) {
       this.nestedFields.forEach(subField => {
-        const dataSource = this.formData[subField];
-        this.setNestedSource(subField, dataSource || []);
+        const dataSource = this.formData[subField] || [];
+        this.setNestedSource(subField, dataSource);
+        this.formData[subField] = dataSource;
       });
     }
   };
@@ -303,17 +324,17 @@ class MgrCtx {
   }
 
   getSelectedRow = (target) => {
-    if(!this.primaryKey || 'row' != target || !this.selectedRowKeys || this.selectedRowKeys.length == 0){
-      return null;
+    if (!this.primaryKey || 'row' != target || !this.selectedRowKeys || this.selectedRowKeys.length == 0) {
+      return {};
     }
-    const {key} = this.primaryKey;
+    const { key } = this.primaryKey;
     const selectedKey = this.selectedRowKeys[0];
-    for(const row of this.dataSource) {
-      if(selectedKey === row[key]) {
+    for (const row of this.dataSource) {
+      if (selectedKey === row[key]) {
         return row;
       }
     }
-    return null;
+    return {};
   }
 
   goList = () => {
@@ -339,18 +360,15 @@ class MgrCtx {
   };
 
   setMainSource = (result) => {
-    const { list, total, current } = result;
-    this.dataSource = list;
+    const { rows, total, current } = result;
+    this.dataSource = rows;
     this.pagination.total = total;
     this.pagination.current = current || 1;
   };
 
   getNestedSource = (subField) => {
-    let data = this.nestedSources.get(subField);
-    if (null == data) {
-      data = [];
-      this.nestedSources.set(subField, data);
-    }
+    const data = this.nestedSources.get(subField) || [];
+    this.nestedSources.set(subField, data);
     return data;
   };
 

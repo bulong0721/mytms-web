@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Input, Popconfirm, Button, Modal } from 'antd';
-import Builder from '../../routes/manager/util/builder';
+import Builder from '../../views/manager/util/builder';
 
 class DialogEditTable extends React.Component {
   state = {
@@ -82,9 +82,9 @@ class DialogEditTable extends React.Component {
     const { modalVisible, modalTitle, modalRecord } = this.state;
     const FormEditor = Builder.buildEditorForm(editors);
     return (
-      <div className="editable-row-operations">
+      <div>
         <Table bordered columns={columns} dataSource={dataSource} rowKey={key} pagination={false} />
-        <Modal visible={modalVisible} title={modalTitle} onOk={() => this.handleModalOk()} onCancel={this.hideModal} maskClosable={false} width={610}>
+        <Modal visible={modalVisible} title={modalTitle} onOk={() => this.handleModalOk()} onCancel={this.hideModal} maskClosable={false} width={580}>
           <FormEditor ref={(input) => {
             this.formEditor = input
             if (input && modalRecord) {

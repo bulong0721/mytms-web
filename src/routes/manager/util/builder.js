@@ -15,7 +15,6 @@ const Option = Select.Option;
 const Builder = {
 
   getLocalSchema(tableName) {
-    const ignoreCache = this.shouldIgnoreSchemaCache(tableName);
     let schema = {};
     try {
       schema = require(`../../../schema/${tableName}.schema.js`);
@@ -26,14 +25,7 @@ const Builder = {
         description: `加载页面配置错误：${tableName}.schema.js`,
       });
     }
-    if (!ignoreCache) {
-      schemaMap.set(tableName, schema);
-    }
     return schema;
-  },
-
-  shouldIgnoreSchemaCache(tableName) {
-    return true;
   },
 
   buildQueryHeader(filterFields, container) {
@@ -42,19 +34,17 @@ const Builder = {
       props => {
         const { getFieldDecorator } = props.form;
         const children = filterFields.map(field => field(getFieldDecorator));
-        children.push(
-          <Col key="buttons" span={8} style={{ textAlign: 'right' }}>
-            <Button.Group>
-              <Button type="primary" onClick={handleQuery}><Icon type="search" />查询</Button>
-              <Button onClick={handleReset}><Icon type="cross" />清除</Button>
-            </Button.Group>
-          </Col>
-        );
         const handleReset = () => props.form.resetFields();
         return (
           <Form>
-            <Row gutter={8}>
+            <Row gutter={12}>
               {children}
+              <Col span={6} style={{ textAlign: 'right' }}>
+                <Button.Group>
+                  <Button type="primary" onClick={handleQuery.bind(container)}><Icon type="search" />查询</Button>
+                  <Button onClick={handleReset}><Icon type="cross" />清除</Button>
+                </Button.Group>
+              </Col>
             </Row>
           </Form>
         );
@@ -63,24 +53,22 @@ const Builder = {
   },
 
   buildQueryForm(filterFields, container) {
-    const { handleQuery, toggleFilter, expandAll } = container;
+    const { handleQuery } = container;
     return Form.create()(
       props => {
         const { getFieldDecorator } = props.form;
         const children = filterFields.map(field => field(getFieldDecorator));
-        const count = expandAll ? 100 : 8;
         const handleReset = () => props.form.resetFields();
         return (
           <Form>
             <Row gutter={12}>
-              {children.slice(0, count)}
+              {children}
             </Row>
             <Row>
               <Col span={12} offset={12} style={{ textAlign: 'right' }}>
                 <Button.Group>
                   <Button type="primary" onClick={handleQuery}><Icon type="search" />查询</Button>
                   <Button onClick={handleReset}><Icon type="cross" />清除</Button>
-                  <Button onClick={toggleFilter}>{expandAll ? '精简' : '更多'}<Icon type={expandAll ? 'up' : 'down'} /></Button>
                 </Button.Group>
               </Col>
             </Row>
@@ -107,7 +95,8 @@ const Builder = {
   },
 
   parseByTable(tableName, context, component) {
-    const schema = this.getLocalSchema(tableName);
+    const schema = context.tableSchema || this.getLocalSchema(tableName);
+    context.tableSchema = schema;
     return this.parseBySchema(schema, context, component);
   },
 
@@ -121,7 +110,6 @@ const Builder = {
     fields.forEach((field) => {
       this.generateElement(table, field, columns, filters, editors);
       if ('ID' === field.showType) {
-        context.setPrimaryKey(field);
         primary = field;
       }
       if (field.group && !field.notAsEditor) {
@@ -232,6 +220,7 @@ const Builder = {
         </Button>
       );
     });
+    context.setPrimaryKey(mainTable.primary);
     return {
       schema, actions, ...mainTable
     };
@@ -291,8 +280,6 @@ const Builder = {
         field.notAsFilter = true;
         field.notAsEditor = true;
         break;
-      case 'collapse':
-        return;
       default:
         filterField = this.buildInput(table, field, 'filter');
         editorField = this.buildInput(table, field, 'editor');

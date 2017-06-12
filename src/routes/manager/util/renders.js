@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import CommonUtil from '../../../utils/commonUtil';
 
 const ACTION_KEY = 'singleRecordActions';
@@ -26,8 +27,12 @@ const Renders = {
         col.render = field.render.bind(container);
       } else if (field.showType === 'image') {
         // col.render = this.getImageRender()(onClickImage);
-      } else if(field.showType ==='select') {
+      } else if (field.showType === 'select') {
         col.render = this.getSelectRender(field);
+      } else if (field.showType === 'datetime') {
+        col.render = this.getDatetimeRender(field);
+      } else if (field.showType === 'f7Picker') {
+        col.render = this.getF7PickerRender(field);
       } else if (field.showType === 'file') {
         // col.render = this.getFileRender;
       } else if (field.showType === 'actions' && field.actions && field.actions.length > 0) {
@@ -42,12 +47,26 @@ const Renders = {
     return columns;
   },
 
+  getDatetimeRender(field) {
+    const { format } = field;
+    return (value, record, index) => {
+      return moment(value).format(format || 'YYYY-MM-DD');
+    }
+  },
+
+  getF7PickerRender(field) {
+    const { labelField, valueField } = field;
+    return (value, record, index) => {
+      return value[labelField || 'name'];
+    }
+  },
+
   getSelectRender(field) {
     const options = field.options || [];
     return (text, record, index) => {
-      for(const {key, value} of options) {
-        if(key == text)
-        return value;
+      for (const { key, value } of options) {
+        if (key == text)
+          return value;
       }
       return text;
     }
@@ -81,7 +100,7 @@ const Renders = {
     }
     return null;
   },
- 
+
   getActionRender(field, primaryKey) {
     return (handleRowAction) => (text, record, index) => {
       const actions = field.actions;
