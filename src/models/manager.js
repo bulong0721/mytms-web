@@ -118,28 +118,6 @@ export default {
       mgrCtx.goList(payload);
       return { ...state };
     },
-
-    newNested(state, { tableName, subField }) {
-      const mgrCtx = getMgrCtx(state, tableName);
-      mgrCtx.newNested(subField);
-      return { ...state };
-    },
-
-    removeNestedAt(state, { tableName, subField, index }) {
-      const mgrCtx = getMgrCtx(state, tableName);
-      mgrCtx.removeNestedAt(subField);
-      return { ...state };
-    },
-    activeNestedTab(state, { tableName, subField }) {
-      const mgrCtx = getMgrCtx(state, tableName);
-      mgrCtx.activeNestedTab(subField);
-      return { ...state };
-    },
-    activeGroupTab(state, { tableName, group }) {
-      const mgrCtx = getMgrCtx(state, tableName);
-      mgrCtx.activeGroupTab(group);
-      return { ...state };
-    },
     
     clear(state, { tableName }) {
       const mgrCtx = getMgrCtx(state, tableName);

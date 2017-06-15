@@ -115,26 +115,6 @@ class Manager extends React.Component {
     dispatch({ type: 'manager/queryNested', tableName, subField, parentRecord });
   };
 
-  newNestedRecord = (subField) => {
-    const { dispatch, route: { tableName } } = this.props;
-    dispatch({ type: 'manager/newNested', tableName, subField });
-  };
-
-  activeNestedTab = (subField) => {
-    const { dispatch, route: { tableName } } = this.props;
-    dispatch({ type: 'manager/activeNestedTab', tableName, subField });
-  };
-
-  activeGroupTab = (group) => {
-    const { dispatch, route: { tableName } } = this.props;
-    dispatch({ type: 'manager/activeGroupTab', tableName, group });
-  };
-
-  removeNestedAt = (subField, index) => {
-    const { dispatch, route: { tableName } } = this.props;
-    dispatch({ type: 'manager/removeNestedAt', tableName, subField, index });
-  };
-
   handleModalOk = () => {
     const { dispatch, mgrCtx, mgrCtx: { editAction }, tableName } = this.getMgrCtx();
     let allError = null;
@@ -169,7 +149,7 @@ class Manager extends React.Component {
 
   editorForm = null;
   getEditorForm = (useEditor, editors, editComponent) => {
-    if (!this.editorForm) {
+    if (null == this.editorForm) {
       this.editorForm = Builder.buildEditorForm(editors);
     }
     return useEditor ? this.editorForm : editComponent;

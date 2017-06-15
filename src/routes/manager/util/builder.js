@@ -79,7 +79,10 @@ const Builder = {
   },
 
   buildEditorForm(editorFields) {
-    return Form.create()(
+    return Form.create({
+      onFieldsChange: (props, fields) => console.log('onFieldsChange', fields),
+      onValuesChange: (props, values) => console.log('onValuesChange', values),
+    })(
       props => {
         const { getFieldDecorator } = props.form;
         const children = editorFields.map(field => field(getFieldDecorator));
@@ -135,14 +138,13 @@ const Builder = {
       const tabEditor = getFieldDecorator => {
         const children = [];
         groupMap.forEach((subEditors, title) => {
-          context.activedGroup = context.activedGroup || title;
           children.push(
             <Tabs.TabPane tab={title} key={title} style={{ padding: '12px', backgroundColor: '#fff' }}>
               {subEditors.map(subEditor => subEditor(getFieldDecorator))}
             </Tabs.TabPane>
           );
         });
-        return <Tabs key="groups" activeKey={context.activedGroup} onChange={component.activeGroupTab}>
+        return <Tabs key="groups">
           {children}
         </Tabs>
       };
@@ -166,17 +168,14 @@ const Builder = {
     const buildNestedTable = (nested) => {
       const { table: { key, title, disableNew, disableEdit, disableRemove }, primary, columns, filters, editors } = nested;
       const dataSource = context.getNestedSource(key);
-      const { newNestedRecord, removeNestedAt } = component;
       const tableProps = {
-        addNew: newNestedRecord,
-        removeAt: removeNestedAt,
         parentKey: key, dataSource, columns, primary, editors,
         disableNew, disableEdit, disableRemove
       };
       return <DialogEditTable bordered {...tableProps} />;
     };
     return getFieldDecorator => (
-      <Tabs type="card" className="ant-layout-tab" key="nesteds" activeKey={context.activedNested} onChange={component.activeNestedTab}>
+      <Tabs type="card" className="ant-layout-tab" key="nesteds">
         {nesteds.map(nested => {
           const { table: { key, title } } = nested;
           return (
@@ -191,7 +190,7 @@ const Builder = {
   },
 
   parseBySchema(schema, context, component) {
-    const { handlePageAction, handleRowAction, newNestedRecord } = component;
+    const { handlePageAction, handleRowAction } = component;
     const { selectedRowKeys, nestedFields } = context;
     const { nesteds, nestedIndex } = schema;
     let mainTable = this.build4Table(schema, context, component);
@@ -201,9 +200,6 @@ const Builder = {
         nestedFields.add(table.key);
         return this.build4Table(table, context, component);
       });
-      if (null == context.activedNested) {
-        context.activedNested = nesteds[0].key;
-      }
       editors.splice(nestedIndex || editors.length, 0, this.buildNestedEditor(nestedTabs, context, component));
     }
     const actions = schema.actions.map((action, index) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Input, Popconfirm, Button, Modal } from 'antd';
-import Builder from '../../views/manager/util/builder';
+import Builder from '../../routes/manager/util/builder';
 
 class DialogEditTable extends React.Component {
   state = {
@@ -17,10 +17,9 @@ class DialogEditTable extends React.Component {
   }
 
   removeAt(index) {
-    const { removeAt, parentKey } = this.props;
-    if (removeAt) {
-      removeAt(parentKey, index);
-    }
+    const { dataSource } = this.props;
+    dataSource.splice(index, 1);
+    this.setState({});
   }
 
   formEditor = null;

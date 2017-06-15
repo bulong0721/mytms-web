@@ -264,8 +264,6 @@ class MgrCtx {
   primaryKey = null;
   nestedFields = new Set();
   nestedSources = new Map();
-  activedNested = null;
-  activedGroup = null;
   expandAll = false;
   pagination = {
     showSizeChanger: true,
@@ -339,24 +337,6 @@ class MgrCtx {
 
   goList = () => {
     this.activeTab = 'list';
-  };
-
-  newNested = (subField) => {
-    const dataSource = this.getNestedSource(subField);
-    dataSource.push({ $editable: true });
-  };
-
-  activeNestedTab = (subField) => {
-    this.activedNested = subField;
-  };
-
-  activeGroupTab = (group) => {
-    this.activedGroup = group;
-  };
-
-  removeNestedAt = (subField, index) => {
-    const dataSource = this.getNestedSource(subField);
-    dataSource.splice(index, 1);
   };
 
   setMainSource = (result) => {
