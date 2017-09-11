@@ -21,7 +21,7 @@ export default {
 
   subscriptions: {
     setup({ dispatch }) {
-      dispatch({ type: 'launch' });
+      //dispatch({ type: 'launch' });
     }
   },
 
