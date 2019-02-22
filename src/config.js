@@ -1,7 +1,7 @@
 module.exports = {
   name: '客户管理平台',
   prefix: 'maintenance',
-  footerText: '上海嗨酷强供应链信息技术有限公司 版权所有 沪ICP备16042340号',
+  footerText: 'Copyright © 2015-2020 上海壹米滴答供应链管理有限公司. All rights reserved. 沪ICP备15046748号',
   logoSrc: 'images/antd.png',
   logoText: '客户管理平台',
   needLogin: true,
